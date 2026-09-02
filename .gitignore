@@ -1,0 +1,11 @@
+# System & Cache
+.DS_Store
+Thumbs.db
+*.log
+
+# Antigravity / IDE internal files
+.system_generated/
+.tempmediaStorage/
+.user_uploaded/
+scratch/
+*.metadata.json
