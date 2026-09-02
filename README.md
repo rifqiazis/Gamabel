@@ -14,8 +14,12 @@ Landing page modern dan interaktif untuk **GEMABEL GROUP** (Bimbingan Belajar Ma
 ## 🚀 Cara Deploy ke Vercel
 
 ### Opsi 1: Lewat GitHub (Rekomendasi)
-1. Buat repository baru di [GitHub](https://github.com/new).
-2. Hubungkan repository lokal ini ke GitHub:
+1. Buka terminal dan masuk ke folder proyek:
+   ```bash
+   cd "/Users/rifqiazis/.gemini/antigravity/brain/Gamabel landing page"
+   ```
+2. Buat repository baru di [GitHub](https://github.com/new).
+3. Hubungkan repository lokal ini ke GitHub dan upload:
    ```bash
    git remote add origin https://github.com/USERNAME/REPO_NAME.git
    git branch -M main
