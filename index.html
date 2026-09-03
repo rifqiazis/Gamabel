@@ -1656,22 +1656,56 @@
           </div>
 
           <div>
-            <h4 class="text-base font-extrabold text-navy-950 mb-1">☁️ Konfigurasi Google Cloud Firestore</h4>
-            <p class="text-slate-500 mb-3">Hubungkan dengan project Google Cloud untuk sinkronisasi otomatis multi-perangkat.</p>
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="text-base font-extrabold text-navy-950">☁️ Konfigurasi Google Cloud Firestore</h4>
+              <span id="gcp-connection-status-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                🔴 Belum Terhubung
+              </span>
+            </div>
+            <p class="text-slate-500 mb-4">Hubungkan ke Firestore database agar data tarif, tutor, testimoni, dan data pendaftar tersinkronisasi otomatis antar perangkat.</p>
+
+            <!-- Step by Step Guide Accordion -->
+            <div class="mb-4 rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+              <button type="button" id="btn-toggle-gcp-guide" class="w-full text-left font-bold text-navy-900 text-xs flex items-center justify-between">
+                <span>📖 Panduan: Cara Mendapatkan Project ID & API Key</span>
+                <span id="gcp-guide-icon" class="text-sm">▼</span>
+              </button>
+              <div id="gcp-guide-content" class="hidden mt-3 pt-3 border-t border-blue-200 text-[11px] text-slate-700 space-y-2 leading-relaxed">
+                <p>1. Buka <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-bold">Firebase Console (console.firebase.google.com)</a> lalu login dengan akun Google Anda.</p>
+                <p>2. Klik <strong>"Tambahkan project"</strong> &rarr; beri nama misalnya <code class="bg-white px-1.5 py-0.5 rounded font-bold text-navy-950">gemabel-group</code> &rarr; ikuti wizard sampai selesai.</p>
+                <p>3. Di pojok kiri atas samping nama project, klik ikon <strong>Setelan (Gerigi) &rarr; Setelan project (Project settings)</strong>.</p>
+                <p>4. Pada tab <strong>Umum (General)</strong>, Anda akan melihat:</p>
+                <ul class="list-disc pl-5 font-semibold text-navy-950">
+                  <li><strong>ID Project (Project ID)</strong> &mdash; misal: <code>gemabel-group-a1b2c</code></li>
+                  <li><strong>Kunci API Web (Web API Key)</strong> &mdash; misal: <code>AIzaSyB3X...</code></li>
+                </ul>
+                <p>5. Di menu sebelah kiri, buka <strong>Build &rarr; Firestore Database</strong> &rarr; klik <strong>"Buat database"</strong> (pilih lokasi terdekat seperti <em>asia-southeast2 Jakarta</em> atau <em>asia-southeast1 Singapore</em>) dan pilih <em>Mulai dalam mode uji</em> (Test mode).</p>
+                <p>6. Salin Project ID dan API Key ke formulir di bawah ini, lalu klik <strong>"Simpan & Hubungkan ke Cloud"</strong>.</p>
+              </div>
+            </div>
             
             <div class="grid sm:grid-cols-2 gap-3 mb-3">
               <div>
                 <label class="block font-bold text-slate-700 mb-1">Project ID</label>
-                <input type="text" id="gcp-input-projectid" placeholder="gemabel-group-app" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+                <input type="text" id="gcp-input-projectid" placeholder="gemabel-group-app" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-mono text-xs" />
               </div>
               <div>
-                <label class="block font-bold text-slate-700 mb-1">API Key</label>
-                <input type="text" id="gcp-input-apikey" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+                <label class="block font-bold text-slate-700 mb-1">API Key Web</label>
+                <input type="text" id="gcp-input-apikey" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg border border-gray-300 font-mono text-xs" />
               </div>
             </div>
-            <button type="button" id="btn-save-gcp" class="px-4 py-2 rounded-xl bg-navy-800 text-white font-bold hover:bg-navy-700 transition-colors">
-              Simpan Koneksi Cloud
-            </button>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="btn-save-gcp" class="px-4 py-2 rounded-xl bg-navy-900 text-white font-bold hover:bg-navy-800 transition-colors shadow flex items-center gap-1.5">
+                <span>💾 Simpan & Hubungkan</span>
+              </button>
+              <button type="button" id="btn-test-gcp" class="px-4 py-2 rounded-xl bg-white border border-gray-300 text-slate-700 font-bold hover:bg-gray-50 transition-colors flex items-center gap-1.5">
+                <span>🔄 Test Koneksi</span>
+              </button>
+              <button type="button" id="btn-sync-to-gcp" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-500 transition-colors flex items-center gap-1.5">
+                <span>📤 Upload Data Lokal ke Firestore</span>
+              </button>
+            </div>
           </div>
 
           <div class="pt-6 border-t border-gray-200">
@@ -1886,6 +1920,140 @@ let programsList = loadStorage(STORAGE_KEYS.PROGRAMS, DEFAULT_PROGRAMS);
 let tutorsList = loadStorage(STORAGE_KEYS.TUTORS, DEFAULT_TUTORS);
 let reviewsList = loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
 let leadsList = loadStorage(STORAGE_KEYS.LEADS, []);
+let gcpConfig = loadStorage(STORAGE_KEYS.GCP, { projectId: "", apiKey: "" });
+let firestoreDb = null;
+
+function updateCloudStatusBadge(isConnected, projectId = "") {
+  const badge = document.getElementById("gcp-connection-status-badge");
+  if (!badge) return;
+  if (isConnected) {
+    badge.className = "px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1";
+    badge.innerHTML = `<span>🟢</span> <span>Terhubung: <strong>${projectId}</strong></span>`;
+  } else {
+    badge.className = "px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200";
+    badge.innerHTML = `<span>🔴</span> <span>Belum Terhubung</span>`;
+  }
+}
+
+function initFirebase(cfg, isUserTriggered = false) {
+  if (!cfg || !cfg.projectId || !cfg.apiKey) {
+    updateCloudStatusBadge(false);
+    return false;
+  }
+
+  try {
+    if (!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: cfg.apiKey,
+        projectId: cfg.projectId,
+        authDomain: `${cfg.projectId}.firebaseapp.com`
+      });
+    }
+    firestoreDb = firebase.firestore();
+    updateCloudStatusBadge(true, cfg.projectId);
+
+    if (isUserTriggered) {
+      showToast(`Berhasil terhubung ke Firestore (${cfg.projectId})!`);
+    }
+
+    // Pull cloud data automatically
+    syncFromFirestore();
+    return true;
+  } catch (err) {
+    console.error("Firebase init failed:", err);
+    updateCloudStatusBadge(false);
+    if (isUserTriggered) {
+      showToast("Koneksi Firebase gagal: " + err.message, "error");
+    }
+    return false;
+  }
+}
+
+async function syncFromFirestore() {
+  if (!firestoreDb) return;
+  try {
+    // 1. Fetch site configuration (pricing, programs, tutors, reviews)
+    const docSnap = await firestoreDb.collection("konfigurasi").doc("landing_page").get();
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      if (data.pricingMatrix) {
+        pricingMatrix = data.pricingMatrix;
+        saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
+        if (typeof populateAdminRates === "function") populateAdminRates();
+        updateCalculatorUI();
+      }
+      if (data.programsList && Array.isArray(data.programsList) && data.programsList.length > 0) {
+        programsList = data.programsList;
+        saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+        renderPrograms();
+        if (typeof renderAdminPackages === "function") renderAdminPackages();
+      }
+      if (data.tutorsList && Array.isArray(data.tutorsList) && data.tutorsList.length > 0) {
+        tutorsList = data.tutorsList;
+        saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+        renderTutors();
+        if (typeof renderAdminTutors === "function") renderAdminTutors();
+      }
+      if (data.reviewsList && Array.isArray(data.reviewsList) && data.reviewsList.length > 0) {
+        reviewsList = data.reviewsList;
+        saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+        renderReviews();
+        if (typeof renderAdminReviews === "function") renderAdminReviews();
+      }
+      console.log("Data landing page tersinkronisasi dari Cloud Firestore.");
+    }
+
+    // 2. Fetch leads from Cloud
+    const leadsSnap = await firestoreDb.collection("pendaftar").orderBy("timestamp", "desc").limit(100).get();
+    if (!leadsSnap.empty) {
+      const cloudLeads = [];
+      leadsSnap.forEach(d => cloudLeads.push(d.data()));
+      const existingIds = new Set(leadsList.map(l => l.id));
+      cloudLeads.forEach(cl => {
+        if (!existingIds.has(cl.id)) {
+          leadsList.push(cl);
+          existingIds.add(cl.id);
+        }
+      });
+      leadsList.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      saveStorage(STORAGE_KEYS.LEADS, leadsList);
+      if (typeof renderAdminLeads === "function") renderAdminLeads();
+    }
+  } catch (err) {
+    console.warn("Firestore sync info/warning:", err);
+  }
+}
+
+async function syncSiteContentToFirestore(showSuccessToast = false) {
+  if (!firestoreDb) return;
+  try {
+    await firestoreDb.collection("konfigurasi").doc("landing_page").set({
+      pricingMatrix,
+      programsList,
+      tutorsList,
+      reviewsList,
+      lastUpdated: new Date().toISOString()
+    }, { merge: true });
+    if (showSuccessToast) {
+      showToast("Data situs berhasil diunggah ke Firestore Cloud!");
+    }
+  } catch (err) {
+    console.error("Gagal sinkronisasi ke Firestore:", err);
+    if (showSuccessToast) {
+      showToast("Gagal unggah ke Firestore: " + err.message, "error");
+    }
+  }
+}
+
+async function saveLeadToFirestore(entry) {
+  if (!firestoreDb) return;
+  try {
+    await firestoreDb.collection("pendaftar").doc(entry.id).set(entry);
+    console.log("Data pendaftar tersimpan di Google Cloud Firestore:", entry.id);
+  } catch (err) {
+    console.warn("Gagal menyimpan pendaftar ke Firestore:", err);
+  }
+}
 
 function loadStorage(key, fallback) {
   try {
@@ -2304,6 +2472,7 @@ function setupContactForm() {
     leadsList.unshift(entry);
     saveStorage(STORAGE_KEYS.LEADS, leadsList);
     renderAdminLeads();
+    saveLeadToFirestore(entry);
     showToast("Pendaftaran berhasil disimpan ke sistem!");
 
     const waText = encodeURIComponent(
@@ -2357,6 +2526,7 @@ function setupAdminCMS() {
     renderAdminReviews();
     renderAdminLeads();
     populateAdminCredentials();
+    populateGcpConfig();
   }
 
   // Toggle Password Visibility in Login Form
@@ -2470,6 +2640,7 @@ function setupAdminCMS() {
 
     saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
     updateCalculatorUI();
+    syncSiteContentToFirestore();
     showToast("Tarif harga berhasil diperbarui!");
   });
 
@@ -2522,6 +2693,7 @@ function setupAdminCMS() {
     saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
     renderPrograms();
     renderAdminPackages();
+    syncSiteContentToFirestore();
     pkgFormContainer.classList.add("hidden");
     showToast("Paket pembelajaran berhasil disimpan!");
   });
@@ -2626,6 +2798,7 @@ function setupAdminCMS() {
     saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
     renderTutors();
     renderAdminTutors();
+    syncSiteContentToFirestore();
     tutorFormContainer.classList.add("hidden");
     showToast("Data tutor berhasil disimpan!");
   });
@@ -2671,6 +2844,7 @@ function setupAdminCMS() {
     saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
     renderReviews();
     renderAdminReviews();
+    syncSiteContentToFirestore();
     revFormContainer.classList.add("hidden");
     showToast("Ulasan berhasil disimpan!");
   });
@@ -2699,6 +2873,72 @@ function setupAdminCMS() {
     adminCredentials = { username: newUser, password: newPass };
     saveStorage(STORAGE_KEYS.CREDENTIALS, adminCredentials);
     showToast("Akun login Admin berhasil diperbarui!");
+  });
+
+  /* ── 10E.2 GOOGLE CLOUD FIRESTORE INTEGRATION ── */
+  function populateGcpConfig() {
+    const pidField = document.getElementById("gcp-input-projectid");
+    const keyField = document.getElementById("gcp-input-apikey");
+    if (pidField && keyField) {
+      pidField.value = gcpConfig.projectId || "";
+      keyField.value = gcpConfig.apiKey || "";
+    }
+    updateCloudStatusBadge(!!firestoreDb, gcpConfig.projectId);
+  }
+
+  document.getElementById("btn-toggle-gcp-guide")?.addEventListener("click", () => {
+    const content = document.getElementById("gcp-guide-content");
+    const icon = document.getElementById("gcp-guide-icon");
+    if (content && icon) {
+      const isHidden = content.classList.contains("hidden");
+      if (isHidden) {
+        content.classList.remove("hidden");
+        icon.textContent = "▲";
+      } else {
+        content.classList.add("hidden");
+        icon.textContent = "▼";
+      }
+    }
+  });
+
+  document.getElementById("btn-save-gcp")?.addEventListener("click", () => {
+    const pid = document.getElementById("gcp-input-projectid").value.trim();
+    const key = document.getElementById("gcp-input-apikey").value.trim();
+
+    if (!pid || !key) {
+      return alert("Harap isi Project ID dan API Key Google Cloud.");
+    }
+
+    gcpConfig = { projectId: pid, apiKey: key };
+    saveStorage(STORAGE_KEYS.GCP, gcpConfig);
+    const connected = initFirebase(gcpConfig, true);
+    if (connected) {
+      syncSiteContentToFirestore(true);
+    }
+  });
+
+  document.getElementById("btn-test-gcp")?.addEventListener("click", async () => {
+    if (!firestoreDb) {
+      return alert("Firestore belum terhubung. Silakan isi Project ID & API Key lalu klik Simpan.");
+    }
+    showToast("Menguji koneksi ke Google Cloud Firestore...");
+    try {
+      await firestoreDb.collection("ping").doc("test_connection").set({
+        status: "connected",
+        testedAt: new Date().toISOString(),
+        testedBy: adminCredentials.username
+      });
+      alert("✅ KONEKSI BERHASIL!\n\nAplikasi berhasil terhubung dan menulis data uji ke Google Cloud Firestore (" + gcpConfig.projectId + ").");
+    } catch (err) {
+      alert("❌ GAGAL KONEKSI FIRESTORE:\n\n" + err.message + "\n\nTips: Pastikan Anda telah membuat Firestore Database di Firebase Console dan menyetel Aturan Keamanan (Security Rules) dalam Mode Uji (allow read, write: if true;).");
+    }
+  });
+
+  document.getElementById("btn-sync-to-gcp")?.addEventListener("click", () => {
+    if (!firestoreDb) {
+      return alert("Firestore belum terhubung. Simpan konfigurasi Project ID dan API Key terlebih dahulu.");
+    }
+    syncSiteContentToFirestore(true);
   });
 
   /* ── 10F. RESET DEFAULT ── */
@@ -2795,6 +3035,7 @@ window.deletePackage = function(id) {
     saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
     renderPrograms();
     renderAdminPackages();
+    syncSiteContentToFirestore();
     showToast("Paket dihapus.");
   }
 };
@@ -2861,6 +3102,7 @@ window.deleteTutor = function(id) {
     saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
     renderTutors();
     renderAdminTutors();
+    syncSiteContentToFirestore();
     showToast("Data tutor dihapus.");
   }
 };
@@ -2905,6 +3147,7 @@ window.deleteReview = function(id) {
     saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
     renderReviews();
     renderAdminReviews();
+    syncSiteContentToFirestore();
     showToast("Ulasan dihapus.");
   }
 };
@@ -2957,6 +3200,9 @@ window.deleteLeadEntry = function(id) {
   leadsList = leadsList.filter(x => x.id !== id);
   saveStorage(STORAGE_KEYS.LEADS, leadsList);
   renderAdminLeads();
+  if (firestoreDb) {
+    firestoreDb.collection("pendaftar").doc(id).delete().catch(e => console.warn(e));
+  }
   showToast("Data pendaftar telah dihapus");
 };
 
@@ -3003,6 +3249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupContactForm();
   setupAdminCMS();
   setupScrollReveal();
+  initFirebase(gcpConfig);
 
   document.getElementById("footer-year").textContent = new Date().getFullYear();
 });
