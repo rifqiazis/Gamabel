@@ -12,10 +12,15 @@
   <meta name="author" content="GEMABEL GROUP" />
   <meta name="robots" content="index, follow" />
 
+  <!-- Favicon Resmi -->
+  <link rel="icon" type="image/jpeg" href="gemabel_logo.jpg" />
+  <link rel="apple-touch-icon" href="gemabel_logo.jpg" />
+
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="GEMABEL GROUP – Cerdaskan Generasi Bangsa dengan Gemar Belajar" />
   <meta property="og:description" content="Bimbel & Les Privat SD, SMP, SMA, Cambridge & UTBK. Dapatkan Free Diagnostic Test & Konsultasi Belajar Gratis!" />
+  <meta property="og:image" content="gemabel_logo.jpg" />
   <meta property="og:site_name" content="GEMABEL GROUP" />
 
   <!-- Tailwind CSS CDN -->
@@ -56,18 +61,20 @@
             orange: { 400: "#fb923c", 500: "#f97316", 600: "#ea580c" }
           },
           keyframes: {
-            slideUp: { from: { opacity: "0", transform: "translateY(30px)" }, to: { opacity: "1", transform: "translateY(0)" } },
+            slideUp: { from: { opacity: "0", transform: "translateY(24px)" }, to: { opacity: "1", transform: "translateY(0)" } },
             fadeIn: { from: { opacity: "0" }, to: { opacity: "1" } },
             float: { "0%, 100%": { transform: "translateY(0px)" }, "50%": { transform: "translateY(-10px)" } },
+            floatSlow: { "0%, 100%": { transform: "translateY(0px) rotate(0deg)" }, "50%": { transform: "translateY(-12px) rotate(2deg)" } },
             shimmer: { "0%": { backgroundPosition: "-200% center" }, "100%": { backgroundPosition: "200% center" } },
-            pulseSlow: { "0%, 100%": { opacity: "1", transform: "scale(1)" }, "50%": { opacity: "0.85", transform: "scale(1.03)" } }
+            pulseRing: { "0%": { transform: "scale(0.95)", opacity: "0.8" }, "50%": { transform: "scale(1.08)", opacity: "0.4" }, "100%": { transform: "scale(0.95)", opacity: "0.8" } }
           },
           animation: {
             "slide-up": "slideUp 0.6s cubic-bezier(.16,1,.3,1) both",
             "fade-in": "fadeIn 0.5s ease both",
             "float": "float 4s ease-in-out infinite",
-            "shimmer": "shimmer 3s ease infinite",
-            "pulse-slow": "pulseSlow 2.5s ease-in-out infinite"
+            "float-slow": "floatSlow 6s ease-in-out infinite",
+            "shimmer": "shimmer 2.5s linear infinite",
+            "pulse-ring": "pulseRing 3s ease-in-out infinite"
           }
         }
       }
@@ -80,7 +87,7 @@
     html { scroll-behavior: smooth; }
     body { font-family: "Plus Jakarta Sans", sans-serif; background: #ffffff; color: #1e293b; overflow-x: hidden; }
 
-    /* ── Scroll Reveal ── */
+    /* ── Transitions & Scroll Reveal ── */
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
     .reveal.from-left  { transform: translateX(-32px); }
     .reveal.from-right { transform: translateX(32px); }
@@ -92,8 +99,8 @@
 
     /* ── Glassmorphism & Effects ── */
     .glass { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.15); }
-    .glass-dark { background: rgba(11, 21, 54, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
+    .glass-dark { background: rgba(11, 21, 54, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border: 1px solid #e2e8f0; }
 
     /* ── Gradient Text & Shimmer ── */
     .grad-text { background: linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #ea580c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -101,52 +108,57 @@
     .btn-shimmer { background: linear-gradient(90deg, #f59e0b, #ea580c, #f59e0b); background-size: 200% auto; animation: shimmer 2.5s linear infinite; }
     .btn-shimmer-blue { background: linear-gradient(90deg, #2563eb, #0284c7, #2563eb); background-size: 200% auto; animation: shimmer 2.5s linear infinite; }
 
-    /* ── Cards Hover ── */
-    .card-hover { transition: all .3s cubic-bezier(.16,1,.3,1); }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 35px -10px rgba(11, 21, 54, 0.12); }
+    /* ── Interactive Card Hover ── */
+    .card-hover { transition: all .35s cubic-bezier(.16,1,.3,1); }
+    .card-hover:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 25px 45px -12px rgba(11, 21, 54, 0.14); }
 
     /* ── Navbar scrolled ── */
     #navbar { transition: background .3s, box-shadow .3s, padding .3s; }
-    #navbar.scrolled { background: rgba(11, 21, 54, 0.96) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    #navbar.scrolled { background: rgba(11, 21, 54, 0.98) !important; box-shadow: 0 4px 25px rgba(0,0,0,0.2); }
     #mobile-menu { transition: max-height .35s cubic-bezier(.16,1,.3,1), opacity .3s ease; max-height: 0; opacity: 0; overflow: hidden; }
-    #mobile-menu.open { max-height: 520px; opacity: 1; }
+    #mobile-menu.open { max-height: 600px; opacity: 1; }
 
     /* ── Hero Background ── */
     .hero-bg {
-      background: radial-gradient(ellipse 80% 60% at 50% 20%, #1d378b 0%, #0b1536 70%, #060b1e 100%);
+      background: radial-gradient(ellipse 90% 70% at 50% 20%, #1d378b 0%, #0b1536 70%, #060b1e 100%);
       position: relative;
       overflow: hidden;
     }
 
-    /* ── Quiz & Calculator ── */
-    .calc-pill.active { background: #1d47d8; color: #ffffff; border-color: #1d47d8; font-weight: 700; box-shadow: 0 4px 12px rgba(29, 71, 216, 0.25); }
+    /* ── Filter Tabs & Pills ── */
+    .filter-tab.active { background: #1d47d8; color: #ffffff; border-color: #1d47d8; box-shadow: 0 4px 14px rgba(29, 71, 216, 0.3); font-weight: 700; }
+    .calc-pill.active { background: #1d47d8; color: #ffffff; border-color: #1d47d8; font-weight: 700; box-shadow: 0 4px 14px rgba(29, 71, 216, 0.25); }
+
+    /* ── Quiz & Accordions ── */
     .quiz-opt { transition: all .2s ease; border: 2px solid #e2e8f0; }
-    .quiz-opt:hover:not(:disabled) { border-color: #1d47d8; background: #eff6ff; transform: translateX(3px); }
+    .quiz-opt:hover:not(:disabled) { border-color: #1d47d8; background: #eff6ff; transform: translateX(4px); }
     .quiz-opt.correct { background: #dcfce7 !important; border-color: #16a34a !important; color: #15803d !important; }
     .quiz-opt.incorrect { background: #fee2e2 !important; border-color: #dc2626 !important; color: #dc2626 !important; }
 
-    /* ── Accordion FAQ ── */
     .faq-content { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.16,1,.3,1), opacity .3s ease; opacity: 0; }
-    .faq-item.active .faq-content { max-height: 250px; opacity: 1; }
-    .faq-item.active .faq-icon { transform: rotate(180deg); }
+    .faq-item.active .faq-content { max-height: 280px; opacity: 1; }
+    .faq-item.active .faq-icon { transform: rotate(180deg); color: #1d47d8; }
 
-    /* ── Custom Scrollbar ── */
-    ::-webkit-scrollbar { width: 7px; }
+    /* ── Admin Tabs ── */
+    .admin-tab-btn.active { border-bottom-color: #f59e0b; color: #fbbf24; font-weight: 800; background: rgba(255,255,255,0.05); }
+
+    /* ── Custom Scrollbars ── */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
     ::-webkit-scrollbar-track { background: #f8fafc; }
     ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 99px; }
   </style>
 </head>
 
-<body class="antialiased">
+<body class="antialiased selection:bg-amber-400 selection:text-navy-950">
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     TOP ANNOUNCEMENT BAR (Promo & Social Proof)
+     TOP ANNOUNCEMENT BAR
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 text-white text-xs py-2.5 px-4 border-b border-white/10 relative z-50">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
     <div class="flex items-center gap-2 text-center sm:text-left">
-      <span class="px-2 py-0.5 rounded-full bg-amber-500 text-navy-950 font-black text-[10px] uppercase tracking-wider animate-pulse">PROMO SPESIAL</span>
-      <span class="text-blue-100 font-medium">🔥 <strong>Free Diagnostic Assessment</strong> + Diskon Paket Belajar Semester Ini!</span>
+      <span class="px-2.5 py-0.5 rounded-full bg-amber-500 text-navy-950 font-black text-[10px] uppercase tracking-wider animate-pulse">PROMO TERBARU</span>
+      <span class="text-blue-100 font-medium">🔥 <strong>Free Diagnostic Assessment</strong> + Garansi Guru Cocok untuk Siswa Baru!</span>
     </div>
     <div class="flex items-center gap-4">
       <a href="https://www.instagram.com/gemabel_group/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-amber-400 hover:text-amber-300 font-semibold transition-colors">
@@ -162,44 +174,53 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     NAVBAR
+     NAVBAR (DENGAN LOGO RESMI & JALUR ADMIN)
 ═══════════════════════════════════════════════════════════════════ -->
-<header id="navbar" class="fixed top-[41px] inset-x-0 z-40 bg-navy-950/80 backdrop-blur-md border-b border-white/10" role="banner">
+<header id="navbar" class="fixed top-[41px] inset-x-0 z-40 bg-navy-950/85 backdrop-blur-md border-b border-white/10" role="banner">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
 
-      <!-- Logo Brand -->
-      <a href="#" class="flex items-center gap-3 group" aria-label="GEMABEL GROUP – Beranda">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5 shadow-lg group-hover:shadow-amber-400/30 transition-all duration-300">
-          <div class="w-full h-full bg-navy-950 rounded-[14px] flex items-center justify-center text-xl font-black text-amber-400">
-            G
-          </div>
+      <!-- Logo Brand Resmi -->
+      <a href="#" class="flex items-center gap-3.5 group" aria-label="GEMABEL GROUP – Beranda">
+        <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white p-1 shadow-lg shadow-amber-500/20 group-hover:scale-105 group-hover:shadow-amber-400/40 transition-all duration-300 flex items-center justify-center overflow-hidden border border-amber-400/50">
+          <img src="gemabel_logo.jpg" alt="Logo GEMABEL GROUP" class="w-full h-full object-contain rounded-xl" />
         </div>
         <div>
           <div class="flex items-baseline gap-1.5 leading-none">
-            <span class="text-xl font-black tracking-tight text-amber-400">GEMABEL</span>
-            <span class="text-xl font-black tracking-tight text-sky-400">GROUP</span>
+            <span class="text-xl sm:text-2xl font-black tracking-tight text-amber-400">GEMABEL</span>
+            <span class="text-xl sm:text-2xl font-black tracking-tight text-sky-400">GROUP</span>
           </div>
-          <span class="text-[10px] text-blue-200/70 font-semibold tracking-widest uppercase">Bimbel & Les Privat Terpercaya</span>
+          <span class="text-[9px] sm:text-[10px] text-blue-200/80 font-bold tracking-widest uppercase block mt-1">Cerdaskan Generasi Bangsa</span>
         </div>
       </a>
 
       <!-- Desktop Navigation -->
       <nav class="hidden lg:flex items-center gap-1" aria-label="Navigasi Utama">
-        <a href="#keunggulan" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kenapa Kami</a>
-        <a href="#program" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Program</a>
-        <a href="#biaya" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kalkulator Biaya</a>
-        <a href="#kuis" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kuis CBT</a>
-        <a href="#tutor" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Tutor</a>
-        <a href="#testimoni" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Testimoni</a>
-        <a href="#faq" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">FAQ</a>
+        <a href="#keunggulan" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kenapa Kami</a>
+        <a href="#program" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Program</a>
+        <a href="#biaya" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kalkulator Biaya</a>
+        <a href="#kuis" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Kuis CBT</a>
+        <a href="#tutor" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Tutor</a>
+        <a href="#testimoni" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">Testimoni</a>
+        <a href="#faq" class="px-3 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors">FAQ</a>
       </nav>
 
-      <!-- Desktop CTA -->
+      <!-- Desktop CTA & Admin Portal Button -->
       <div class="hidden md:flex items-center gap-3">
-        <a href="#kontak" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-shimmer text-white text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all">
+        <!-- Jalur Admin Button -->
+        <button
+          id="btn-open-admin"
+          type="button"
+          class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-sm"
+          title="Buka Jalur Admin CMS (Kelola Harga, Paket & Review)"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Admin CMS</span>
+        </button>
+
+        <a href="#kontak" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-shimmer text-white text-sm font-extrabold shadow-lg hover:scale-105 active:scale-95 transition-all">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          Daftar / Coba Gratis
+          Daftar / Trial Gratis
         </a>
       </div>
 
@@ -219,7 +240,15 @@
         <a href="#tutor" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white/90 hover:bg-white/10">Profil Tutor</a>
         <a href="#testimoni" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white/90 hover:bg-white/10">Ulasan & Testimoni</a>
         <a href="#faq" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white/90 hover:bg-white/10">Tanya Jawab (FAQ)</a>
-        <a href="#kontak" class="mt-2 w-full text-center py-3 rounded-xl btn-shimmer text-white font-bold text-sm shadow-md">Daftar Sekarang & Coba Gratis</a>
+        
+        <div class="pt-2 flex flex-col gap-2 border-t border-white/10 mt-1">
+          <button id="btn-open-admin-mobile" class="w-full text-center py-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 font-bold text-xs">
+            🔐 Buka Jalur Admin CMS
+          </button>
+          <a href="#kontak" class="w-full text-center py-3 rounded-xl btn-shimmer text-white font-bold text-sm shadow-md">
+            Daftar Sekarang & Coba Gratis
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -228,20 +257,20 @@
 <main class="pt-[121px]">
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     HERO SECTION
+     HERO SECTION DENGAN LOGO SHOWCASE & TRANSISI INTERAKTIF
 ═══════════════════════════════════════════════════════════════════ -->
 <section class="hero-bg text-white py-20 lg:py-28 relative overflow-hidden" aria-labelledby="hero-title">
-  <!-- Glowing orbs -->
-  <div class="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
-  <div class="absolute top-1/2 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none"></div>
+  <!-- Glowing ambient lights -->
+  <div class="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-ring"></div>
+  <div class="absolute top-1/2 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-ring"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="grid lg:grid-cols-12 gap-12 items-center">
 
-      <!-- Left Column: Copywriting -->
+      <!-- Left Column: Copywriting & Actions -->
       <div class="lg:col-span-7 text-center lg:text-left">
         <!-- Trust Badge -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-bold text-amber-400 mb-6 shadow-sm">
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-400 mb-6 shadow-sm animate-fade-in">
           <span class="flex h-2 w-2 relative">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -249,12 +278,12 @@
           <span>Bimbel & Les Privat Terpercaya Semua Kurikulum</span>
         </div>
 
-        <h1 id="hero-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-6">
+        <h1 id="hero-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-6 animate-slide-up">
           Bantu Ananda Raih Prestasi Gemilang dengan <span class="grad-text">Gemar Belajar!</span>
         </h1>
 
         <p class="text-blue-100/90 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
-          Pendekatan belajar personal <strong>1-on-1 & kelompok kecil</strong> untuk jenjang SD, SMP, SMA, Kurikulum Merdeka, Cambridge, dan UTBK-SNBT. Dibimbing langsung oleh tutor berpengalaman lulusan PTN ternama dengan metode paham konsep tanpa rasa takut.
+          Pendekatan belajar personal <strong>1-on-1 & kelompok kecil</strong> untuk jenjang SD, SMP, SMA, Kurikulum Merdeka, Cambridge, dan UTBK-SNBT. Dibimbing langsung oleh mentor berpengalaman lulusan PTN ternama dengan metode paham konsep tanpa stres.
         </p>
 
         <!-- CTA Buttons -->
@@ -262,7 +291,7 @@
           <a href="#kontak" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl btn-shimmer text-white font-extrabold text-base shadow-xl hover:scale-105 active:scale-95 transition-all">
             <span>🎯 Klaim Free Trial & Diagnostic Test</span>
           </a>
-          <a href="https://wa.me/6285159679655?text=Halo%20Admin%20GEMABEL%2C%20saya%20ingin%20tanya%20jadwal%20dan%20biaya%20les%20privat." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-white/10 border border-white/20 text-white font-bold text-base hover:bg-white/20 transition-all">
+          <a href="https://wa.me/6285159679655?text=Halo%20Admin%20GEMABEL%2C%20saya%20ingin%20tanya%20jadwal%20dan%20biaya%20les%20privat." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-white/10 border border-white/20 text-white font-bold text-base hover:bg-white/20 hover:border-white/40 transition-all">
             <svg class="w-5 h-5 text-green-400 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.159.57 4.184 1.564 5.937l-1.564 5.891 6.041-1.584c1.705.935 3.659 1.468 5.733 1.468 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/></svg>
             <span>Konsultasi WhatsApp</span>
           </a>
@@ -270,68 +299,69 @@
 
         <!-- Social Proof Metrics Bar -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10 text-center lg:text-left">
-          <div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
             <div class="text-2xl font-black text-amber-400">4.9 / 5.0</div>
             <div class="text-xs text-blue-200">200+ Review Positif</div>
           </div>
-          <div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
             <div class="text-2xl font-black text-sky-400">98%</div>
             <div class="text-xs text-blue-200">Kenaikan Nilai Siswa</div>
           </div>
-          <div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
             <div class="text-2xl font-black text-emerald-400">500+</div>
             <div class="text-xs text-blue-200">Alumni Berprestasi</div>
           </div>
-          <div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
             <div class="text-2xl font-black text-orange-400">1:1 s.d 1:5</div>
             <div class="text-xs text-blue-200">Rasio Kelas Personal</div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Interactive Highlights Card -->
+      <!-- Right Column: Interactive Logo Card & Showcase -->
       <div class="lg:col-span-5">
-        <div class="glass-dark rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/15 relative">
-          <!-- Floating mini badge -->
-          <div class="absolute -top-4 right-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[11px] font-extrabold px-3 py-1 rounded-full shadow-lg">
-            ✨ Garansi Pengajar Cocok
+        <div class="glass-dark rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 relative animate-float-slow">
+          <!-- Featured Logo Showcase -->
+          <div class="flex flex-col items-center text-center mb-6">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-3xl bg-white p-2.5 shadow-2xl shadow-amber-500/30 border-2 border-amber-400/60 mb-4 hover:scale-105 transition-transform duration-300">
+              <img src="gemabel_logo.jpg" alt="Logo GEMABEL GROUP Resmi" class="w-full h-full object-contain rounded-2xl" />
+            </div>
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold">
+              ✨ Mitra Resmi Belajar Siswa Berprestasi
+            </span>
           </div>
 
-          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <span>🎓 Mengapa Siswa Betah di GEMABEL?</span>
-          </h3>
-
-          <div class="space-y-4 mb-6">
-            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-bold text-lg">💡</div>
+          <div class="space-y-3.5 mb-6">
+            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-bold text-base">💡</div>
               <div>
-                <h4 class="text-sm font-bold text-white">Konsep Tuntas, Bukan Hafalan</h4>
-                <p class="text-xs text-blue-200/80 mt-0.5">Matematika & IPA diajarkan dengan logika visual & analogi sehari-hari.</p>
+                <h4 class="text-xs sm:text-sm font-bold text-white">Konsep Tuntas, Bukan Hafalan Rumus</h4>
+                <p class="text-[11px] sm:text-xs text-blue-200/80 mt-0.5">Matematika & IPA diajarkan dengan penalaran logika visual dan analogi seru.</p>
               </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10">
-              <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 font-bold text-lg">📱</div>
+            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+              <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 font-bold text-base">📱</div>
               <div>
-                <h4 class="text-sm font-bold text-white">Tanya PR 24/7 & Laporan Progres</h4>
-                <p class="text-xs text-blue-200/80 mt-0.5">Bantuan PR setiap saat dan laporan evaluasi rutin ke WhatsApp orang tua.</p>
+                <h4 class="text-xs sm:text-sm font-bold text-white">Tanya PR 24/7 & Raport Mingguan</h4>
+                <p class="text-[11px] sm:text-xs text-blue-200/80 mt-0.5">Bantuan PR setiap saat dan laporan evaluasi rutin langsung ke WhatsApp orang tua.</p>
               </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold text-lg">🌐</div>
+            <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold text-base">🌐</div>
               <div>
-                <h4 class="text-sm font-bold text-white">Hybrid: Online & Tatap Muka</h4>
-                <p class="text-xs text-blue-200/80 mt-0.5">Bisa les privat online se-Indonesia via Zoom interaktif atau offline di bimbel.</p>
+                <h4 class="text-xs sm:text-sm font-bold text-white">Hybrid: Online & Tatap Muka</h4>
+                <p class="text-[11px] sm:text-xs text-blue-200/80 mt-0.5">Les privat online se-Indonesia via Zoom interaktif atau offline di bimbel Jakarta Timur.</p>
               </div>
             </div>
           </div>
 
-          <!-- Quick Registration Widget Trigger -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-transparent border border-amber-500/30 text-center">
-            <p class="text-xs text-amber-300 font-semibold mb-2">Ingin tahu program yang paling pas untuk ananda?</p>
-            <a href="#biaya" class="inline-block w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-navy-950 font-bold text-xs transition-colors shadow">
-              📊 Hitung Estimasi Biaya & Paket Belajar
+          <!-- Quick Calculator Trigger -->
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-transparent border border-amber-500/30 text-center">
+            <p class="text-[11px] text-amber-300 font-semibold mb-2">Mau tahu simulasi tarif & paket belajar?</p>
+            <a href="#biaya" class="inline-block w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-navy-950 font-extrabold text-xs transition-colors shadow">
+              📊 Cek Kalkulator Biaya Belajar
             </a>
           </div>
         </div>
@@ -342,7 +372,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     PAIN POINTS & EMPATHY ("Keresahan Orang Tua & Solusi Kami")
+     PAIN POINTS & EMPATHY
 ═══════════════════════════════════════════════════════════════════ -->
 <section class="py-20 bg-slate-50 border-b border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -351,7 +381,7 @@
       <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-950">
         Apakah Ananda Mengalami <span class="text-red-600">Kendala Ini?</span>
       </h2>
-      <p class="mt-3 text-slate-600 text-sm sm:text-base">Banyak siswa sebenarnya pintar, namun terjebak metode belajar yang monoton dan membingungkan.</p>
+      <p class="mt-3 text-slate-600 text-sm sm:text-base">Banyak siswa sebenarnya berbakat, namun terhambat karena metode belajar massal yang tidak sesuai karakter dirinya.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -383,7 +413,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     COMPARISON TABLE ("Mengapa Memilih GEMABEL GROUP?")
+     COMPARISON TABLE
 ═══════════════════════════════════════════════════════════════════ -->
 <section id="keunggulan" class="py-20 lg:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -395,7 +425,6 @@
       <p class="mt-3 text-slate-600 text-sm sm:text-base">Kami merancang bimbingan yang benar-benar berpusat pada perkembangan unik setiap siswa.</p>
     </div>
 
-    <!-- Comparison Table -->
     <div class="overflow-x-auto">
       <table class="w-full text-left border-collapse min-w-[640px] rounded-3xl overflow-hidden shadow-lg border border-gray-200">
         <thead>
@@ -450,108 +479,46 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     PROGRAM SPECTRUM (SD, SMP, SMA, Cambridge, UTBK)
+     PROGRAM SPECTRUM (DYNAMICALLY MANAGED BY ADMIN CMS)
 ═══════════════════════════════════════════════════════════════════ -->
 <section id="program" class="py-20 lg:py-28 bg-slate-50 section-dots">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-      <span class="inline-block px-3.5 py-1 rounded-full bg-navy-100 text-navy-700 text-xs font-bold uppercase tracking-wider mb-3">Jenjang Pendidikan</span>
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="inline-block px-3.5 py-1 rounded-full bg-navy-100 text-navy-700 text-xs font-bold uppercase tracking-wider mb-3">Paket Pembelajaran</span>
       <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-950">
         Pilih Program yang Tepat <span class="grad-text-blue">untuk Ananda</span>
       </h2>
       <p class="mt-3 text-slate-600 text-sm sm:text-base">Mendukung Kurikulum Merdeka, Kurikulum K13, Nasional Plus, dan Kurikulum Internasional (Cambridge & IB).</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-12">
-
-      <!-- SD -->
-      <article class="bg-white rounded-3xl p-7 border border-gray-200 shadow-sm flex flex-col card-hover">
-        <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl mb-5">🌱</div>
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="text-xl font-extrabold text-navy-950">Jenjang SD</h3>
-          <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">Kelas 1 – 6</span>
-        </div>
-        <p class="text-xs text-slate-500 font-medium mb-4">Membangun fondasi logika ceria & kebiasaan gemar belajar sejak dini.</p>
-        
-        <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700 mb-6 flex-1">
-          <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Calistung Ceria (Membaca, Menulis, Berhitung)</li>
-          <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Matematika Dasar & Logika Visual</li>
-          <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> IPA Fun Science & Bahasa Inggris Aktif</li>
-          <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Persiapan Asesmen Nasional (ANBK SD)</li>
-        </ul>
-
-        <div class="pt-4 border-t border-gray-100">
-          <a href="#kontak" class="block w-full text-center py-3 rounded-xl border-2 border-emerald-500 text-emerald-700 font-bold text-xs sm:text-sm hover:bg-emerald-500 hover:text-white transition-all">
-            Daftar Program SD
-          </a>
-        </div>
-      </article>
-
-      <!-- SMP (Featured) -->
-      <article class="bg-navy-950 text-white rounded-3xl p-7 border-2 border-amber-400 shadow-2xl flex flex-col relative md:-translate-y-2">
-        <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-amber-400 to-orange-500 text-navy-950 text-[11px] font-black px-3 py-0.5 rounded-full shadow">
-          ⭐ PALING DIMINATI
-        </div>
-        <div class="w-14 h-14 rounded-2xl bg-white/10 text-amber-400 flex items-center justify-center text-3xl mb-5">🚀</div>
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="text-xl font-extrabold text-white">Jenjang SMP</h3>
-          <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-300">Kelas 7 – 9</span>
-        </div>
-        <p class="text-xs text-blue-200 font-medium mb-4">Penguatan konsep esensial & persiapan masuk SMA Negeri / Labschool Unggulan.</p>
-        
-        <ul class="space-y-2.5 text-xs sm:text-sm text-blue-100 mb-6 flex-1">
-          <li class="flex items-center gap-2"><span class="text-amber-400 font-bold">✓</span> Matematika Aljabar & Geometri Paham Konsep</li>
-          <li class="flex items-center gap-2"><span class="text-amber-400 font-bold">✓</span> IPA Terpadu (Fisika, Kimia Dasar, Biologi)</li>
-          <li class="flex items-center gap-2"><span class="text-amber-400 font-bold">✓</span> Bahasa Inggris Grammar & Reading Comprehension</li>
-          <li class="flex items-center gap-2"><span class="text-amber-400 font-bold">✓</span> Drill Soal Ujian Sekolah + Simulasi CBT</li>
-        </ul>
-
-        <div class="pt-4 border-t border-white/10">
-          <a href="#kontak" class="block w-full text-center py-3 rounded-xl btn-shimmer text-white font-extrabold text-xs sm:text-sm shadow-lg hover:scale-105 transition-all">
-            Daftar Program SMP
-          </a>
-        </div>
-      </article>
-
-      <!-- SMA & Cambridge -->
-      <article class="bg-white rounded-3xl p-7 border border-gray-200 shadow-sm flex flex-col card-hover">
-        <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-3xl mb-5">🎓</div>
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="text-xl font-extrabold text-navy-950">Jenjang SMA & UTBK</h3>
-          <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">Kelas 10 – 12 / Alumni</span>
-        </div>
-        <p class="text-xs text-slate-500 font-medium mb-4">Fokus nilai rapor maksimal & strategi tembus PTN Favorit (SNBT / Mandiri).</p>
-        
-        <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700 mb-6 flex-1">
-          <li class="flex items-center gap-2"><span class="text-purple-500 font-bold">✓</span> Matematika Tingkat Lanjut, Fisika, Kimia, Biologi</li>
-          <li class="flex items-center gap-2"><span class="text-purple-500 font-bold">✓</span> Trik TPS, Literasi & Penalaran Matematika UTBK-SNBT</li>
-          <li class="flex items-center gap-2"><span class="text-purple-500 font-bold">✓</span> Bimbingan Kurikulum Internasional (Cambridge / IB)</li>
-          <li class="flex items-center gap-2"><span class="text-purple-500 font-bold">✓</span> Konsultasi Jurusan & Analisis Peluang Lolos PTN</li>
-        </ul>
-
-        <div class="pt-4 border-t border-gray-100">
-          <a href="#kontak" class="block w-full text-center py-3 rounded-xl border-2 border-purple-500 text-purple-700 font-bold text-xs sm:text-sm hover:bg-purple-500 hover:text-white transition-all">
-            Daftar Program SMA
-          </a>
-        </div>
-      </article>
-
+    <!-- Filter Jenjang Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-12" id="program-filter-tabs">
+      <button type="button" class="filter-tab active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-gray-200 bg-white transition-all shadow-sm" data-filter="all">Semua Program</button>
+      <button type="button" class="filter-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-gray-200 bg-white transition-all shadow-sm" data-filter="SD">Jenjang SD</button>
+      <button type="button" class="filter-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-gray-200 bg-white transition-all shadow-sm" data-filter="SMP">Jenjang SMP</button>
+      <button type="button" class="filter-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-gray-200 bg-white transition-all shadow-sm" data-filter="SMA">Jenjang SMA / UTBK</button>
+      <button type="button" class="filter-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-gray-200 bg-white transition-all shadow-sm" data-filter="Cambridge">Internasional / Lainnya</button>
     </div>
 
-    <!-- Format Belajar Banner (Privat vs Semi-Privat) -->
+    <!-- Dynamic Program Cards Grid -->
+    <div id="program-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-12">
+      <!-- Rendered dynamically by JavaScript -->
+    </div>
+
+    <!-- Format Belajar Banner -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-md">
       <div class="grid md:grid-cols-2 gap-8 items-center">
         <div class="border-b md:border-b-0 md:border-r border-gray-200 pb-6 md:pb-0 md:pr-8">
           <div class="inline-block px-3 py-1 rounded-full bg-blue-100 text-navy-800 text-xs font-bold mb-2">Pilihan Format 1</div>
           <h4 class="text-lg font-extrabold text-navy-950 mb-1">👑 Kelas Les Privat 1-on-1</h4>
           <p class="text-xs sm:text-sm text-slate-600 mb-3">1 Siswa dengan 1 Tutor. Fokus 100% eksklusif pada kelemahan materi siswa. Jadwal dan materi sepenuhnya disesuaikan dengan permintaan orang tua/siswa.</p>
-          <span class="text-xs font-bold text-navy-700">Mulai dari Rp 75.000 / pertemuan</span>
+          <span class="text-xs font-bold text-navy-700">Tersedia Online (Seluruh Indonesia) & Tatap Muka</span>
         </div>
         <div>
           <div class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-2">Pilihan Format 2</div>
           <h4 class="text-lg font-extrabold text-navy-950 mb-1">👥 Semi-Privat Small Group (2–5 Siswa)</h4>
           <p class="text-xs sm:text-sm text-slate-600 mb-3">Belajar interaktif bersama sahabat atau teman sekelas. Suasana belajar lebih seru, kompetitif sehat, dan biaya jauh lebih hemat tanpa mengurangi fokus.</p>
-          <span class="text-xs font-bold text-amber-700">Mulai dari Rp 45.000 / pertemuan / siswa</span>
+          <span class="text-xs font-bold text-amber-700">Biaya lebih hemat & suasana belajar interaktif</span>
         </div>
       </div>
     </div>
@@ -560,7 +527,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     INTERACTIVE PRICING CALCULATOR ("Simulasi Biaya & Paket Belajar")
+     INTERACTIVE PRICING CALCULATOR (DYNAMIC FROM ADMIN CMS)
 ═══════════════════════════════════════════════════════════════════ -->
 <section id="biaya" class="py-20 lg:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -794,7 +761,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     TESTIMONIALS & SOCIAL PROOF
+     TESTIMONIALS & REVIEWS (DYNAMICALLY MANAGED BY ADMIN CMS)
 ═══════════════════════════════════════════════════════════════════ -->
 <section id="testimoni" class="py-20 lg:py-28 bg-slate-50 border-y border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -806,65 +773,9 @@
       <p class="mt-3 text-slate-600 text-sm sm:text-base">Kisah nyata peningkatan nilai dan kelulusan dari keluarga besar GEMABEL GROUP.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-      <!-- Review 1 -->
-      <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm flex flex-col justify-between card-hover">
-        <div>
-          <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
-            ★★★★★
-          </div>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-6 italic">
-            "Alhamdulillah nilai ulangan Matematika anak saya yang kelas 5 SD naik dari 55 jadi 92. Gurunya sabar banget ngajarin dari dasar. Anak sekarang gak takut lagi kalau ada PR matematika!"
-          </p>
-        </div>
-        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
-          <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">IB</div>
-          <div>
-            <h4 class="text-xs sm:text-sm font-extrabold text-navy-950">Ibu Ratna Dewi</h4>
-            <p class="text-[11px] text-slate-500">Orang Tua Siswa SD · Jakarta Timur</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Review 2 -->
-      <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm flex flex-col justify-between card-hover">
-        <div>
-          <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
-            ★★★★★
-          </div>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-6 italic">
-            "Les privat di Gemabel Group bantu banget buat persiapan masuk SMA unggulan. Soal-soal latihan CBT-nya mirip banget sama ujian aslinya. Akhirnya saya lolos SMAN 8 Jakarta!"
-          </p>
-        </div>
-        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
-          <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-sm">RA</div>
-          <div>
-            <h4 class="text-xs sm:text-sm font-extrabold text-navy-950">Rifqi Aditya</h4>
-            <p class="text-[11px] text-slate-500">Alumni SMP · Diterima SMAN 8 Jakarta</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Review 3 -->
-      <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm flex flex-col justify-between card-hover">
-        <div>
-          <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
-            ★★★★★
-          </div>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-6 italic">
-            "Sangat puas dengan bimbel online Gemabel. Tutornya fleksibel diajak diskusi, pembahasannya to-the-point, dan sangat membantu adaptasi kurikulum Cambridge IGCSE anak saya."
-          </p>
-        </div>
-        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
-          <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center font-bold text-sm">HW</div>
-          <div>
-            <h4 class="text-xs sm:text-sm font-extrabold text-navy-950">Bpk. Hendra Wijaya</h4>
-            <p class="text-[11px] text-slate-500">Orang Tua Siswa Cambridge Program</p>
-          </div>
-        </div>
-      </div>
-
+    <!-- Dynamic Reviews Grid -->
+    <div id="testimoni-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Rendered dynamically by JavaScript -->
     </div>
   </div>
 </section>
@@ -1032,14 +943,20 @@
       <!-- Info & Map Column (Right) -->
       <div class="lg:col-span-5 space-y-6">
         <div class="bg-navy-950 text-white rounded-3xl p-6 sm:p-7 border border-white/10 shadow-xl">
-          <h3 class="text-base sm:text-lg font-extrabold mb-4 flex items-center gap-2 text-amber-400">
-            <span>📍 Pusat Informasi & Lokasi</span>
-          </h3>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-white p-1 border border-amber-400/40">
+              <img src="gemabel_logo.jpg" alt="Logo GEMABEL GROUP" class="w-full h-full object-contain rounded-lg" />
+            </div>
+            <div>
+              <h3 class="text-base sm:text-lg font-extrabold text-white">Kantor & Pusat Belajar</h3>
+              <p class="text-xs text-amber-400 font-semibold">GEMABEL GROUP Jakarta Timur</p>
+            </div>
+          </div>
           <ul class="space-y-4 text-xs sm:text-sm">
             <li class="flex items-start gap-3">
-              <span class="text-lg">🏢</span>
+              <span class="text-lg">📍</span>
               <div>
-                <strong class="text-white block">Kantor & Cabang Bimbel</strong>
+                <strong class="text-white block">Alamat Bimbel</strong>
                 <p class="text-blue-200 mt-0.5 leading-relaxed">Jl. Raya Pondok Gede No. 12, Kramat Jati, Jakarta Timur 13550</p>
               </div>
             </li>
@@ -1092,13 +1009,18 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
 
-      <!-- Col 1: Brand -->
+      <!-- Col 1: Brand & Logo -->
       <div class="space-y-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5">
-            <div class="w-full h-full bg-navy-950 rounded-[10px] flex items-center justify-center font-black text-amber-400">G</div>
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-white p-1 border border-amber-400/40 flex items-center justify-center">
+            <img src="gemabel_logo.jpg" alt="Logo GEMABEL GROUP" class="w-full h-full object-contain rounded-lg" />
           </div>
-          <span class="text-xl font-black tracking-tight text-white"><span class="text-amber-400">GEMABEL</span> GROUP</span>
+          <div>
+            <div class="text-lg font-black tracking-tight text-white leading-none">
+              <span class="text-amber-400">GEMABEL</span> GROUP
+            </div>
+            <span class="text-[9px] text-blue-200/70 font-semibold tracking-widest uppercase">Cerdaskan Generasi Bangsa</span>
+          </div>
         </div>
         <p class="text-xs text-blue-200/80 leading-relaxed">
           Bimbingan belajar dan les privat terpercaya untuk SD, SMP, SMA, Cambridge, dan UTBK di Jakarta Timur & Online se-Indonesia sejak 2016.
@@ -1133,7 +1055,8 @@
           <li><a href="#biaya" class="hover:text-white transition-colors">Kalkulator Biaya</a></li>
           <li><a href="#kuis" class="hover:text-white transition-colors">Simulasi Kuis CBT</a></li>
           <li><a href="#tutor" class="hover:text-white transition-colors">Profil Tutor</a></li>
-          <li><a href="#faq" class="hover:text-white transition-colors">Pertanyaan Umum (FAQ)</a></li>
+          <li><a href="#testimoni" class="hover:text-white transition-colors">Ulasan Siswa</a></li>
+          <li><button type="button" id="footer-admin-btn" class="text-amber-400 hover:underline font-bold text-xs">🔐 Jalur Admin CMS</button></li>
         </ul>
       </div>
 
@@ -1160,8 +1083,22 @@
 </footer>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     FLOATING WHATSAPP BUTTON (FAST CONVERSION)
+     FLOATING ACTIONS BAR (WHATSAPP + QUICK ADMIN SHORTCUT)
 ═══════════════════════════════════════════════════════════════════ -->
+<!-- Floating Admin Shortcut (Bottom-Left) -->
+<div class="fixed bottom-6 left-6 z-50 flex items-center gap-2">
+  <button
+    id="admin-trigger"
+    title="Buka Jalur Admin CMS (Atau Tekan Ctrl+Shift+A)"
+    class="px-3.5 py-2.5 rounded-2xl bg-navy-950/90 text-amber-300 border border-amber-400/40 shadow-2xl hover:scale-105 hover:bg-navy-900 active:scale-95 transition-all duration-300 flex items-center gap-2 text-xs font-bold backdrop-blur-md"
+    aria-label="Admin Portal"
+  >
+    <span>🔐</span>
+    <span class="hidden sm:inline">Admin CMS</span>
+  </button>
+</div>
+
+<!-- Floating WhatsApp (Bottom-Right) -->
 <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
   <div class="bg-navy-950 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-xl border border-white/20 flex items-center gap-1.5 animate-bounce">
     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1179,63 +1116,372 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     FLOATING ADMIN TRIGGER (3X CLICK UNLOCKS CLOUD DASHBOARD)
+     ADMIN CMS PORTAL MODAL (UPDATE RATE HARGA, PAKET, REVIEW & LEADS)
 ═══════════════════════════════════════════════════════════════════ -->
-<button
-  id="admin-trigger"
-  title="Admin Panel (klik 3x)"
-  class="fixed bottom-6 left-6 z-50 w-10 h-10 rounded-full bg-navy-950/20 border border-white/10 text-white/30 hover:bg-navy-950/80 hover:text-white transition-all flex items-center justify-center text-xs font-bold"
-  aria-label="Admin Panel"
->🔒</button>
-
-<!-- ═══════════════════════════════════════════════════════════════════
-     ADMIN DASHBOARD MODAL (Google Cloud Firestore + Local Cache)
-═══════════════════════════════════════════════════════════════════ -->
-<div id="admin-modal" class="hidden fixed inset-0 z-[9000] bg-navy-950/80 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
-    <div class="flex items-center justify-between px-6 py-4 bg-navy-950 text-white border-b border-white/10">
-      <div>
-        <h3 class="text-base font-extrabold flex items-center gap-2">
-          <span>🗄️ Panel Admin – Data Pendaftar</span>
-          <span id="gcp-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Google Cloud Firestore</span>
-        </h3>
-        <p class="text-xs text-blue-200">Target WhatsApp Admin: +62 851-5967-9655</p>
+<div id="admin-modal" class="hidden fixed inset-0 z-[9000] bg-navy-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5" role="dialog" aria-modal="true">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden border border-gray-100">
+    
+    <!-- Modal Header with Official Logo -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 bg-navy-950 text-white border-b border-white/10 gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-white p-1 border border-amber-400/50 flex items-center justify-center shrink-0">
+          <img src="gemabel_logo.jpg" alt="GEMABEL GROUP" class="w-full h-full object-contain rounded-lg" />
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-black flex items-center gap-2">
+            <span>🗄️ GEMABEL Admin CMS & Data Manager</span>
+          </h3>
+          <p class="text-xs text-blue-200">Kelola langsung tarif harga, ulasan testimoni, paket belajar & data pendaftar.</p>
+        </div>
       </div>
       <div class="flex items-center gap-2">
-        <button id="export-btn" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors">Export CSV</button>
-        <button id="clear-btn" class="px-3 py-1.5 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs font-bold transition-colors">Hapus Semua</button>
-        <button id="close-admin" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs transition-colors flex items-center justify-center">✕</button>
+        <span id="gcp-status-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          🟢 Local + Cloud Sync
+        </span>
+        <button id="close-admin" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center justify-center">✕</button>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-4 gap-2 px-6 py-3 bg-slate-50 border-b border-gray-200 text-center text-xs">
-      <div><span class="text-slate-400">Total:</span> <strong id="stat-total" class="text-navy-950 font-black">0</strong></div>
-      <div><span class="text-slate-400">SD:</span> <strong id="stat-sd" class="text-emerald-600 font-black">0</strong></div>
-      <div><span class="text-slate-400">SMP:</span> <strong id="stat-smp" class="text-blue-600 font-black">0</strong></div>
-      <div><span class="text-slate-400">SMA/Lain:</span> <strong id="stat-sma" class="text-purple-600 font-black">0</strong></div>
+    <!-- Admin Navigation Tabs -->
+    <div class="flex items-center overflow-x-auto border-b border-gray-200 bg-navy-900 text-white text-xs font-bold px-6 shrink-0">
+      <button type="button" class="admin-tab-btn active px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-rates">
+        <span>💰 Rate Harga</span>
+      </button>
+      <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-packages">
+        <span>📚 Paket Belajar</span>
+      </button>
+      <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-reviews">
+        <span>⭐ Ulasan / Review</span>
+      </button>
+      <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-leads">
+        <span>📋 Data Pendaftar (<span id="admin-lead-count">0</span>)</span>
+      </button>
+      <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-settings">
+        <span>⚙️ Cloud & Reset</span>
+      </button>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-auto flex-1 p-4">
-      <table class="w-full text-xs text-left" id="admin-table">
-        <thead class="bg-slate-100 uppercase text-slate-500 sticky top-0">
-          <tr>
-            <th class="p-2.5">Waktu</th>
-            <th class="p-2.5">Nama</th>
-            <th class="p-2.5">WhatsApp</th>
-            <th class="p-2.5">Jenjang</th>
-            <th class="p-2.5">Format</th>
-            <th class="p-2.5">Pesan</th>
-            <th class="p-2.5 text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody id="admin-tbody" class="divide-y divide-gray-100"></tbody>
-      </table>
-      <div id="admin-empty" class="hidden text-center py-12 text-slate-400">
-        <div class="text-4xl mb-2">📭</div>
-        <p>Belum ada data pendaftar baru.</p>
+    <!-- Tab Contents Container -->
+    <div class="flex-1 overflow-y-auto p-6 bg-slate-50 text-slate-800">
+
+      <!-- ── TAB 1: RATE HARGA ── -->
+      <div id="tab-rates" class="admin-tab-content">
+        <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-extrabold text-navy-950">💰 Update Rate Harga (Per Pertemuan 90 Menit)</h4>
+              <p class="text-xs text-slate-500">Perubahan tarif ini akan langsung memperbarui kalkulasi harga di website secara real-time.</p>
+            </div>
+            <button type="button" id="btn-save-rates" class="px-4 py-2 rounded-xl btn-shimmer text-white text-xs font-bold shadow hover:scale-105 transition-all">
+              💾 Simpan Perubahan Tarif
+            </button>
+          </div>
+
+          <!-- Rates Grid Form -->
+          <div class="space-y-6 text-xs">
+            <!-- Jenjang SD -->
+            <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200">
+              <h5 class="font-extrabold text-emerald-900 text-sm mb-3">🌱 Jenjang SD (Kelas 1–6)</h5>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Online (Rp)</label>
+                  <input type="number" id="rate-sd-privat-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Offline (Rp)</label>
+                  <input type="number" id="rate-sd-privat-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Online (Rp)</label>
+                  <input type="number" id="rate-sd-group-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Offline (Rp)</label>
+                  <input type="number" id="rate-sd-group-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Jenjang SMP -->
+            <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200">
+              <h5 class="font-extrabold text-amber-900 text-sm mb-3">🚀 Jenjang SMP (Kelas 7–9)</h5>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Online (Rp)</label>
+                  <input type="number" id="rate-smp-privat-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Offline (Rp)</label>
+                  <input type="number" id="rate-smp-privat-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Online (Rp)</label>
+                  <input type="number" id="rate-smp-group-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Offline (Rp)</label>
+                  <input type="number" id="rate-smp-group-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Jenjang SMA / UTBK -->
+            <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200">
+              <h5 class="font-extrabold text-purple-900 text-sm mb-3">🎓 Jenjang SMA & UTBK (Kelas 10–12 / Alumni)</h5>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Online (Rp)</label>
+                  <input type="number" id="rate-sma-privat-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Privat Offline (Rp)</label>
+                  <input type="number" id="rate-sma-privat-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Online (Rp)</label>
+                  <input type="number" id="rate-sma-group-online" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block text-slate-600 font-semibold mb-1">Group Offline (Rp)</label>
+                  <input type="number" id="rate-sma-group-offline" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- ── TAB 2: PAKET PEMBELAJARAN ── -->
+      <div id="tab-packages" class="admin-tab-content hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h4 class="text-base font-extrabold text-navy-950">📚 Kelola Paket Pembelajaran</h4>
+            <p class="text-xs text-slate-500">Tambah, ubah, atau sesuaikan paket belajar yang tampil di landing page.</p>
+          </div>
+          <button type="button" id="btn-add-package-modal" class="px-4 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+            <span>➕ Tambah Paket Baru</span>
+          </button>
+        </div>
+
+        <!-- Form Tambah/Edit Paket (Collapsible) -->
+        <div id="package-form-container" class="hidden bg-white p-5 rounded-2xl border border-navy-200 shadow-md mb-6">
+          <h5 id="package-form-title" class="text-sm font-extrabold text-navy-950 mb-3">➕ Tambah Paket Belajar Baru</h5>
+          <input type="hidden" id="pkg-form-id" />
+          <div class="grid sm:grid-cols-3 gap-3 text-xs mb-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Judul Paket</label>
+              <input type="text" id="pkg-form-title" placeholder="Contoh: Paket Intensif Masuk PTN" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Jenjang</label>
+              <select id="pkg-form-jenjang" class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                <option value="SD">SD</option>
+                <option value="SMP">SMP</option>
+                <option value="SMA">SMA</option>
+                <option value="Cambridge">Cambridge / Internasional</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Badge Tag</label>
+              <input type="text" id="pkg-form-badge" placeholder="Contoh: ⭐ TERPOPULER" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-3 text-xs mb-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Emoji / Icon</label>
+              <input type="text" id="pkg-form-emoji" placeholder="🌱, 🚀, 🎓, 🌍" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Warna Aksen</label>
+              <select id="pkg-form-accent" class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                <option value="emerald">Hijau (Emerald)</option>
+                <option value="amber">Kuning / Emas (Amber)</option>
+                <option value="purple">Ungu (Purple)</option>
+                <option value="sky">Biru (Sky)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Teks Tombol CTA</label>
+              <input type="text" id="pkg-form-cta" placeholder="Daftar Paket Ini" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+          </div>
+
+          <div class="text-xs mb-3">
+            <label class="block font-bold text-slate-700 mb-1">Deskripsi Singkat</label>
+            <textarea id="pkg-form-desc" rows="2" placeholder="Deskripsi ringkas mengenai keunggulan paket..." class="w-full px-3 py-2 rounded-lg border border-gray-300"></textarea>
+          </div>
+
+          <div class="text-xs mb-4">
+            <label class="block font-bold text-slate-700 mb-1">Poin Fitur / Materi (Tulis 1 baris per poin)</label>
+            <textarea id="pkg-form-features" rows="3" placeholder="Poin 1&#10;Poin 2&#10;Poin 3" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-mono"></textarea>
+          </div>
+
+          <div class="flex gap-2 justify-end">
+            <button type="button" id="btn-cancel-package" class="px-3.5 py-1.5 rounded-lg bg-gray-200 text-slate-700 text-xs font-bold">Batal</button>
+            <button type="button" id="btn-save-package" class="px-4 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500">Simpan Paket</button>
+          </div>
+        </div>
+
+        <!-- Packages List Table -->
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-100 text-slate-600 font-extrabold uppercase">
+              <tr>
+                <th class="p-3">Paket & Jenjang</th>
+                <th class="p-3">Badge</th>
+                <th class="p-3">Deskripsi</th>
+                <th class="p-3">Jumlah Fitur</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-packages-tbody" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 3: ULASAN & TESTIMONI ── -->
+      <div id="tab-reviews" class="admin-tab-content hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h4 class="text-base font-extrabold text-navy-950">⭐ Kelola Ulasan & Testimoni</h4>
+            <p class="text-xs text-slate-500">Tambah cerita kepuasan dari orang tua & siswa untuk memperkuat social proof.</p>
+          </div>
+          <button type="button" id="btn-add-review-modal" class="px-4 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+            <span>➕ Tambah Review Baru</span>
+          </button>
+        </div>
+
+        <!-- Form Tambah/Edit Review (Collapsible) -->
+        <div id="review-form-container" class="hidden bg-white p-5 rounded-2xl border border-navy-200 shadow-md mb-6">
+          <h5 id="review-form-title" class="text-sm font-extrabold text-navy-950 mb-3">➕ Tambah Ulasan Baru</h5>
+          <input type="hidden" id="rev-form-id" />
+          <div class="grid sm:grid-cols-3 gap-3 text-xs mb-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nama Pemberi Review</label>
+              <input type="text" id="rev-form-name" placeholder="Contoh: Ibu Rina Suryani" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Peran / Asal Sekolah</label>
+              <input type="text" id="rev-form-role" placeholder="Contoh: Orang Tua Siswa SMP · Jakarta Timur" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Rating Bintang (1–5)</label>
+              <select id="rev-form-rating" class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                <option value="5">★★★★★ (5 Bintang)</option>
+                <option value="4">★★★★☆ (4 Bintang)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="text-xs mb-4">
+            <label class="block font-bold text-slate-700 mb-1">Isi Ulasan Testimoni</label>
+            <textarea id="rev-form-text" rows="3" placeholder="Ceritakan pengalaman belajar di GEMABEL GROUP..." class="w-full px-3 py-2 rounded-lg border border-gray-300"></textarea>
+          </div>
+
+          <div class="flex gap-2 justify-end">
+            <button type="button" id="btn-cancel-review" class="px-3.5 py-1.5 rounded-lg bg-gray-200 text-slate-700 text-xs font-bold">Batal</button>
+            <button type="button" id="btn-save-review" class="px-4 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500">Simpan Ulasan</button>
+          </div>
+        </div>
+
+        <!-- Reviews List Table -->
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-100 text-slate-600 font-extrabold uppercase">
+              <tr>
+                <th class="p-3">Nama</th>
+                <th class="p-3">Peran / Keterangan</th>
+                <th class="p-3">Rating</th>
+                <th class="p-3">Kutipan Review</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-reviews-tbody" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 4: DATA PENDAFTAR (LEADS) ── -->
+      <div id="tab-leads" class="admin-tab-content hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h4 class="text-base font-extrabold text-navy-950">📋 Data Pendaftar Baru</h4>
+            <p class="text-xs text-slate-500">Daftar siswa yang mendaftar melalui form web.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="export-btn" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow">
+              📥 Export CSV
+            </button>
+            <button id="clear-btn" class="px-3.5 py-2 rounded-xl bg-red-600/80 hover:bg-red-600 text-white text-xs font-bold transition-all">
+              🗑️ Hapus Semua
+            </button>
+          </div>
+        </div>
+
+        <!-- Lead Stats -->
+        <div class="grid grid-cols-4 gap-3 bg-white p-3.5 rounded-xl border border-gray-200 mb-4 text-center text-xs">
+          <div><span class="text-slate-400 block">Total</span> <strong id="stat-total" class="text-base text-navy-950 font-black">0</strong></div>
+          <div><span class="text-slate-400 block">SD</span> <strong id="stat-sd" class="text-base text-emerald-600 font-black">0</strong></div>
+          <div><span class="text-slate-400 block">SMP</span> <strong id="stat-smp" class="text-base text-blue-600 font-black">0</strong></div>
+          <div><span class="text-slate-400 block">SMA/Lain</span> <strong id="stat-sma" class="text-base text-purple-600 font-black">0</strong></div>
+        </div>
+
+        <!-- Leads Table -->
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+          <table class="w-full text-xs text-left" id="admin-table">
+            <thead class="bg-slate-100 uppercase text-slate-500 sticky top-0">
+              <tr>
+                <th class="p-3">Waktu</th>
+                <th class="p-3">Nama</th>
+                <th class="p-3">WhatsApp</th>
+                <th class="p-3">Jenjang</th>
+                <th class="p-3">Format</th>
+                <th class="p-3">Catatan</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody" class="divide-y divide-gray-100"></tbody>
+          </table>
+          <div id="admin-empty" class="hidden text-center py-12 text-slate-400">
+            <div class="text-4xl mb-2">📭</div>
+            <p>Belum ada data pendaftar baru.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 5: PENGATURAN & RESET ── -->
+      <div id="tab-settings" class="admin-tab-content hidden">
+        <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6 text-xs">
+          <div>
+            <h4 class="text-base font-extrabold text-navy-950 mb-1">☁️ Konfigurasi Google Cloud Firestore</h4>
+            <p class="text-slate-500 mb-3">Hubungkan dengan project Google Cloud untuk sinkronisasi otomatis multi-perangkat.</p>
+            
+            <div class="grid sm:grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Project ID</label>
+                <input type="text" id="gcp-input-projectid" placeholder="gemabel-group-app" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">API Key</label>
+                <input type="text" id="gcp-input-apikey" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+              </div>
+            </div>
+            <button type="button" id="btn-save-gcp" class="px-4 py-2 rounded-xl bg-navy-800 text-white font-bold hover:bg-navy-700 transition-colors">
+              Simpan Koneksi Cloud
+            </button>
+          </div>
+
+          <div class="pt-6 border-t border-gray-200">
+            <h4 class="text-base font-extrabold text-red-600 mb-1">🔄 Reset ke Data Default Awal</h4>
+            <p class="text-slate-500 mb-3">Kembalikan seluruh tarif harga, paket belajar, dan review ke setelan bawaan resmi GEMABEL GROUP.</p>
+            <button type="button" id="btn-reset-defaults" class="px-4 py-2 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 font-extrabold transition-colors">
+              Kembalikan ke Setelan Default
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1249,56 +1495,156 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     CORE JAVASCRIPT & LOGIC
+     CORE JAVASCRIPT & DYNAMIC CMS LOGIC
 ═══════════════════════════════════════════════════════════════════ -->
 <script>
-/* ── 0. DATABASE & WHATSAPP CONFIG ── */
-const DB_LOCAL_KEY = "gemabel_pendaftar_v3";
+/* ── 0. DEFAULT CONFIGURATION DATA (FALLBACK & SEED) ── */
 const TARGET_WA_NUMBER = "6285159679655";
-const DEFAULT_GCP_CONFIG = {
-  apiKey: "AIzaSy_GEMABEL_GOOGLE_CLOUD_FIRESTORE_KEY",
-  authDomain: "gemabel-group-app.firebaseapp.com",
-  projectId: "gemabel-group-app"
+
+const DEFAULT_PRICING = {
+  sd: {
+    privat: { online: 75000, offline: 90000 },
+    group:  { online: 45000, offline: 55000 }
+  },
+  smp: {
+    privat: { online: 85000, offline: 105000 },
+    group:  { online: 50000, offline: 65000 }
+  },
+  sma: {
+    privat: { online: 100000, offline: 125000 },
+    group:  { online: 60000,  offline: 75000 }
+  }
 };
 
-let db = null;
-let isFirestoreConnected = false;
-let allPendaftar = [];
+const DEFAULT_PROGRAMS = [
+  {
+    id: "prog_sd",
+    jenjang: "SD",
+    title: "Jenjang SD (Kelas 1–6)",
+    badge: "FONDASI CERDAS",
+    emoji: "🌱",
+    accent: "emerald",
+    desc: "Membangun fondasi logika ceria, gemar membaca, dan rasa percaya diri sejak dini.",
+    features: [
+      "Calistung Ceria (Membaca, Menulis, Berhitung)",
+      "Matematika Logika & Visual Storytelling",
+      "IPA Fun Science & English for Kids",
+      "Persiapan Asesmen Nasional (ANBK SD)"
+    ],
+    cta: "Daftar Program SD"
+  },
+  {
+    id: "prog_smp",
+    jenjang: "SMP",
+    title: "Jenjang SMP (Kelas 7–9)",
+    badge: "⭐ PALING FAVORIT",
+    emoji: "🚀",
+    accent: "amber",
+    desc: "Penguatan konsep esensial & persiapan masuk SMA Negeri / Labschool Unggulan.",
+    features: [
+      "Matematika Aljabar & Geometri Paham Konsep",
+      "IPA Terpadu (Fisika, Kimia Dasar, Biologi)",
+      "Bahasa Inggris Grammar & Reading Active",
+      "Drill Soal Ujian Sekolah + Simulasi CBT"
+    ],
+    cta: "Daftar Program SMP"
+  },
+  {
+    id: "prog_sma",
+    jenjang: "SMA",
+    title: "Jenjang SMA & UTBK",
+    badge: "SUKSES PTN",
+    emoji: "🎓",
+    accent: "purple",
+    desc: "Fokus nilai rapor maksimal & strategi tembus PTN Favorit (SNBT / Ujian Mandiri).",
+    features: [
+      "Matematika Lanjut, Fisika, Kimia, Biologi",
+      "Trik Cepat TPS, Literasi & Penalaran SNBT",
+      "Persiapan Ujian Mandiri (SIMAK UI / UTUL UGM)",
+      "Konsultasi Jurusan & Analisis Peluang Lolos PTN"
+    ],
+    cta: "Daftar Program SMA"
+  },
+  {
+    id: "prog_cambridge",
+    jenjang: "Cambridge",
+    title: "Cambridge & Olimpiade (OSN)",
+    badge: "INTERNASIONAL",
+    emoji: "🌍",
+    accent: "sky",
+    desc: "Program khusus kurikulum internasional Cambridge (Checkpoint/IGCSE/A-Level) & bimbingan Olimpiade Sains.",
+    features: [
+      "Cambridge IGCSE & A-Level Math/Sciences",
+      "English as a Second Language & Literature",
+      "Pendampingan Khusus Olimpiade Sains Nasional (OSN)",
+      "Past Paper Drills & Marking Review Eksklusif"
+    ],
+    cta: "Daftar Kelas Internasional"
+  }
+];
 
-function getLocalData() {
-  try { return JSON.parse(localStorage.getItem(DB_LOCAL_KEY)) || []; } catch { return []; }
-}
-function saveLocalData(arr) {
-  localStorage.setItem(DB_LOCAL_KEY, JSON.stringify(arr));
-}
+const DEFAULT_REVIEWS = [
+  {
+    id: "rev_1",
+    name: "Ibu Ratna Dewi",
+    role: "Orang Tua Siswa SD · Jakarta Timur",
+    rating: 5,
+    avatar: "IB",
+    text: "Alhamdulillah nilai ulangan Matematika anak saya yang kelas 5 SD naik dari 55 jadi 92. Gurunya sabar banget ngajarin dari dasar. Anak sekarang gak takut lagi kalau ada PR matematika!"
+  },
+  {
+    id: "rev_2",
+    name: "Rifqi Aditya",
+    role: "Alumni SMP · Diterima SMAN 8 Jakarta",
+    rating: 5,
+    avatar: "RA",
+    text: "Les privat di Gemabel Group bantu banget buat persiapan masuk SMA unggulan. Soal-soal latihan CBT-nya mirip banget sama ujian aslinya. Akhirnya saya lolos SMAN 8 Jakarta!"
+  },
+  {
+    id: "rev_3",
+    name: "Bpk. Hendra Wijaya",
+    role: "Orang Tua Siswa Cambridge Program",
+    rating: 5,
+    avatar: "HW",
+    text: "Sangat puas dengan bimbel online Gemabel. Tutornya fleksibel diajak diskusi, pembahasannya to-the-point, dan sangat membantu adaptasi kurikulum Cambridge IGCSE anak saya."
+  },
+  {
+    id: "rev_4",
+    name: "Siti Nurhaliza",
+    role: "Siswa SMA · Diterima Farmasi UI (SNBT)",
+    rating: 5,
+    avatar: "SN",
+    text: "Tutor Gemabel ngajarin trik pengerjaan TPS dan Literasi yang ngebantu banget pas UTBK. Suasana belajarnya santai tapi ilmunya masuk banget!"
+  }
+];
 
-function initGoogleCloud() {
+/* ── 1. STATE & STORAGE MANAGEMENT ── */
+const STORAGE_KEYS = {
+  RATES: "gemabel_pricing_matrix_v3",
+  PROGRAMS: "gemabel_programs_data_v3",
+  REVIEWS: "gemabel_reviews_data_v3",
+  LEADS: "gemabel_pendaftar_v3",
+  GCP: "gemabel_gcp_config_v3"
+};
+
+let pricingMatrix = loadStorage(STORAGE_KEYS.RATES, DEFAULT_PRICING);
+let programsList = loadStorage(STORAGE_KEYS.PROGRAMS, DEFAULT_PROGRAMS);
+let reviewsList = loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
+let leadsList = loadStorage(STORAGE_KEYS.LEADS, []);
+
+function loadStorage(key, fallback) {
   try {
-    if (window.firebase && DEFAULT_GCP_CONFIG.projectId && !DEFAULT_GCP_CONFIG.apiKey.includes("GEMABEL_GOOGLE_CLOUD")) {
-      if (!firebase.apps.length) firebase.initializeApp(DEFAULT_GCP_CONFIG);
-      db = firebase.firestore();
-      isFirestoreConnected = true;
-    }
-  } catch (e) {
-    console.warn("Mode database lokal aktif:", e.message);
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : fallback;
+  } catch {
+    return fallback;
   }
-  allPendaftar = getLocalData();
+}
+function saveStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
-async function savePendaftar(entry) {
-  allPendaftar.unshift(entry);
-  saveLocalData(allPendaftar);
-  if (db && isFirestoreConnected) {
-    try {
-      await db.collection("pendaftar_gemabel").doc(entry.id).set(entry);
-    } catch (e) {
-      console.warn("Cloud fallback ke lokal:", e);
-    }
-  }
-  renderAdminTable();
-}
-
-/* ── 1. TOAST NOTIFICATION ── */
+/* ── 2. TOAST NOTIFICATION ── */
 function showToast(msg, type = "success") {
   const el = document.getElementById("toast");
   const msgEl = document.getElementById("toast-msg");
@@ -1314,38 +1660,115 @@ function showToast(msg, type = "success") {
   }, 4000);
 }
 
-/* ── 2. NAVBAR & MOBILE MENU ── */
-const navbar = document.getElementById("navbar");
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 30) navbar.classList.add("scrolled");
-  else navbar.classList.remove("scrolled");
-});
+/* ── 3. RENDER DYNAMIC PROGRAMS & FILTER TABS ── */
+let currentProgramFilter = "all";
 
-const hamburgerBtn = document.getElementById("hamburger-btn");
-const mobileMenu = document.getElementById("mobile-menu");
-hamburgerBtn.addEventListener("click", () => {
-  mobileMenu.classList.toggle("open");
-});
-document.querySelectorAll("#mobile-menu a").forEach(a => {
-  a.addEventListener("click", () => mobileMenu.classList.remove("open"));
-});
+function renderPrograms() {
+  const container = document.getElementById("program-grid");
+  if (!container) return;
 
-/* ── 3. PRICING CALCULATOR LOGIC ── */
-const PRICING_MATRIX = {
-  sd: {
-    privat: { online: 75000, offline: 90000 },
-    group:  { online: 45000, offline: 55000 }
-  },
-  smp: {
-    privat: { online: 85000, offline: 105000 },
-    group:  { online: 50000, offline: 65000 }
-  },
-  sma: {
-    privat: { online: 100000, offline: 125000 },
-    group:  { online: 60000,  offline: 75000 }
-  }
-};
+  const filtered = currentProgramFilter === "all" 
+    ? programsList 
+    : programsList.filter(p => p.jenjang === currentProgramFilter);
 
+  container.innerHTML = "";
+
+  filtered.forEach(p => {
+    const isSpecial = p.accent === "amber" || p.accent === "purple";
+    const card = document.createElement("article");
+    card.className = `rounded-3xl p-7 border flex flex-col card-hover relative transition-all duration-300 ${
+      isSpecial 
+        ? "bg-navy-950 text-white border-amber-400/60 shadow-2xl" 
+        : "bg-white text-slate-800 border-gray-200 shadow-sm"
+    }`;
+
+    // Color accents
+    const badgeBg = p.accent === "emerald" ? "bg-emerald-100 text-emerald-800" : p.accent === "amber" ? "bg-amber-400 text-navy-950" : p.accent === "purple" ? "bg-purple-100 text-purple-800" : "bg-sky-100 text-sky-800";
+    const checkColor = isSpecial ? "text-amber-400" : "text-emerald-500";
+    const btnClass = isSpecial ? "btn-shimmer text-white shadow-lg" : "border-2 border-navy-700 text-navy-800 hover:bg-navy-800 hover:text-white";
+
+    const featuresHtml = (p.features || []).map(f => 
+      `<li class="flex items-start gap-2"><span class="${checkColor} font-bold mt-0.5">✓</span> <span>${f}</span></li>`
+    ).join("");
+
+    const waOrderUrl = `https://wa.me/${TARGET_WA_NUMBER}?text=${encodeURIComponent(`Halo GEMABEL GROUP, saya berminat dengan program: ${p.title}. Mohon informasi jadwal dan pendaftarannya.`)}`;
+
+    card.innerHTML = `
+      ${p.badge ? `<div class="absolute -top-3 right-6 ${badgeBg} text-[10px] font-black px-3 py-1 rounded-full shadow-md uppercase tracking-wider">${p.badge}</div>` : ""}
+      <div class="w-14 h-14 rounded-2xl ${isSpecial ? 'bg-white/10' : 'bg-slate-100'} flex items-center justify-center text-3xl mb-5">
+        ${p.emoji || "📚"}
+      </div>
+      <div class="flex items-center justify-between mb-1">
+        <h3 class="text-xl font-extrabold ${isSpecial ? 'text-white' : 'text-navy-950'}">${p.title}</h3>
+      </div>
+      <span class="text-xs font-bold ${isSpecial ? 'text-amber-300' : 'text-navy-700'} mb-3 block">Jenjang: ${p.jenjang}</span>
+      <p class="text-xs ${isSpecial ? 'text-blue-100' : 'text-slate-500'} font-medium mb-5 leading-relaxed">${p.desc}</p>
+      
+      <ul class="space-y-2.5 text-xs sm:text-sm ${isSpecial ? 'text-blue-100' : 'text-slate-700'} mb-6 flex-1">
+        ${featuresHtml}
+      </ul>
+
+      <div class="pt-4 border-t ${isSpecial ? 'border-white/10' : 'border-gray-100'}">
+        <a href="${waOrderUrl}" target="_blank" rel="noopener noreferrer" class="block w-full text-center py-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all ${btnClass}">
+          ${p.cta || "Daftar Program Ini"}
+        </a>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function setupProgramFilterTabs() {
+  const tabs = document.querySelectorAll("#program-filter-tabs .filter-tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentProgramFilter = tab.dataset.filter;
+      renderPrograms();
+    });
+  });
+}
+
+/* ── 4. RENDER DYNAMIC REVIEWS ── */
+function renderReviews() {
+  const container = document.getElementById("testimoni-grid");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  reviewsList.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm flex flex-col justify-between card-hover";
+    
+    const stars = "★".repeat(r.rating || 5);
+
+    card.innerHTML = `
+      <div>
+        <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+          ${stars}
+        </div>
+        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-6 italic">
+          "${r.text}"
+        </p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+        <div class="w-10 h-10 rounded-full bg-blue-100 text-navy-800 flex items-center justify-center font-black text-sm">
+          ${r.avatar || r.name.substring(0, 2).toUpperCase()}
+        </div>
+        <div>
+          <h4 class="text-xs sm:text-sm font-extrabold text-navy-950">${r.name}</h4>
+          <p class="text-[11px] text-slate-500">${r.role}</p>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+/* ── 5. PRICING CALCULATOR LOGIC ── */
 let currentCalc = {
   jenjang: "sd",
   format: "privat",
@@ -1375,7 +1798,8 @@ function setupCalculator() {
 }
 
 function updateCalculatorUI() {
-  const rate = PRICING_MATRIX[currentCalc.jenjang][currentCalc.format][currentCalc.moda];
+  const jenjangMatrix = pricingMatrix[currentCalc.jenjang] || DEFAULT_PRICING[currentCalc.jenjang];
+  const rate = jenjangMatrix[currentCalc.format][currentCalc.moda];
   const total = rate * currentCalc.sesi;
 
   const totalEl = document.getElementById("calc-total-price");
@@ -1401,42 +1825,42 @@ function updateCalculatorUI() {
   waBtn.href = `https://wa.me/${TARGET_WA_NUMBER}?text=${waText}`;
 }
 
-/* ── 4. QUIZ CBT MINI ENGINE ── */
+/* ── 6. QUIZ CBT MINI ENGINE ── */
 const QUIZ_DATA = [
   {
     subject: "Matematika Dasar",
     q: "Jika 3x + 7 = 22, maka berapakah nilai dari 2x - 3?",
     options: ["5", "7", "9", "12"],
-    correct: 1, // '7' (x = 5 -> 2(5) - 3 = 7)
+    correct: 1,
     explain: "3x = 22 - 7 = 15, maka x = 5. Nilai dari 2(5) - 3 = 10 - 3 = 7."
   },
   {
     subject: "Fisika / IPA",
     q: "Sebuah mobil menempuh jarak 180 km dalam waktu 3 jam. Berapakah kecepatan rata-rata mobil tersebut?",
     options: ["50 km/jam", "60 km/jam", "70 km/jam", "90 km/jam"],
-    correct: 1, // '60 km/jam'
+    correct: 1,
     explain: "Kecepatan = Jarak / Waktu = 180 km / 3 jam = 60 km/jam."
   },
   {
     subject: "Bahasa Inggris",
     q: "Choose the correct sentence: 'She _____ to the library every Friday.'",
     options: ["go", "goes", "gone", "going"],
-    correct: 1, // 'goes'
-    explain: "Subject 'She' (third-person singular) menggunakan verb bentuk simple present 'goes'."
+    correct: 1,
+    explain: "Subject 'She' (singular) menggunakan verb bentuk present tense 'goes'."
   },
   {
     subject: "Logika Matematika",
     q: "Urutan angka selanjutnya: 2, 5, 10, 17, 26, ... Berapakah angka berikutnya?",
     options: ["35", "37", "39", "41"],
-    correct: 1, // '37' (selisih +3, +5, +7, +9, +11 -> 26+11 = 37)
-    explain: "Pola selisih bertambah 2: +3, +5, +7, +9, +11. Jadi 26 + 11 = 37 (atau n^2 + 1)."
+    correct: 1,
+    explain: "Pola selisih bertambah 2 (+3, +5, +7, +9, +11). Maka 26 + 11 = 37."
   },
   {
     subject: "Biologi / IPA",
     q: "Organel sel yang berfungsi sebagai tempat penghasil energi (ATP) utama adalah...",
     options: ["Ribosom", "Mitokondria", "Badan Golgi", "Lisosom"],
-    correct: 1, // 'Mitokondria'
-    explain: "Mitokondria sering disebut 'the powerhouse of the cell' karena menghasilkan ATP melalui respirasi seluler."
+    correct: 1,
+    explain: "Mitokondria adalah 'the powerhouse of the cell' yang menghasilkan ATP."
   }
 ];
 
@@ -1447,11 +1871,8 @@ function setupQuiz() {
   renderQuizQuestion();
   document.getElementById("quiz-next-btn").addEventListener("click", () => {
     quizCurrentIdx++;
-    if (quizCurrentIdx < QUIZ_DATA.length) {
-      renderQuizQuestion();
-    } else {
-      showQuizResult();
-    }
+    if (quizCurrentIdx < QUIZ_DATA.length) renderQuizQuestion();
+    else showQuizResult();
   });
 
   document.getElementById("quiz-restart-btn").addEventListener("click", () => {
@@ -1522,17 +1943,13 @@ function showQuizResult() {
   document.getElementById("quiz-final-score").textContent = `${finalScore} / 100`;
 
   let rec = "";
-  if (finalScore >= 80) {
-    rec = "Luar biasa! Pemahaman konsep dasar kamu sangat baik. Program pengayaan & latihan soal ujian sekolah/UTBK di GEMABEL GROUP akan memaksimalkan potensi ranking teratasmul";
-  } else if (finalScore >= 60) {
-    rec = "Bagus! Kamu sudah punya pemahaman dasar, namun perlu pendampingan khusus pada trik cepat & penalaran soal mendalam bersama tutor privat GEMABEL.";
-  } else {
-    rec = "Jangan khawatir! Metode belajar personal 1-on-1 di GEMABEL GROUP dirancang khusus untuk membedah konsep dari dasar sampai kamu benar-benar paham.";
-  }
+  if (finalScore >= 80) rec = "Luar biasa! Pemahaman konsep dasar kamu sangat baik. Program pengayaan & latihan soal ujian sekolah/UTBK di GEMABEL GROUP akan memaksimalkan prestasimu.";
+  else if (finalScore >= 60) rec = "Bagus! Kamu sudah punya pemahaman dasar, namun perlu pendampingan khusus pada trik cepat & penalaran soal mendalam bersama mentor GEMABEL.";
+  else rec = "Jangan khawatir! Metode belajar personal 1-on-1 di GEMABEL GROUP dirancang khusus untuk membedah konsep dari dasar sampai kamu benar-benar paham.";
   document.getElementById("quiz-recommendation").textContent = rec;
 }
 
-/* ── 5. FAQ ACCORDION ── */
+/* ── 7. FAQ ACCORDION ── */
 function setupFAQ() {
   document.querySelectorAll(".faq-item").forEach(item => {
     const btn = item.querySelector("button");
@@ -1544,10 +1961,10 @@ function setupFAQ() {
   });
 }
 
-/* ── 6. REGISTRATION FORM & WHATSAPP DISPATCHER ── */
+/* ── 8. REGISTRATION FORM & WHATSAPP ── */
 function setupContactForm() {
   const form = document.getElementById("contact-form");
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const nama = document.getElementById("nama").value.trim();
@@ -1557,26 +1974,14 @@ function setupContactForm() {
     const pesan = document.getElementById("pesan").value.trim();
 
     let valid = true;
-    if (!nama) {
-      document.getElementById("nama-error").classList.remove("hidden");
-      valid = false;
-    } else {
-      document.getElementById("nama-error").classList.add("hidden");
-    }
+    if (!nama) { document.getElementById("nama-error").classList.remove("hidden"); valid = false; }
+    else document.getElementById("nama-error").classList.add("hidden");
 
-    if (!wa || wa.length < 9) {
-      document.getElementById("whatsapp-error").classList.remove("hidden");
-      valid = false;
-    } else {
-      document.getElementById("whatsapp-error").classList.add("hidden");
-    }
+    if (!wa || wa.length < 9) { document.getElementById("whatsapp-error").classList.remove("hidden"); valid = false; }
+    else document.getElementById("whatsapp-error").classList.add("hidden");
 
-    if (!jenjang) {
-      document.getElementById("jenjang-error").classList.remove("hidden");
-      valid = false;
-    } else {
-      document.getElementById("jenjang-error").classList.add("hidden");
-    }
+    if (!jenjang) { document.getElementById("jenjang-error").classList.remove("hidden"); valid = false; }
+    else document.getElementById("jenjang-error").classList.add("hidden");
 
     if (!valid) return;
 
@@ -1590,7 +1995,9 @@ function setupContactForm() {
       timestamp: new Date().toISOString()
     };
 
-    await savePendaftar(entry);
+    leadsList.unshift(entry);
+    saveStorage(STORAGE_KEYS.LEADS, leadsList);
+    renderAdminLeads();
     showToast("Pendaftaran berhasil disimpan ke sistem!");
 
     const waText = encodeURIComponent(
@@ -1600,55 +2007,349 @@ function setupContactForm() {
       `🎓 *Jenjang:* ${jenjang}\n` +
       `👑 *Format Kelas:* ${format}\n` +
       `📝 *Catatan:* ${pesan || "-"}\n\n` +
-      `Mohon informasi langkah selanjutnya dan konfirmasi jadwal Free Diagnostic Test.`
+      `Mohon info ketersediaan jadwal dan Free Diagnostic Test.`
     );
 
     const waUrl = `https://wa.me/${TARGET_WA_NUMBER}?text=${waText}`;
-    const directBtn = document.getElementById("wa-direct-btn");
-    directBtn.href = waUrl;
+    document.getElementById("wa-direct-btn").href = waUrl;
     document.getElementById("form-success").classList.remove("hidden");
 
-    // Buka WhatsApp
-    setTimeout(() => {
-      window.open(waUrl, "_blank");
-    }, 600);
+    setTimeout(() => { window.open(waUrl, "_blank"); }, 600);
   });
 }
 
-/* ── 7. ADMIN PANEL LOGIC (TRIPLE-CLICK UNLOCK) ── */
-let clickCount = 0;
-let clickTimer;
-document.getElementById("admin-trigger").addEventListener("click", () => {
-  clickCount++;
-  clearTimeout(clickTimer);
-  clickTimer = setTimeout(() => { clickCount = 0; }, 800);
-  if (clickCount >= 3) {
-    clickCount = 0;
-    openAdminModal();
+/* ── 9. ADMIN CMS MANAGEMENT (RATES, PACKAGES, REVIEWS, LEADS) ── */
+function setupAdminCMS() {
+  // Triggers
+  const openModal = () => {
+    document.getElementById("admin-modal").classList.remove("hidden");
+    populateAdminRates();
+    renderAdminPackages();
+    renderAdminReviews();
+    renderAdminLeads();
+  };
+
+  document.getElementById("btn-open-admin")?.addEventListener("click", openModal);
+  document.getElementById("btn-open-admin-mobile")?.addEventListener("click", openModal);
+  document.getElementById("footer-admin-btn")?.addEventListener("click", openModal);
+  document.getElementById("admin-trigger")?.addEventListener("click", openModal);
+
+  // Shortcut Ctrl+Shift+A
+  window.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  document.getElementById("close-admin").addEventListener("click", () => {
+    document.getElementById("admin-modal").classList.add("hidden");
+  });
+
+  // Admin Tab Navigation
+  const tabBtns = document.querySelectorAll(".admin-tab-btn");
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const target = btn.dataset.tab;
+      document.querySelectorAll(".admin-tab-content").forEach(tc => tc.classList.add("hidden"));
+      document.getElementById(target)?.classList.remove("hidden");
+    });
+  });
+
+  /* ── 9A. RATES LOGIC ── */
+  function populateAdminRates() {
+    document.getElementById("rate-sd-privat-online").value = pricingMatrix.sd.privat.online;
+    document.getElementById("rate-sd-privat-offline").value = pricingMatrix.sd.privat.offline;
+    document.getElementById("rate-sd-group-online").value = pricingMatrix.sd.group.online;
+    document.getElementById("rate-sd-group-offline").value = pricingMatrix.sd.group.offline;
+
+    document.getElementById("rate-smp-privat-online").value = pricingMatrix.smp.privat.online;
+    document.getElementById("rate-smp-privat-offline").value = pricingMatrix.smp.privat.offline;
+    document.getElementById("rate-smp-group-online").value = pricingMatrix.smp.group.online;
+    document.getElementById("rate-smp-group-offline").value = pricingMatrix.smp.group.offline;
+
+    document.getElementById("rate-sma-privat-online").value = pricingMatrix.sma.privat.online;
+    document.getElementById("rate-sma-privat-offline").value = pricingMatrix.sma.privat.offline;
+    document.getElementById("rate-sma-group-online").value = pricingMatrix.sma.group.online;
+    document.getElementById("rate-sma-group-offline").value = pricingMatrix.sma.group.offline;
   }
-});
 
-function openAdminModal() {
-  document.getElementById("admin-modal").classList.remove("hidden");
-  renderAdminTable();
+  document.getElementById("btn-save-rates").addEventListener("click", () => {
+    pricingMatrix.sd.privat.online = parseInt(document.getElementById("rate-sd-privat-online").value) || 75000;
+    pricingMatrix.sd.privat.offline = parseInt(document.getElementById("rate-sd-privat-offline").value) || 90000;
+    pricingMatrix.sd.group.online = parseInt(document.getElementById("rate-sd-group-online").value) || 45000;
+    pricingMatrix.sd.group.offline = parseInt(document.getElementById("rate-sd-group-offline").value) || 55000;
+
+    pricingMatrix.smp.privat.online = parseInt(document.getElementById("rate-smp-privat-online").value) || 85000;
+    pricingMatrix.smp.privat.offline = parseInt(document.getElementById("rate-smp-privat-offline").value) || 105000;
+    pricingMatrix.smp.group.online = parseInt(document.getElementById("rate-smp-group-online").value) || 50000;
+    pricingMatrix.smp.group.offline = parseInt(document.getElementById("rate-smp-group-offline").value) || 65000;
+
+    pricingMatrix.sma.privat.online = parseInt(document.getElementById("rate-sma-privat-online").value) || 100000;
+    pricingMatrix.sma.privat.offline = parseInt(document.getElementById("rate-sma-privat-offline").value) || 125000;
+    pricingMatrix.sma.group.online = parseInt(document.getElementById("rate-sma-group-online").value) || 60000;
+    pricingMatrix.sma.group.offline = parseInt(document.getElementById("rate-sma-group-offline").value) || 75000;
+
+    saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
+    updateCalculatorUI();
+    showToast("Tarif harga berhasil diperbarui!");
+  });
+
+  /* ── 9B. PACKAGES LOGIC ── */
+  const pkgFormContainer = document.getElementById("package-form-container");
+  document.getElementById("btn-add-package-modal").addEventListener("click", () => {
+    pkgFormContainer.classList.remove("hidden");
+    document.getElementById("package-form-title").textContent = "➕ Tambah Paket Belajar Baru";
+    document.getElementById("pkg-form-id").value = "";
+    document.getElementById("pkg-form-title").value = "";
+    document.getElementById("pkg-form-badge").value = "";
+    document.getElementById("pkg-form-emoji").value = "📚";
+    document.getElementById("pkg-form-desc").value = "";
+    document.getElementById("pkg-form-features").value = "";
+    document.getElementById("pkg-form-cta").value = "Daftar Paket Ini";
+  });
+
+  document.getElementById("btn-cancel-package").addEventListener("click", () => {
+    pkgFormContainer.classList.add("hidden");
+  });
+
+  document.getElementById("btn-save-package").addEventListener("click", () => {
+    const editId = document.getElementById("pkg-form-id").value;
+    const title = document.getElementById("pkg-form-title").value.trim();
+    if (!title) return alert("Judul paket wajib diisi");
+
+    const jenjang = document.getElementById("pkg-form-jenjang").value;
+    const badge = document.getElementById("pkg-form-badge").value.trim();
+    const emoji = document.getElementById("pkg-form-emoji").value.trim() || "📚";
+    const accent = document.getElementById("pkg-form-accent").value;
+    const desc = document.getElementById("pkg-form-desc").value.trim();
+    const cta = document.getElementById("pkg-form-cta").value.trim() || "Daftar Paket Ini";
+    const features = document.getElementById("pkg-form-features").value
+      .split("\n")
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (editId) {
+      const idx = programsList.findIndex(p => p.id === editId);
+      if (idx !== -1) {
+        programsList[idx] = { id: editId, jenjang, title, badge, emoji, accent, desc, features, cta };
+      }
+    } else {
+      programsList.push({
+        id: "pkg_" + Date.now(),
+        jenjang, title, badge, emoji, accent, desc, features, cta
+      });
+    }
+
+    saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+    renderPrograms();
+    renderAdminPackages();
+    pkgFormContainer.classList.add("hidden");
+    showToast("Paket pembelajaran berhasil disimpan!");
+  });
+
+  /* ── 9C. REVIEWS LOGIC ── */
+  const revFormContainer = document.getElementById("review-form-container");
+  document.getElementById("btn-add-review-modal").addEventListener("click", () => {
+    revFormContainer.classList.remove("hidden");
+    document.getElementById("review-form-title").textContent = "➕ Tambah Ulasan Baru";
+    document.getElementById("rev-form-id").value = "";
+    document.getElementById("rev-form-name").value = "";
+    document.getElementById("rev-form-role").value = "";
+    document.getElementById("rev-form-text").value = "";
+  });
+
+  document.getElementById("btn-cancel-review").addEventListener("click", () => {
+    revFormContainer.classList.add("hidden");
+  });
+
+  document.getElementById("btn-save-review").addEventListener("click", () => {
+    const editId = document.getElementById("rev-form-id").value;
+    const name = document.getElementById("rev-form-name").value.trim();
+    const role = document.getElementById("rev-form-role").value.trim();
+    const text = document.getElementById("rev-form-text").value.trim();
+    const rating = parseInt(document.getElementById("rev-form-rating").value) || 5;
+
+    if (!name || !text) return alert("Nama dan isi ulasan wajib diisi.");
+
+    const avatar = name.substring(0, 2).toUpperCase();
+
+    if (editId) {
+      const idx = reviewsList.findIndex(r => r.id === editId);
+      if (idx !== -1) {
+        reviewsList[idx] = { id: editId, name, role, rating, avatar, text };
+      }
+    } else {
+      reviewsList.push({
+        id: "rev_" + Date.now(),
+        name, role, rating, avatar, text
+      });
+    }
+
+    saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+    renderReviews();
+    renderAdminReviews();
+    revFormContainer.classList.add("hidden");
+    showToast("Ulasan berhasil disimpan!");
+  });
+
+  /* ── 9D. RESET DEFAULT ── */
+  document.getElementById("btn-reset-defaults").addEventListener("click", () => {
+    if (confirm("Apakah Anda yakin ingin mengembalikan seluruh tarif, paket belajar, dan ulasan ke setelan default awal?")) {
+      pricingMatrix = JSON.parse(JSON.stringify(DEFAULT_PRICING));
+      programsList = JSON.parse(JSON.stringify(DEFAULT_PROGRAMS));
+      reviewsList = JSON.parse(JSON.stringify(DEFAULT_REVIEWS));
+
+      saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
+      saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+      saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+
+      populateAdminRates();
+      renderPrograms();
+      renderReviews();
+      renderAdminPackages();
+      renderAdminReviews();
+      updateCalculatorUI();
+
+      showToast("Seluruh data berhasil dikembalikan ke default.");
+    }
+  });
+
+  /* ── 9E. LEADS CSV EXPORT & CLEAR ── */
+  document.getElementById("clear-btn").addEventListener("click", () => {
+    if (confirm("Hapus seluruh data pendaftar?")) {
+      leadsList = [];
+      saveStorage(STORAGE_KEYS.LEADS, leadsList);
+      renderAdminLeads();
+      showToast("Data pendaftar dibersihkan");
+    }
+  });
+
+  document.getElementById("export-btn").addEventListener("click", () => {
+    if (!leadsList.length) return alert("Belum ada data pendaftar.");
+    let csv = "ID,Waktu,Nama,WhatsApp,Jenjang,Format,Pesan\n";
+    leadsList.forEach(d => {
+      csv += `"${d.id}","${d.timestamp}","${d.nama}","${d.whatsapp}","${d.jenjang}","${d.format}","${d.pesan}"\n`;
+    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `pendaftar_gemabel_${Date.now()}.csv`;
+    a.click();
+  });
 }
-document.getElementById("close-admin").addEventListener("click", () => {
-  document.getElementById("admin-modal").classList.add("hidden");
-});
 
-function renderAdminTable() {
-  const tbody = document.getElementById("admin-tbody");
-  const empty = document.getElementById("admin-empty");
+function renderAdminPackages() {
+  const tbody = document.getElementById("admin-packages-tbody");
+  if (!tbody) return;
   tbody.innerHTML = "";
 
-  if (!allPendaftar || allPendaftar.length === 0) {
-    empty.classList.remove("hidden");
+  programsList.forEach(p => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-slate-50";
+    tr.innerHTML = `
+      <td class="p-3 font-bold text-navy-950">${p.emoji || ""} ${p.title} <span class="text-[10px] text-blue-600 block">Jenjang: ${p.jenjang}</span></td>
+      <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">${p.badge || "-"}</span></td>
+      <td class="p-3 text-slate-600 max-w-[200px] truncate">${p.desc}</td>
+      <td class="p-3 font-semibold text-slate-700">${(p.features || []).length} poin</td>
+      <td class="p-3 text-center space-x-2">
+        <button class="text-blue-600 hover:underline font-bold" onclick="editPackage('${p.id}')">Edit</button>
+        <button class="text-red-500 hover:underline" onclick="deletePackage('${p.id}')">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+window.editPackage = function(id) {
+  const p = programsList.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById("package-form-container").classList.remove("hidden");
+  document.getElementById("package-form-title").textContent = "✏️ Edit Paket: " + p.title;
+  document.getElementById("pkg-form-id").value = p.id;
+  document.getElementById("pkg-form-title").value = p.title;
+  document.getElementById("pkg-form-jenjang").value = p.jenjang;
+  document.getElementById("pkg-form-badge").value = p.badge || "";
+  document.getElementById("pkg-form-emoji").value = p.emoji || "📚";
+  document.getElementById("pkg-form-accent").value = p.accent || "emerald";
+  document.getElementById("pkg-form-desc").value = p.desc || "";
+  document.getElementById("pkg-form-features").value = (p.features || []).join("\n");
+  document.getElementById("pkg-form-cta").value = p.cta || "Daftar Paket Ini";
+};
+
+window.deletePackage = function(id) {
+  if (confirm("Hapus paket belajar ini?")) {
+    programsList = programsList.filter(x => x.id !== id);
+    saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+    renderPrograms();
+    renderAdminPackages();
+    showToast("Paket dihapus.");
+  }
+};
+
+function renderAdminReviews() {
+  const tbody = document.getElementById("admin-reviews-tbody");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  reviewsList.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-slate-50";
+    tr.innerHTML = `
+      <td class="p-3 font-bold text-navy-950">${r.name}</td>
+      <td class="p-3 text-slate-600">${r.role}</td>
+      <td class="p-3 text-amber-500 font-bold">${"★".repeat(r.rating || 5)}</td>
+      <td class="p-3 text-slate-600 max-w-[220px] truncate">${r.text}</td>
+      <td class="p-3 text-center space-x-2">
+        <button class="text-blue-600 hover:underline font-bold" onclick="editReview('${r.id}')">Edit</button>
+        <button class="text-red-500 hover:underline" onclick="deleteReview('${r.id}')">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+window.editReview = function(id) {
+  const r = reviewsList.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById("review-form-container").classList.remove("hidden");
+  document.getElementById("review-form-title").textContent = "✏️ Edit Ulasan: " + r.name;
+  document.getElementById("rev-form-id").value = r.id;
+  document.getElementById("rev-form-name").value = r.name;
+  document.getElementById("rev-form-role").value = r.role;
+  document.getElementById("rev-form-rating").value = r.rating || 5;
+  document.getElementById("rev-form-text").value = r.text;
+};
+
+window.deleteReview = function(id) {
+  if (confirm("Hapus ulasan ini?")) {
+    reviewsList = reviewsList.filter(x => x.id !== id);
+    saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+    renderReviews();
+    renderAdminReviews();
+    showToast("Ulasan dihapus.");
+  }
+};
+
+function renderAdminLeads() {
+  const tbody = document.getElementById("admin-tbody");
+  const empty = document.getElementById("admin-empty");
+  const badgeCount = document.getElementById("admin-lead-count");
+  if (badgeCount) badgeCount.textContent = leadsList.length;
+
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  if (!leadsList || leadsList.length === 0) {
+    empty?.classList.remove("hidden");
   } else {
-    empty.classList.add("hidden");
+    empty?.classList.add("hidden");
   }
 
   let sd = 0, smp = 0, sma = 0;
-  allPendaftar.forEach(item => {
+  leadsList.forEach(item => {
     if (item.jenjang === "SD") sd++;
     else if (item.jenjang === "SMP") smp++;
     else sma++;
@@ -1656,62 +2357,76 @@ function renderAdminTable() {
     const tr = document.createElement("tr");
     tr.className = "hover:bg-slate-50";
     tr.innerHTML = `
-      <td class="p-2.5 text-slate-500">${new Date(item.timestamp).toLocaleDateString("id-ID")}</td>
-      <td class="p-2.5 font-bold text-navy-950">${item.nama}</td>
-      <td class="p-2.5 text-blue-600">${item.whatsapp}</td>
-      <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">${item.jenjang}</span></td>
-      <td class="p-2.5 text-slate-600">${item.format || "-"}</td>
-      <td class="p-2.5 text-slate-500 truncate max-w-[140px]">${item.pesan}</td>
-      <td class="p-2.5 text-center">
+      <td class="p-3 text-slate-500">${new Date(item.timestamp).toLocaleDateString("id-ID")}</td>
+      <td class="p-3 font-bold text-navy-950">${item.nama}</td>
+      <td class="p-3 text-blue-600 font-semibold">${item.whatsapp}</td>
+      <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">${item.jenjang}</span></td>
+      <td class="p-3 text-slate-600">${item.format || "-"}</td>
+      <td class="p-3 text-slate-500 truncate max-w-[140px]">${item.pesan}</td>
+      <td class="p-3 text-center">
         <a href="https://wa.me/${item.whatsapp.replace(/\+/g, '')}" target="_blank" class="text-emerald-600 hover:underline font-bold mr-2">Chat WA</a>
-        <button class="text-red-500 hover:underline" onclick="deleteEntry('${item.id}')">Hapus</button>
+        <button class="text-red-500 hover:underline" onclick="deleteLeadEntry('${item.id}')">Hapus</button>
       </td>
     `;
     tbody.appendChild(tr);
   });
 
-  document.getElementById("stat-total").textContent = allPendaftar.length;
+  document.getElementById("stat-total").textContent = leadsList.length;
   document.getElementById("stat-sd").textContent = sd;
   document.getElementById("stat-smp").textContent = smp;
   document.getElementById("stat-sma").textContent = sma;
 }
 
-window.deleteEntry = function(id) {
-  allPendaftar = allPendaftar.filter(x => x.id !== id);
-  saveLocalData(allPendaftar);
-  renderAdminTable();
+window.deleteLeadEntry = function(id) {
+  leadsList = leadsList.filter(x => x.id !== id);
+  saveStorage(STORAGE_KEYS.LEADS, leadsList);
+  renderAdminLeads();
   showToast("Data pendaftar telah dihapus");
 };
 
-document.getElementById("clear-btn").addEventListener("click", () => {
-  if (confirm("Hapus seluruh data pendaftar?")) {
-    allPendaftar = [];
-    saveLocalData([]);
-    renderAdminTable();
-    showToast("Seluruh data pendaftar dibersihkan");
-  }
-});
+/* ── 10. SCROLL REVEAL (INTERSECTION OBSERVER) ── */
+function setupScrollReveal() {
+  const revealEls = document.querySelectorAll(".reveal");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("is-visible");
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+}
 
-document.getElementById("export-btn").addEventListener("click", () => {
-  if (!allPendaftar.length) return alert("Belum ada data.");
-  let csv = "ID,Waktu,Nama,WhatsApp,Jenjang,Format,Pesan\n";
-  allPendaftar.forEach(d => {
-    csv += `"${d.id}","${d.timestamp}","${d.nama}","${d.whatsapp}","${d.jenjang}","${d.format}","${d.pesan}"\n`;
+/* ── 11. NAVBAR SCROLL EFFECT & MOBILE MENU ── */
+function setupNavbar() {
+  const navbar = document.getElementById("navbar");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 25) navbar.classList.add("scrolled");
+    else navbar.classList.remove("scrolled");
   });
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `pendaftar_gemabel_${Date.now()}.csv`;
-  a.click();
-});
 
-/* ── 8. INIT ON LOAD ── */
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  hamburgerBtn.addEventListener("click", () => mobileMenu.classList.toggle("open"));
+  document.querySelectorAll("#mobile-menu a").forEach(a => {
+    a.addEventListener("click", () => mobileMenu.classList.remove("open"));
+  });
+}
+
+/* ── 12. INITIALIZATION ON DOM READY ── */
 document.addEventListener("DOMContentLoaded", () => {
-  initGoogleCloud();
+  setupNavbar();
+  renderPrograms();
+  setupProgramFilterTabs();
+  renderReviews();
   setupCalculator();
   setupQuiz();
   setupFAQ();
   setupContactForm();
+  setupAdminCMS();
+  setupScrollReveal();
+
   document.getElementById("footer-year").textContent = new Date().getFullYear();
 });
 </script>
