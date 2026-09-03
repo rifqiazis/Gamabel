@@ -2220,16 +2220,77 @@
       }
     }
 
+    async function compressBase64(base64Str, maxDim = 320, quality = 0.75) {
+      if (!base64Str || typeof base64Str !== "string") return base64Str;
+      if (!base64Str.startsWith("data:image")) return base64Str;
+      // If already small (< 35KB in base64 is ~48000 chars), keep it
+      if (base64Str.length < 48000) return base64Str;
+
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => resolve(base64Str);
+        img.src = base64Str;
+      });
+    }
+
+    async function cleanAndCompressTutors(list) {
+      if (!Array.isArray(list)) return list;
+      const cleaned = [];
+      for (const t of list) {
+        const copy = { ...t };
+        if (copy.photo && copy.photo.startsWith("data:image") && copy.photo.length > 48000) {
+          try {
+            copy.photo = await compressBase64(copy.photo, 320, 320, 0.75);
+          } catch (e) {
+            console.warn("Gagal mengompres foto tutor:", e);
+          }
+        }
+        cleaned.push(copy);
+      }
+      return cleaned;
+    }
+
     async function syncSiteContentToFirestore(showSuccessToast = false) {
       if (!firestoreDb) return;
       try {
-        await firestoreDb.collection("konfigurasi").doc("landing_page").set({
+        // Kompres otomatis foto tutor yang berukuran besar (> 48KB) dari browser
+        tutorsList = await cleanAndCompressTutors(tutorsList);
+        saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+
+        const payload = {
           pricingMatrix,
           programsListJson: JSON.stringify(programsList),
           tutorsListJson: JSON.stringify(tutorsList),
           reviewsListJson: JSON.stringify(reviewsList),
           lastUpdated: new Date().toISOString()
-        }, { merge: true });
+        };
+
+        console.log("Ukuran payload ke Firestore:", JSON.stringify(payload).length, "bytes");
+
+        await firestoreDb.collection("konfigurasi").doc("landing_page").set(payload, { merge: true });
         if (showSuccessToast) {
           showToast("Data situs berhasil diunggah ke Firestore Cloud!");
         }
@@ -2917,17 +2978,21 @@
         tutorFormContainer.classList.add("hidden");
       });
 
-      document.getElementById("btn-save-tutor")?.addEventListener("click", () => {
+      document.getElementById("btn-save-tutor")?.addEventListener("click", async () => {
         const editId = document.getElementById("tutor-form-id").value;
         const name = document.getElementById("tutor-form-name").value.trim();
         const univ = document.getElementById("tutor-form-univ").value.trim();
         const specialty = document.getElementById("tutor-form-specialty").value.trim();
         const quote = document.getElementById("tutor-form-quote").value.trim();
         const avatarEmoji = document.getElementById("tutor-form-emoji").value;
-        const photo = currentTutorPhotoBase64 || tutorPhotoUrlInput.value.trim();
+        let photo = currentTutorPhotoBase64 || tutorPhotoUrlInput.value.trim();
 
         if (!name || !univ) {
           return alert("Nama pengajar dan almamater universitas wajib diisi.");
+        }
+
+        if (photo && photo.startsWith("data:image")) {
+          photo = await compressBase64(photo, 320, 320, 0.75);
         }
 
         if (editId) {
@@ -3393,6 +3458,12 @@
       setupAdminCMS();
       setupScrollReveal();
       initFirebase(gcpConfig);
+
+      // Otomatis kompres gambar tutor lama yang tersimpan di localStorage browser
+      cleanAndCompressTutors(tutorsList).then(cleaned => {
+        tutorsList = cleaned;
+        saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+      });
 
       document.getElementById("footer-year").textContent = new Date().getFullYear();
     });
