@@ -1988,13 +1988,20 @@
       GCP: "gemabel_gcp_config_v3"
     };
 
+    const DEFAULT_GCP_CONFIG = {
+      projectId: "gemabel-landing-page",
+      apiKey: "AIzaSyCLvxadwcDlCc4Zj2RMdH8wHDx1NT_SQxY",
+      authDomain: "gemabel-landing-page.firebaseapp.com"
+    };
+
     let adminCredentials = loadStorage(STORAGE_KEYS.CREDENTIALS, DEFAULT_ADMIN_CREDENTIALS);
     let pricingMatrix = loadStorage(STORAGE_KEYS.RATES, DEFAULT_PRICING);
     let programsList = loadStorage(STORAGE_KEYS.PROGRAMS, DEFAULT_PROGRAMS);
     let tutorsList = loadStorage(STORAGE_KEYS.TUTORS, DEFAULT_TUTORS);
     let reviewsList = loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
     let leadsList = loadStorage(STORAGE_KEYS.LEADS, []);
-    let gcpConfig = loadStorage(STORAGE_KEYS.GCP, { projectId: "", apiKey: "" });
+    let savedGcp = loadStorage(STORAGE_KEYS.GCP, null);
+    let gcpConfig = (savedGcp && savedGcp.projectId && savedGcp.apiKey) ? savedGcp : { ...DEFAULT_GCP_CONFIG };
     let firestoreDb = null;
 
     function loadStorage(key, fallback) {
@@ -2061,7 +2068,7 @@
           firebase.initializeApp({
             apiKey: cfg.apiKey,
             projectId: cfg.projectId,
-            authDomain: `${cfg.projectId}.firebaseapp.com`
+            authDomain: cfg.authDomain || `${cfg.projectId}.firebaseapp.com`
           });
         }
         firestoreDb = firebase.firestore();
@@ -2071,7 +2078,9 @@
           showToast(`Berhasil terhubung ke Firestore (${cfg.projectId})!`);
         }
 
-        // Pull remote cloud data automatically
+        // Setup real-time sync listener across all devices
+        setupFirestoreRealtimeListener();
+        // Fallback immediate one-time sync
         syncFromFirestore();
         return true;
       } catch (err) {
@@ -2081,6 +2090,71 @@
           showToast("Koneksi Firebase gagal: " + err.message, "error");
         }
         return false;
+      }
+    }
+
+    function setupFirestoreRealtimeListener() {
+      if (!firestoreDb) return;
+      try {
+        // 1. Real-time sync for landing page content (rates, programs, tutors, reviews)
+        firestoreDb.collection("konfigurasi").doc("landing_page").onSnapshot((docSnap) => {
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            if (data.pricingMatrix) {
+              pricingMatrix = data.pricingMatrix;
+              saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
+              populateAdminRates();
+              updateCalculator();
+            }
+            if (data.programsList && Array.isArray(data.programsList) && data.programsList.length > 0) {
+              programsList = data.programsList;
+              saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+              renderPrograms();
+              renderAdminPackages();
+            }
+            if (data.tutorsList && Array.isArray(data.tutorsList) && data.tutorsList.length > 0) {
+              tutorsList = data.tutorsList;
+              saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+              renderTutors();
+              renderAdminTutors();
+            }
+            if (data.reviewsList && Array.isArray(data.reviewsList) && data.reviewsList.length > 0) {
+              reviewsList = data.reviewsList;
+              saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+              renderReviews();
+              renderAdminReviews();
+            }
+            console.log("⚡ Konten landing page terupdate realtime dari Cloud Firestore.");
+          } else {
+            // First time setup: push existing default content to Firestore
+            console.log("Inisialisasi dokumen konfigurasi awal ke Cloud Firestore...");
+            syncSiteContentToFirestore(false);
+          }
+        }, (err) => {
+          console.warn("Firestore realtime onSnapshot warning (pastikan Security Rules sudah disetel):", err);
+        });
+
+        // 2. Real-time sync for leads (pendaftar)
+        firestoreDb.collection("pendaftar").orderBy("timestamp", "desc").limit(100).onSnapshot((leadsSnap) => {
+          if (!leadsSnap.empty) {
+            const cloudLeads = [];
+            leadsSnap.forEach(d => cloudLeads.push(d.data()));
+            const cloudIds = new Set(cloudLeads.map(l => l.id));
+            leadsList.forEach(localLead => {
+              if (!cloudIds.has(localLead.id)) {
+                cloudLeads.push(localLead);
+              }
+            });
+            cloudLeads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            leadsList = cloudLeads;
+            saveStorage(STORAGE_KEYS.LEADS, leadsList);
+            renderAdminLeads();
+          }
+        }, (err) => {
+          console.warn("Firestore leads realtime onSnapshot warning:", err);
+        });
+      } catch (err) {
+        console.warn("Setup Firestore realtime error:", err);
       }
     }
 
@@ -2116,6 +2190,8 @@
             renderAdminReviews();
           }
           console.log("Data landing page tersinkronisasi dari Cloud Firestore.");
+        } else {
+          syncSiteContentToFirestore(false);
         }
 
         // 2. Fetch leads from Cloud
