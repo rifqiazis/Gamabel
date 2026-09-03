@@ -2093,37 +2093,66 @@
       }
     }
 
+    function applyFirestoreConfigData(data) {
+      if (!data) return;
+
+      if (data.pricingMatrix) {
+        pricingMatrix = data.pricingMatrix;
+        saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
+        populateAdminRates();
+        updateCalculator();
+      }
+
+      // 1. Programs (support JSON string to prevent nested arrays limitation, or legacy array)
+      let parsedPrograms = null;
+      if (data.programsListJson) {
+        try { parsedPrograms = JSON.parse(data.programsListJson); } catch (e) {}
+      } else if (Array.isArray(data.programsList)) {
+        parsedPrograms = data.programsList;
+      }
+      if (parsedPrograms && Array.isArray(parsedPrograms) && parsedPrograms.length > 0) {
+        programsList = parsedPrograms;
+        saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+        renderPrograms();
+        renderAdminPackages();
+      }
+
+      // 2. Tutors
+      let parsedTutors = null;
+      if (data.tutorsListJson) {
+        try { parsedTutors = JSON.parse(data.tutorsListJson); } catch (e) {}
+      } else if (Array.isArray(data.tutorsList)) {
+        parsedTutors = data.tutorsList;
+      }
+      if (parsedTutors && Array.isArray(parsedTutors) && parsedTutors.length > 0) {
+        tutorsList = parsedTutors;
+        saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+        renderTutors();
+        renderAdminTutors();
+      }
+
+      // 3. Reviews
+      let parsedReviews = null;
+      if (data.reviewsListJson) {
+        try { parsedReviews = JSON.parse(data.reviewsListJson); } catch (e) {}
+      } else if (Array.isArray(data.reviewsList)) {
+        parsedReviews = data.reviewsList;
+      }
+      if (parsedReviews && Array.isArray(parsedReviews) && parsedReviews.length > 0) {
+        reviewsList = parsedReviews;
+        saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+        renderReviews();
+        renderAdminReviews();
+      }
+    }
+
     function setupFirestoreRealtimeListener() {
       if (!firestoreDb) return;
       try {
         // 1. Real-time sync for landing page content (rates, programs, tutors, reviews)
         firestoreDb.collection("konfigurasi").doc("landing_page").onSnapshot((docSnap) => {
           if (docSnap.exists) {
-            const data = docSnap.data();
-            if (data.pricingMatrix) {
-              pricingMatrix = data.pricingMatrix;
-              saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
-              populateAdminRates();
-              updateCalculator();
-            }
-            if (data.programsList && Array.isArray(data.programsList) && data.programsList.length > 0) {
-              programsList = data.programsList;
-              saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
-              renderPrograms();
-              renderAdminPackages();
-            }
-            if (data.tutorsList && Array.isArray(data.tutorsList) && data.tutorsList.length > 0) {
-              tutorsList = data.tutorsList;
-              saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
-              renderTutors();
-              renderAdminTutors();
-            }
-            if (data.reviewsList && Array.isArray(data.reviewsList) && data.reviewsList.length > 0) {
-              reviewsList = data.reviewsList;
-              saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
-              renderReviews();
-              renderAdminReviews();
-            }
+            applyFirestoreConfigData(docSnap.data());
             console.log("⚡ Konten landing page terupdate realtime dari Cloud Firestore.");
           } else {
             // First time setup: push existing default content to Firestore
@@ -2164,31 +2193,7 @@
         // 1. Fetch site configuration (pricing, programs, tutors, reviews)
         const docSnap = await firestoreDb.collection("konfigurasi").doc("landing_page").get();
         if (docSnap.exists) {
-          const data = docSnap.data();
-          if (data.pricingMatrix) {
-            pricingMatrix = data.pricingMatrix;
-            saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
-            populateAdminRates();
-            updateCalculator();
-          }
-          if (data.programsList && Array.isArray(data.programsList) && data.programsList.length > 0) {
-            programsList = data.programsList;
-            saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
-            renderPrograms();
-            renderAdminPackages();
-          }
-          if (data.tutorsList && Array.isArray(data.tutorsList) && data.tutorsList.length > 0) {
-            tutorsList = data.tutorsList;
-            saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
-            renderTutors();
-            renderAdminTutors();
-          }
-          if (data.reviewsList && Array.isArray(data.reviewsList) && data.reviewsList.length > 0) {
-            reviewsList = data.reviewsList;
-            saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
-            renderReviews();
-            renderAdminReviews();
-          }
+          applyFirestoreConfigData(docSnap.data());
           console.log("Data landing page tersinkronisasi dari Cloud Firestore.");
         } else {
           syncSiteContentToFirestore(false);
@@ -2220,9 +2225,9 @@
       try {
         await firestoreDb.collection("konfigurasi").doc("landing_page").set({
           pricingMatrix,
-          programsList,
-          tutorsList,
-          reviewsList,
+          programsListJson: JSON.stringify(programsList),
+          tutorsListJson: JSON.stringify(tutorsList),
+          reviewsListJson: JSON.stringify(reviewsList),
           lastUpdated: new Date().toISOString()
         }, { merge: true });
         if (showSuccessToast) {
@@ -2847,21 +2852,44 @@
         tutorPhotoFileInput.click();
       });
 
+      function compressImage(file, maxWidth, maxHeight, quality, callback) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            callback(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
       tutorPhotoFileInput?.addEventListener("change", (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        if (file.size > 4 * 1024 * 1024) {
-          alert("Ukuran foto maksimal 4MB.");
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          setTutorPhotoPreview(event.target.result);
+        compressImage(file, 400, 400, 0.85, (compressedBase64) => {
+          setTutorPhotoPreview(compressedBase64);
           tutorPhotoUrlInput.value = "";
-        };
-        reader.readAsDataURL(file);
+        });
       });
 
       tutorPhotoUrlInput?.addEventListener("input", (e) => {
