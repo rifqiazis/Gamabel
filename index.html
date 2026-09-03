@@ -140,7 +140,7 @@
     .faq-item.active .faq-icon { transform: rotate(180deg); color: #1d47d8; }
 
     /* ── Admin Tabs ── */
-    .admin-tab-btn.active { border-bottom-color: #f59e0b; color: #fbbf24; font-weight: 800; background: rgba(255,255,255,0.05); }
+    .admin-tab-btn.active { border-bottom-color: #f59e0b; color: #fbbf24; font-weight: 800; background: rgba(255,255,255,0.06); }
 
     /* ── Custom Scrollbars ── */
     ::-webkit-scrollbar { width: 7px; height: 7px; }
@@ -207,12 +207,12 @@
 
       <!-- Desktop CTA & Admin Portal Button -->
       <div class="hidden md:flex items-center gap-3">
-        <!-- Jalur Admin Button -->
+        <!-- Jalur Admin Button (Dengan Login Guard) -->
         <button
           id="btn-open-admin"
           type="button"
           class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-sm"
-          title="Buka Jalur Admin CMS (Kelola Harga, Paket & Review)"
+          title="Buka Jalur Admin CMS (Diperlukan Login)"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           <span>Admin CMS</span>
@@ -242,8 +242,9 @@
         <a href="#faq" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white/90 hover:bg-white/10">Tanya Jawab (FAQ)</a>
         
         <div class="pt-2 flex flex-col gap-2 border-t border-white/10 mt-1">
-          <button id="btn-open-admin-mobile" class="w-full text-center py-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 font-bold text-xs">
-            🔐 Buka Jalur Admin CMS
+          <button id="btn-open-admin-mobile" class="w-full text-center py-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 font-bold text-xs flex items-center justify-center gap-2">
+            <span>🔐</span>
+            <span>Buka Jalur Admin CMS</span>
           </button>
           <a href="#kontak" class="w-full text-center py-3 rounded-xl btn-shimmer text-white font-bold text-sm shadow-md">
             Daftar Sekarang & Coba Gratis
@@ -698,7 +699,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     TUTORS & MENTOR PROFILE SHOWCASE
+     TUTORS & MENTOR PROFILE SHOWCASE (DYNAMICALLY MANAGED BY ADMIN CMS)
 ═══════════════════════════════════════════════════════════════════ -->
 <section id="tutor" class="py-20 lg:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -710,52 +711,9 @@
       <p class="mt-3 text-slate-600 text-sm sm:text-base">Pengajar pilihan lulusan universitas terkemuka dengan gaya mengajar santai, ramah, dan solutif.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-      <!-- Tutor 1 -->
-      <div class="bg-slate-50 rounded-3xl p-6 border border-gray-200 card-hover text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 text-white flex items-center justify-center text-3xl font-black mx-auto mb-4 shadow-md">
-          👩‍🏫
-        </div>
-        <h3 class="text-base font-extrabold text-navy-950">Kak Nadia, S.Pd</h3>
-        <p class="text-xs text-amber-600 font-bold mb-2">Universitas Negeri Jakarta (UNJ)</p>
-        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-100 text-navy-800 text-[10px] font-extrabold mb-3">Spesialis Matematika SD & SMP</span>
-        <p class="text-xs text-slate-500 leading-relaxed">"Matematika itu pola dan logika seru, bukan sekadar hafalan rumus. Semua anak pasti bisa!"</p>
-      </div>
-
-      <!-- Tutor 2 -->
-      <div class="bg-slate-50 rounded-3xl p-6 border border-gray-200 card-hover text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-sky-400 to-blue-600 text-white flex items-center justify-center text-3xl font-black mx-auto mb-4 shadow-md">
-          👨‍🏫
-        </div>
-        <h3 class="text-base font-extrabold text-navy-950">Kak Farhan, S.Si</h3>
-        <p class="text-xs text-blue-600 font-bold mb-2">Universitas Indonesia (UI)</p>
-        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-100 text-navy-800 text-[10px] font-extrabold mb-3">Fisika & Kimia SMA / UTBK</span>
-        <p class="text-xs text-slate-500 leading-relaxed">"Bedah konsep dasar fisika & trik cepat penalaran analitis untuk tembus PTN favorit."</p>
-      </div>
-
-      <!-- Tutor 3 -->
-      <div class="bg-slate-50 rounded-3xl p-6 border border-gray-200 card-hover text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-600 text-white flex items-center justify-center text-3xl font-black mx-auto mb-4 shadow-md">
-          👩‍💼
-        </div>
-        <h3 class="text-base font-extrabold text-navy-950">Kak Clarissa, B.A</h3>
-        <p class="text-xs text-emerald-600 font-bold mb-2">Universitas Gadjah Mada (UGM)</p>
-        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-100 text-navy-800 text-[10px] font-extrabold mb-3">English & Cambridge IGCSE</span>
-        <p class="text-xs text-slate-500 leading-relaxed">"Membangun keberanian berbahasa Inggris aktif dan strategi menjawab soal kurikulum internasional."</p>
-      </div>
-
-      <!-- Tutor 4 -->
-      <div class="bg-slate-50 rounded-3xl p-6 border border-gray-200 card-hover text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-400 to-indigo-600 text-white flex items-center justify-center text-3xl font-black mx-auto mb-4 shadow-md">
-          👨‍🔬
-        </div>
-        <h3 class="text-base font-extrabold text-navy-950">Kak Dimas, S.T</h3>
-        <p class="text-xs text-purple-600 font-bold mb-2">Institut Teknologi Bandung (ITB)</p>
-        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-100 text-navy-800 text-[10px] font-extrabold mb-3">Matematika SMA & Sains Terapan</span>
-        <p class="text-xs text-slate-500 leading-relaxed">"Mengupas soal-soal HOTS & olimpiade dengan runtut, terstruktur, dan tidak bikin jenuh."</p>
-      </div>
-
+    <!-- Dynamic Tutors Grid -->
+    <div id="tutor-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Rendered dynamically by JavaScript -->
     </div>
   </div>
 </section>
@@ -1116,12 +1074,96 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     ADMIN CMS PORTAL MODAL (UPDATE RATE HARGA, PAKET, REVIEW & LEADS)
+     ADMIN LOGIN MODAL (AUTH GUARD)
+═══════════════════════════════════════════════════════════════════ -->
+<div id="admin-login-modal" class="hidden fixed inset-0 z-[9500] bg-navy-950/85 backdrop-blur-md flex items-center justify-center p-4" role="dialog" aria-modal="true">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100 animate-slide-up">
+    
+    <!-- Login Header -->
+    <div class="bg-navy-950 text-white p-6 text-center relative border-b border-white/10">
+      <button id="close-admin-login" class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center justify-center">✕</button>
+      
+      <div class="w-16 h-16 rounded-2xl bg-white p-1 mx-auto mb-3 shadow-lg border border-amber-400/50 flex items-center justify-center">
+        <img src="gemabel_logo.jpg" alt="Logo GEMABEL GROUP" class="w-full h-full object-contain rounded-xl" />
+      </div>
+      <h3 class="text-lg font-black text-white">Portal Masuk Admin GEMABEL</h3>
+      <p class="text-xs text-blue-200 mt-0.5">Masuk untuk mengelola tarif, paket, tutor & data leads.</p>
+    </div>
+
+    <!-- Login Form -->
+    <form id="admin-login-form" class="p-6 space-y-4">
+      <div id="admin-login-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+        <span>❌</span>
+        <span id="admin-login-error-msg">Username atau Password salah.</span>
+      </div>
+
+      <div>
+        <label for="admin-login-user" class="block text-xs font-bold text-slate-700 mb-1.5">Username Admin</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">👤</span>
+          <input
+            type="text"
+            id="admin-login-user"
+            required
+            placeholder="Username admin"
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 text-sm text-slate-800 focus:outline-none focus:border-navy-600 bg-slate-50 focus:bg-white transition-all font-semibold"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="admin-login-pass" class="block text-xs font-bold text-slate-700 mb-1.5">Password</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">🔑</span>
+          <input
+            type="password"
+            id="admin-login-pass"
+            required
+            placeholder="Password admin"
+            class="w-full pl-10 pr-11 py-2.5 rounded-xl border border-gray-300 text-sm text-slate-800 focus:outline-none focus:border-navy-600 bg-slate-50 focus:bg-white transition-all font-semibold"
+          />
+          <button
+            type="button"
+            id="btn-toggle-login-pass"
+            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700 text-xs font-bold"
+            title="Lihat / Sembunyikan Password"
+          >
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs">
+        <label class="flex items-center gap-2 cursor-pointer text-slate-600">
+          <input type="checkbox" id="admin-remember-me" checked class="rounded text-navy-700 focus:ring-navy-600" />
+          <span>Ingat sesi di perangkat ini</span>
+        </label>
+      </div>
+
+      <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] leading-relaxed">
+        💡 <strong>Info Akun Default Awal:</strong><br/>
+        Username: <code class="font-bold text-navy-950">admin</code> &bull; Password: <code class="font-bold text-navy-950">gemabel2026</code><br/>
+        <em>(Dapat Anda ubah setelah masuk di menu Pengaturan Akun)</em>
+      </div>
+
+      <button
+        type="submit"
+        id="btn-do-login"
+        class="w-full py-3.5 rounded-xl btn-shimmer text-white font-extrabold text-sm shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+      >
+        <span>🔓 Masuk ke Dashboard CMS</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ADMIN CMS PORTAL MODAL (RATE HARGA, PAKET, TUTOR, REVIEW & LEADS)
 ═══════════════════════════════════════════════════════════════════ -->
 <div id="admin-modal" class="hidden fixed inset-0 z-[9000] bg-navy-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5" role="dialog" aria-modal="true">
   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden border border-gray-100">
     
-    <!-- Modal Header with Official Logo -->
+    <!-- Modal Header with Official Logo & Logout Button -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 bg-navy-950 text-white border-b border-white/10 gap-3">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-white p-1 border border-amber-400/50 flex items-center justify-center shrink-0">
@@ -1131,14 +1173,26 @@
           <h3 class="text-base sm:text-lg font-black flex items-center gap-2">
             <span>🗄️ GEMABEL Admin CMS & Data Manager</span>
           </h3>
-          <p class="text-xs text-blue-200">Kelola langsung tarif harga, ulasan testimoni, paket belajar & data pendaftar.</p>
+          <p class="text-xs text-blue-200">Kelola tarif, paket, mentor pengajar, ulasan testimoni & pendaftar.</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
         <span id="gcp-status-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-          🟢 Local + Cloud Sync
+          🟢 Terautentikasi
         </span>
-        <button id="close-admin" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center justify-center">✕</button>
+
+        <!-- Logout Button -->
+        <button
+          id="btn-admin-logout"
+          type="button"
+          class="px-3 py-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-400/30 text-xs font-bold transition-all flex items-center gap-1"
+          title="Keluar / Logout dari Admin CMS"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Keluar</span>
+        </button>
+
+        <button id="close-admin" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center justify-center" title="Tutup Modal">✕</button>
       </div>
     </div>
 
@@ -1150,6 +1204,9 @@
       <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-packages">
         <span>📚 Paket Belajar</span>
       </button>
+      <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-tutors">
+        <span>👨‍🏫 Tim Pengajar</span>
+      </button>
       <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-reviews">
         <span>⭐ Ulasan / Review</span>
       </button>
@@ -1157,7 +1214,7 @@
         <span>📋 Data Pendaftar (<span id="admin-lead-count">0</span>)</span>
       </button>
       <button type="button" class="admin-tab-btn px-4 py-3.5 border-b-2 border-transparent transition-all flex items-center gap-1.5" data-tab="tab-settings">
-        <span>⚙️ Cloud & Reset</span>
+        <span>⚙️ Akun & Cloud</span>
       </button>
     </div>
 
@@ -1340,7 +1397,129 @@
         </div>
       </div>
 
-      <!-- ── TAB 3: ULASAN & TESTIMONI ── -->
+      <!-- ── TAB 3: TIM PENGAJAR (TUTORS) DENGAN UPLOAD FOTO ── -->
+      <div id="tab-tutors" class="admin-tab-content hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h4 class="text-base font-extrabold text-navy-950">👨‍🏫 Kelola Tim Pengajar & Mentor</h4>
+            <p class="text-xs text-slate-500">Tambah profil pengajar, perbarui spesialisasi, dan unggah foto asli tutor Gemabel.</p>
+          </div>
+          <button type="button" id="btn-add-tutor-modal" class="px-4 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+            <span>➕ Tambah Tutor Baru</span>
+          </button>
+        </div>
+
+        <!-- Form Tambah/Edit Tutor (Collapsible) -->
+        <div id="tutor-form-container" class="hidden bg-white p-5 rounded-2xl border border-navy-200 shadow-md mb-6">
+          <h5 id="tutor-form-title" class="text-sm font-extrabold text-navy-950 mb-3">➕ Tambah Tutor Baru</h5>
+          <input type="hidden" id="tutor-form-id" />
+          
+          <div class="grid sm:grid-cols-12 gap-6 items-start">
+            
+            <!-- Left: Foto Upload & Preview -->
+            <div class="sm:col-span-4 bg-slate-50 p-4 rounded-xl border border-gray-200 text-center">
+              <label class="block text-xs font-bold text-slate-700 mb-2">Foto Tim Pengajar</label>
+              
+              <!-- Thumbnail Preview Box -->
+              <div id="tutor-photo-preview-wrap" class="w-28 h-28 mx-auto rounded-2xl border-2 border-dashed border-gray-300 bg-white flex items-center justify-center overflow-hidden mb-3 shadow-inner relative group">
+                <img id="tutor-photo-preview-img" src="" alt="Preview Foto" class="w-full h-full object-cover hidden" />
+                <div id="tutor-photo-placeholder" class="text-center p-2">
+                  <span class="text-3xl block mb-1">📸</span>
+                  <span class="text-[10px] text-slate-400 font-bold block">Pilih Foto</span>
+                </div>
+              </div>
+
+              <!-- Upload Button & File Input -->
+              <input type="file" id="tutor-photo-file-input" accept="image/*" class="hidden" />
+              <button
+                type="button"
+                id="btn-choose-tutor-photo"
+                class="w-full py-2 px-3 rounded-lg bg-navy-900 text-white text-xs font-bold hover:bg-navy-800 transition-colors mb-1.5"
+              >
+                📁 Unggah File Foto
+              </button>
+              
+              <button
+                type="button"
+                id="btn-remove-tutor-photo"
+                class="text-[11px] text-red-500 hover:underline font-semibold block mx-auto"
+              >
+                Hapus Foto (Gunakan Avatar)
+              </button>
+
+              <div class="mt-3 pt-3 border-t border-gray-200 text-left">
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">Atau Gunakan URL Gambar:</label>
+                <input
+                  type="url"
+                  id="tutor-photo-url-input"
+                  placeholder="https://..."
+                  class="w-full px-2.5 py-1.5 rounded-lg border border-gray-300 text-xs"
+                />
+              </div>
+            </div>
+
+            <!-- Right: Details Form -->
+            <div class="sm:col-span-8 space-y-3 text-xs">
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Nama Lengkap & Gelar</label>
+                  <input type="text" id="tutor-form-name" placeholder="Contoh: Kak Nadia, S.Pd" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold text-navy-950" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Universitas / Almamater</label>
+                  <input type="text" id="tutor-form-univ" placeholder="Contoh: Universitas Indonesia (UI)" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-3 gap-3">
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-slate-700 mb-1">Spesialisasi Bidang</label>
+                  <input type="text" id="tutor-form-specialty" placeholder="Contoh: Matematika SD & SMP, UTBK" class="w-full px-3 py-2 rounded-lg border border-gray-300" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Emoji Cadangan</label>
+                  <select id="tutor-form-emoji" class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                    <option value="👩‍🏫">👩‍🏫 Guru Wanita</option>
+                    <option value="👨‍🏫">👨‍🏫 Guru Pria</option>
+                    <option value="👩‍💼">👩‍💼 Mentor Cambridge</option>
+                    <option value="👨‍🔬">👨‍🔬 Mentor Sains</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Kutipan Inspirasi / Pendekatan Mengajar</label>
+                <textarea id="tutor-form-quote" rows="2" placeholder="Ceritakan metode mengajar tutor ini..." class="w-full px-3 py-2 rounded-lg border border-gray-300"></textarea>
+              </div>
+
+              <div class="flex gap-2 justify-end pt-2">
+                <button type="button" id="btn-cancel-tutor" class="px-3.5 py-1.5 rounded-lg bg-gray-200 text-slate-700 text-xs font-bold">Batal</button>
+                <button type="button" id="btn-save-tutor" class="px-5 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500 shadow">Simpan Tutor</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tutors List Table -->
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-100 text-slate-600 font-extrabold uppercase">
+              <tr>
+                <th class="p-3">Foto / Avatar</th>
+                <th class="p-3">Nama Tutor</th>
+                <th class="p-3">Almamater</th>
+                <th class="p-3">Spesialisasi</th>
+                <th class="p-3">Kutipan Bio</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tutors-tbody" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 4: ULASAN & TESTIMONI ── -->
       <div id="tab-reviews" class="admin-tab-content hidden">
         <div class="flex items-center justify-between mb-4">
           <div>
@@ -1402,7 +1581,7 @@
         </div>
       </div>
 
-      <!-- ── TAB 4: DATA PENDAFTAR (LEADS) ── -->
+      <!-- ── TAB 5: DATA PENDAFTAR (LEADS) ── -->
       <div id="tab-leads" class="admin-tab-content hidden">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
@@ -1450,9 +1629,32 @@
         </div>
       </div>
 
-      <!-- ── TAB 5: PENGATURAN & RESET ── -->
+      <!-- ── TAB 6: PENGATURAN AKUN & CLOUD ── -->
       <div id="tab-settings" class="admin-tab-content hidden">
         <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6 text-xs">
+          
+          <!-- Pengaturan Akun Admin -->
+          <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200">
+            <h4 class="text-sm font-extrabold text-navy-950 mb-1 flex items-center gap-1.5">
+              <span>🔐</span> Ganti Username & Password Login Admin
+            </h4>
+            <p class="text-slate-600 mb-3">Ubah kredensial yang digunakan untuk mengakses jalur admin CMS.</p>
+            
+            <div class="grid sm:grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Username Baru</label>
+                <input type="text" id="setting-admin-username" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold" />
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Password Baru (Min. 6 Karakter)</label>
+                <input type="text" id="setting-admin-password" class="w-full px-3 py-2 rounded-lg border border-gray-300 font-bold" />
+              </div>
+            </div>
+            <button type="button" id="btn-save-credentials" class="px-4 py-2 rounded-xl bg-navy-900 text-white font-bold hover:bg-navy-800 transition-colors shadow">
+              💾 Simpan Akun Admin Baru
+            </button>
+          </div>
+
           <div>
             <h4 class="text-base font-extrabold text-navy-950 mb-1">☁️ Konfigurasi Google Cloud Firestore</h4>
             <p class="text-slate-500 mb-3">Hubungkan dengan project Google Cloud untuk sinkronisasi otomatis multi-perangkat.</p>
@@ -1474,7 +1676,7 @@
 
           <div class="pt-6 border-t border-gray-200">
             <h4 class="text-base font-extrabold text-red-600 mb-1">🔄 Reset ke Data Default Awal</h4>
-            <p class="text-slate-500 mb-3">Kembalikan seluruh tarif harga, paket belajar, dan review ke setelan bawaan resmi GEMABEL GROUP.</p>
+            <p class="text-slate-500 mb-3">Kembalikan seluruh tarif harga, paket belajar, profil tutor, dan ulasan ke setelan bawaan resmi GEMABEL GROUP.</p>
             <button type="button" id="btn-reset-defaults" class="px-4 py-2 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 font-extrabold transition-colors">
               Kembalikan ke Setelan Default
             </button>
@@ -1500,6 +1702,11 @@
 <script>
 /* ── 0. DEFAULT CONFIGURATION DATA (FALLBACK & SEED) ── */
 const TARGET_WA_NUMBER = "6285159679655";
+
+const DEFAULT_ADMIN_CREDENTIALS = {
+  username: "admin",
+  password: "gemabel2026"
+};
 
 const DEFAULT_PRICING = {
   sd: {
@@ -1583,6 +1790,49 @@ const DEFAULT_PROGRAMS = [
   }
 ];
 
+const DEFAULT_TUTORS = [
+  {
+    id: "tutor_1",
+    name: "Kak Nadia, S.Pd",
+    univ: "Universitas Negeri Jakarta (UNJ)",
+    specialty: "Spesialis Matematika SD & SMP",
+    quote: "Matematika itu pola dan logika seru, bukan sekadar hafalan rumus. Semua anak pasti bisa!",
+    photo: "",
+    avatarEmoji: "👩‍🏫",
+    accent: "amber"
+  },
+  {
+    id: "tutor_2",
+    name: "Kak Farhan, S.Si",
+    univ: "Universitas Indonesia (UI)",
+    specialty: "Fisika & Kimia SMA / UTBK",
+    quote: "Bedah konsep dasar fisika & trik cepat penalaran analitis untuk tembus PTN favorit.",
+    photo: "",
+    avatarEmoji: "👨‍🏫",
+    accent: "sky"
+  },
+  {
+    id: "tutor_3",
+    name: "Kak Clarissa, B.A",
+    univ: "Universitas Gadjah Mada (UGM)",
+    specialty: "English & Cambridge IGCSE",
+    quote: "Membangun keberanian berbahasa Inggris aktif dan strategi menjawab soal kurikulum internasional.",
+    photo: "",
+    avatarEmoji: "👩‍💼",
+    accent: "emerald"
+  },
+  {
+    id: "tutor_4",
+    name: "Kak Dimas, S.T",
+    univ: "Institut Teknologi Bandung (ITB)",
+    specialty: "Matematika SMA & Sains Terapan",
+    quote: "Mengupas soal-soal HOTS & olimpiade dengan runtut, terstruktur, dan tidak bikin jenuh.",
+    photo: "",
+    avatarEmoji: "👨‍🔬",
+    accent: "purple"
+  }
+];
+
 const DEFAULT_REVIEWS = [
   {
     id: "rev_1",
@@ -1620,15 +1870,20 @@ const DEFAULT_REVIEWS = [
 
 /* ── 1. STATE & STORAGE MANAGEMENT ── */
 const STORAGE_KEYS = {
+  CREDENTIALS: "gemabel_admin_credentials_v3",
+  AUTH_SESSION: "gemabel_admin_session_v3",
   RATES: "gemabel_pricing_matrix_v3",
   PROGRAMS: "gemabel_programs_data_v3",
+  TUTORS: "gemabel_tutors_data_v3",
   REVIEWS: "gemabel_reviews_data_v3",
   LEADS: "gemabel_pendaftar_v3",
   GCP: "gemabel_gcp_config_v3"
 };
 
+let adminCredentials = loadStorage(STORAGE_KEYS.CREDENTIALS, DEFAULT_ADMIN_CREDENTIALS);
 let pricingMatrix = loadStorage(STORAGE_KEYS.RATES, DEFAULT_PRICING);
 let programsList = loadStorage(STORAGE_KEYS.PROGRAMS, DEFAULT_PROGRAMS);
+let tutorsList = loadStorage(STORAGE_KEYS.TUTORS, DEFAULT_TUTORS);
 let reviewsList = loadStorage(STORAGE_KEYS.REVIEWS, DEFAULT_REVIEWS);
 let leadsList = loadStorage(STORAGE_KEYS.LEADS, []);
 
@@ -1642,6 +1897,20 @@ function loadStorage(key, fallback) {
 }
 function saveStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
+}
+
+function isUserLoggedIn() {
+  return sessionStorage.getItem(STORAGE_KEYS.AUTH_SESSION) === "true" || localStorage.getItem(STORAGE_KEYS.AUTH_SESSION) === "true";
+}
+function setUserLoggedIn(remember) {
+  sessionStorage.setItem(STORAGE_KEYS.AUTH_SESSION, "true");
+  if (remember) {
+    localStorage.setItem(STORAGE_KEYS.AUTH_SESSION, "true");
+  }
+}
+function logoutUser() {
+  sessionStorage.removeItem(STORAGE_KEYS.AUTH_SESSION);
+  localStorage.removeItem(STORAGE_KEYS.AUTH_SESSION);
 }
 
 /* ── 2. TOAST NOTIFICATION ── */
@@ -1682,7 +1951,6 @@ function renderPrograms() {
         : "bg-white text-slate-800 border-gray-200 shadow-sm"
     }`;
 
-    // Color accents
     const badgeBg = p.accent === "emerald" ? "bg-emerald-100 text-emerald-800" : p.accent === "amber" ? "bg-amber-400 text-navy-950" : p.accent === "purple" ? "bg-purple-100 text-purple-800" : "bg-sky-100 text-sky-800";
     const checkColor = isSpecial ? "text-amber-400" : "text-emerald-500";
     const btnClass = isSpecial ? "btn-shimmer text-white shadow-lg" : "border-2 border-navy-700 text-navy-800 hover:bg-navy-800 hover:text-white";
@@ -1731,11 +1999,49 @@ function setupProgramFilterTabs() {
   });
 }
 
-/* ── 4. RENDER DYNAMIC REVIEWS ── */
+/* ── 4. RENDER DYNAMIC TUTORS ── */
+function renderTutors() {
+  const container = document.getElementById("tutor-grid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  tutorsList.forEach(t => {
+    const card = document.createElement("div");
+    card.className = "bg-slate-50 rounded-3xl p-6 border border-gray-200 card-hover text-center flex flex-col justify-between";
+
+    let photoMarkup = "";
+    if (t.photo) {
+      photoMarkup = `
+        <div class="w-24 h-24 rounded-2xl mx-auto mb-4 overflow-hidden border-2 border-amber-400/50 shadow-md bg-white p-0.5">
+          <img src="${t.photo}" alt="${t.name}" class="w-full h-full object-cover rounded-xl" />
+        </div>
+      `;
+    } else {
+      photoMarkup = `
+        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 text-white flex items-center justify-center text-3xl font-black mx-auto mb-4 shadow-md">
+          ${t.avatarEmoji || "👩‍🏫"}
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div>
+        ${photoMarkup}
+        <h3 class="text-base font-extrabold text-navy-950">${t.name}</h3>
+        <p class="text-xs text-amber-600 font-bold mb-2">${t.univ}</p>
+        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-100 text-navy-800 text-[10px] font-extrabold mb-3">${t.specialty}</span>
+        <p class="text-xs text-slate-500 leading-relaxed italic">"${t.quote}"</p>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+/* ── 5. RENDER DYNAMIC REVIEWS ── */
 function renderReviews() {
   const container = document.getElementById("testimoni-grid");
   if (!container) return;
-
   container.innerHTML = "";
 
   reviewsList.forEach(r => {
@@ -1768,7 +2074,7 @@ function renderReviews() {
   });
 }
 
-/* ── 5. PRICING CALCULATOR LOGIC ── */
+/* ── 6. PRICING CALCULATOR LOGIC ── */
 let currentCalc = {
   jenjang: "sd",
   format: "privat",
@@ -1825,7 +2131,7 @@ function updateCalculatorUI() {
   waBtn.href = `https://wa.me/${TARGET_WA_NUMBER}?text=${waText}`;
 }
 
-/* ── 6. QUIZ CBT MINI ENGINE ── */
+/* ── 7. QUIZ CBT MINI ENGINE ── */
 const QUIZ_DATA = [
   {
     subject: "Matematika Dasar",
@@ -1949,7 +2255,7 @@ function showQuizResult() {
   document.getElementById("quiz-recommendation").textContent = rec;
 }
 
-/* ── 7. FAQ ACCORDION ── */
+/* ── 8. FAQ ACCORDION ── */
 function setupFAQ() {
   document.querySelectorAll(".faq-item").forEach(item => {
     const btn = item.querySelector("button");
@@ -1961,7 +2267,7 @@ function setupFAQ() {
   });
 }
 
-/* ── 8. REGISTRATION FORM & WHATSAPP ── */
+/* ── 9. REGISTRATION FORM & WHATSAPP ── */
 function setupContactForm() {
   const form = document.getElementById("contact-form");
   form.addEventListener("submit", (e) => {
@@ -2018,32 +2324,102 @@ function setupContactForm() {
   });
 }
 
-/* ── 9. ADMIN CMS MANAGEMENT (RATES, PACKAGES, REVIEWS, LEADS) ── */
+/* ── 10. ADMIN CMS MANAGEMENT WITH LOGIN GUARD & TUTOR PHOTO UPLOAD ── */
+let currentTutorPhotoBase64 = "";
+
 function setupAdminCMS() {
-  // Triggers
-  const openModal = () => {
-    document.getElementById("admin-modal").classList.remove("hidden");
-    populateAdminRates();
-    renderAdminPackages();
-    renderAdminReviews();
-    renderAdminLeads();
+  const loginModal = document.getElementById("admin-login-modal");
+  const adminModal = document.getElementById("admin-modal");
+
+  // Authentication & Open Handler
+  const openAdminPortal = () => {
+    if (isUserLoggedIn()) {
+      openAdminDashboard();
+    } else {
+      openLoginModal();
+    }
   };
 
-  document.getElementById("btn-open-admin")?.addEventListener("click", openModal);
-  document.getElementById("btn-open-admin-mobile")?.addEventListener("click", openModal);
-  document.getElementById("footer-admin-btn")?.addEventListener("click", openModal);
-  document.getElementById("admin-trigger")?.addEventListener("click", openModal);
+  function openLoginModal() {
+    loginModal.classList.remove("hidden");
+    document.getElementById("admin-login-error").classList.add("hidden");
+    document.getElementById("admin-login-pass").value = "";
+    document.getElementById("admin-login-user").value = adminCredentials.username || "admin";
+    setTimeout(() => document.getElementById("admin-login-pass").focus(), 150);
+  }
+
+  function openAdminDashboard() {
+    loginModal.classList.add("hidden");
+    adminModal.classList.remove("hidden");
+    populateAdminRates();
+    renderAdminPackages();
+    renderAdminTutors();
+    renderAdminReviews();
+    renderAdminLeads();
+    populateAdminCredentials();
+  }
+
+  // Toggle Password Visibility in Login Form
+  const togglePassBtn = document.getElementById("btn-toggle-login-pass");
+  const passInput = document.getElementById("admin-login-pass");
+  togglePassBtn?.addEventListener("click", () => {
+    if (passInput.type === "password") {
+      passInput.type = "text";
+      togglePassBtn.textContent = "🙈";
+    } else {
+      passInput.type = "password";
+      togglePassBtn.textContent = "👁️";
+    }
+  });
+
+  // Handle Login Submit
+  document.getElementById("admin-login-form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userVal = document.getElementById("admin-login-user").value.trim();
+    const passVal = document.getElementById("admin-login-pass").value.trim();
+    const remember = document.getElementById("admin-remember-me").checked;
+
+    if (userVal === adminCredentials.username && passVal === adminCredentials.password) {
+      setUserLoggedIn(remember);
+      showToast("Berhasil login sebagai Admin GEMABEL!");
+      openAdminDashboard();
+    } else {
+      const errBox = document.getElementById("admin-login-error");
+      errBox.classList.remove("hidden");
+      document.getElementById("admin-login-error-msg").textContent = "Username atau password salah. Silakan coba lagi.";
+    }
+  });
+
+  // Close Login Modal
+  document.getElementById("close-admin-login")?.addEventListener("click", () => {
+    loginModal.classList.add("hidden");
+  });
+
+  // Logout Handler
+  document.getElementById("btn-admin-logout")?.addEventListener("click", () => {
+    if (confirm("Keluar dari sesi Admin CMS?")) {
+      logoutUser();
+      adminModal.classList.add("hidden");
+      showToast("Anda telah keluar dari Admin CMS.");
+    }
+  });
+
+  // Open Triggers
+  document.getElementById("btn-open-admin")?.addEventListener("click", openAdminPortal);
+  document.getElementById("btn-open-admin-mobile")?.addEventListener("click", openAdminPortal);
+  document.getElementById("footer-admin-btn")?.addEventListener("click", openAdminPortal);
+  document.getElementById("admin-trigger")?.addEventListener("click", openAdminPortal);
 
   // Shortcut Ctrl+Shift+A
   window.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
       e.preventDefault();
-      openModal();
+      openAdminPortal();
     }
   });
 
-  document.getElementById("close-admin").addEventListener("click", () => {
-    document.getElementById("admin-modal").classList.add("hidden");
+  document.getElementById("close-admin")?.addEventListener("click", () => {
+    adminModal.classList.add("hidden");
   });
 
   // Admin Tab Navigation
@@ -2058,7 +2434,7 @@ function setupAdminCMS() {
     });
   });
 
-  /* ── 9A. RATES LOGIC ── */
+  /* ── 10A. RATES LOGIC ── */
   function populateAdminRates() {
     document.getElementById("rate-sd-privat-online").value = pricingMatrix.sd.privat.online;
     document.getElementById("rate-sd-privat-offline").value = pricingMatrix.sd.privat.offline;
@@ -2076,7 +2452,7 @@ function setupAdminCMS() {
     document.getElementById("rate-sma-group-offline").value = pricingMatrix.sma.group.offline;
   }
 
-  document.getElementById("btn-save-rates").addEventListener("click", () => {
+  document.getElementById("btn-save-rates")?.addEventListener("click", () => {
     pricingMatrix.sd.privat.online = parseInt(document.getElementById("rate-sd-privat-online").value) || 75000;
     pricingMatrix.sd.privat.offline = parseInt(document.getElementById("rate-sd-privat-offline").value) || 90000;
     pricingMatrix.sd.group.online = parseInt(document.getElementById("rate-sd-group-online").value) || 45000;
@@ -2097,9 +2473,9 @@ function setupAdminCMS() {
     showToast("Tarif harga berhasil diperbarui!");
   });
 
-  /* ── 9B. PACKAGES LOGIC ── */
+  /* ── 10B. PACKAGES LOGIC ── */
   const pkgFormContainer = document.getElementById("package-form-container");
-  document.getElementById("btn-add-package-modal").addEventListener("click", () => {
+  document.getElementById("btn-add-package-modal")?.addEventListener("click", () => {
     pkgFormContainer.classList.remove("hidden");
     document.getElementById("package-form-title").textContent = "➕ Tambah Paket Belajar Baru";
     document.getElementById("pkg-form-id").value = "";
@@ -2111,11 +2487,11 @@ function setupAdminCMS() {
     document.getElementById("pkg-form-cta").value = "Daftar Paket Ini";
   });
 
-  document.getElementById("btn-cancel-package").addEventListener("click", () => {
+  document.getElementById("btn-cancel-package")?.addEventListener("click", () => {
     pkgFormContainer.classList.add("hidden");
   });
 
-  document.getElementById("btn-save-package").addEventListener("click", () => {
+  document.getElementById("btn-save-package")?.addEventListener("click", () => {
     const editId = document.getElementById("pkg-form-id").value;
     const title = document.getElementById("pkg-form-title").value.trim();
     if (!title) return alert("Judul paket wajib diisi");
@@ -2150,9 +2526,113 @@ function setupAdminCMS() {
     showToast("Paket pembelajaran berhasil disimpan!");
   });
 
-  /* ── 9C. REVIEWS LOGIC ── */
+  /* ── 10C. TUTORS LOGIC WITH PHOTO UPLOAD ── */
+  const tutorFormContainer = document.getElementById("tutor-form-container");
+  const tutorPhotoFileInput = document.getElementById("tutor-photo-file-input");
+  const tutorPhotoUrlInput = document.getElementById("tutor-photo-url-input");
+  const tutorPhotoPreviewImg = document.getElementById("tutor-photo-preview-img");
+  const tutorPhotoPlaceholder = document.getElementById("tutor-photo-placeholder");
+
+  function setTutorPhotoPreview(src) {
+    currentTutorPhotoBase64 = src || "";
+    if (src) {
+      tutorPhotoPreviewImg.src = src;
+      tutorPhotoPreviewImg.classList.remove("hidden");
+      tutorPhotoPlaceholder.classList.add("hidden");
+    } else {
+      tutorPhotoPreviewImg.src = "";
+      tutorPhotoPreviewImg.classList.add("hidden");
+      tutorPhotoPlaceholder.classList.remove("hidden");
+    }
+  }
+
+  document.getElementById("btn-choose-tutor-photo")?.addEventListener("click", () => {
+    tutorPhotoFileInput.click();
+  });
+
+  tutorPhotoFileInput?.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 4 * 1024 * 1024) {
+      alert("Ukuran foto maksimal 4MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setTutorPhotoPreview(event.target.result);
+      tutorPhotoUrlInput.value = "";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  tutorPhotoUrlInput?.addEventListener("input", (e) => {
+    const url = e.target.value.trim();
+    if (url) {
+      setTutorPhotoPreview(url);
+    }
+  });
+
+  document.getElementById("btn-remove-tutor-photo")?.addEventListener("click", () => {
+    setTutorPhotoPreview("");
+    tutorPhotoFileInput.value = "";
+    tutorPhotoUrlInput.value = "";
+  });
+
+  document.getElementById("btn-add-tutor-modal")?.addEventListener("click", () => {
+    tutorFormContainer.classList.remove("hidden");
+    document.getElementById("tutor-form-title").textContent = "➕ Tambah Tutor Baru";
+    document.getElementById("tutor-form-id").value = "";
+    document.getElementById("tutor-form-name").value = "";
+    document.getElementById("tutor-form-univ").value = "";
+    document.getElementById("tutor-form-specialty").value = "";
+    document.getElementById("tutor-form-quote").value = "";
+    document.getElementById("tutor-form-emoji").value = "👩‍🏫";
+    tutorPhotoFileInput.value = "";
+    tutorPhotoUrlInput.value = "";
+    setTutorPhotoPreview("");
+  });
+
+  document.getElementById("btn-cancel-tutor")?.addEventListener("click", () => {
+    tutorFormContainer.classList.add("hidden");
+  });
+
+  document.getElementById("btn-save-tutor")?.addEventListener("click", () => {
+    const editId = document.getElementById("tutor-form-id").value;
+    const name = document.getElementById("tutor-form-name").value.trim();
+    const univ = document.getElementById("tutor-form-univ").value.trim();
+    const specialty = document.getElementById("tutor-form-specialty").value.trim();
+    const quote = document.getElementById("tutor-form-quote").value.trim();
+    const avatarEmoji = document.getElementById("tutor-form-emoji").value;
+    const photo = currentTutorPhotoBase64 || tutorPhotoUrlInput.value.trim();
+
+    if (!name || !univ) {
+      return alert("Nama pengajar dan almamater universitas wajib diisi.");
+    }
+
+    if (editId) {
+      const idx = tutorsList.findIndex(t => t.id === editId);
+      if (idx !== -1) {
+        tutorsList[idx] = { id: editId, name, univ, specialty, quote, avatarEmoji, photo };
+      }
+    } else {
+      tutorsList.push({
+        id: "tutor_" + Date.now(),
+        name, univ, specialty, quote, avatarEmoji, photo
+      });
+    }
+
+    saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+    renderTutors();
+    renderAdminTutors();
+    tutorFormContainer.classList.add("hidden");
+    showToast("Data tutor berhasil disimpan!");
+  });
+
+  /* ── 10D. REVIEWS LOGIC ── */
   const revFormContainer = document.getElementById("review-form-container");
-  document.getElementById("btn-add-review-modal").addEventListener("click", () => {
+  document.getElementById("btn-add-review-modal")?.addEventListener("click", () => {
     revFormContainer.classList.remove("hidden");
     document.getElementById("review-form-title").textContent = "➕ Tambah Ulasan Baru";
     document.getElementById("rev-form-id").value = "";
@@ -2161,11 +2641,11 @@ function setupAdminCMS() {
     document.getElementById("rev-form-text").value = "";
   });
 
-  document.getElementById("btn-cancel-review").addEventListener("click", () => {
+  document.getElementById("btn-cancel-review")?.addEventListener("click", () => {
     revFormContainer.classList.add("hidden");
   });
 
-  document.getElementById("btn-save-review").addEventListener("click", () => {
+  document.getElementById("btn-save-review")?.addEventListener("click", () => {
     const editId = document.getElementById("rev-form-id").value;
     const name = document.getElementById("rev-form-name").value.trim();
     const role = document.getElementById("rev-form-role").value.trim();
@@ -2195,21 +2675,51 @@ function setupAdminCMS() {
     showToast("Ulasan berhasil disimpan!");
   });
 
-  /* ── 9D. RESET DEFAULT ── */
-  document.getElementById("btn-reset-defaults").addEventListener("click", () => {
-    if (confirm("Apakah Anda yakin ingin mengembalikan seluruh tarif, paket belajar, dan ulasan ke setelan default awal?")) {
+  /* ── 10E. CREDENTIALS UPDATE ── */
+  function populateAdminCredentials() {
+    const userField = document.getElementById("setting-admin-username");
+    const passField = document.getElementById("setting-admin-password");
+    if (userField && passField) {
+      userField.value = adminCredentials.username;
+      passField.value = adminCredentials.password;
+    }
+  }
+
+  document.getElementById("btn-save-credentials")?.addEventListener("click", () => {
+    const newUser = document.getElementById("setting-admin-username").value.trim();
+    const newPass = document.getElementById("setting-admin-password").value.trim();
+
+    if (!newUser || newUser.length < 3) {
+      return alert("Username minimal 3 karakter.");
+    }
+    if (!newPass || newPass.length < 6) {
+      return alert("Password minimal 6 karakter.");
+    }
+
+    adminCredentials = { username: newUser, password: newPass };
+    saveStorage(STORAGE_KEYS.CREDENTIALS, adminCredentials);
+    showToast("Akun login Admin berhasil diperbarui!");
+  });
+
+  /* ── 10F. RESET DEFAULT ── */
+  document.getElementById("btn-reset-defaults")?.addEventListener("click", () => {
+    if (confirm("Apakah Anda yakin ingin mengembalikan seluruh tarif, paket belajar, profil pengajar, dan ulasan ke setelan default awal?")) {
       pricingMatrix = JSON.parse(JSON.stringify(DEFAULT_PRICING));
       programsList = JSON.parse(JSON.stringify(DEFAULT_PROGRAMS));
+      tutorsList = JSON.parse(JSON.stringify(DEFAULT_TUTORS));
       reviewsList = JSON.parse(JSON.stringify(DEFAULT_REVIEWS));
 
       saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
       saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
+      saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
       saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
 
       populateAdminRates();
       renderPrograms();
+      renderTutors();
       renderReviews();
       renderAdminPackages();
+      renderAdminTutors();
       renderAdminReviews();
       updateCalculatorUI();
 
@@ -2217,8 +2727,8 @@ function setupAdminCMS() {
     }
   });
 
-  /* ── 9E. LEADS CSV EXPORT & CLEAR ── */
-  document.getElementById("clear-btn").addEventListener("click", () => {
+  /* ── 10G. LEADS CSV EXPORT & CLEAR ── */
+  document.getElementById("clear-btn")?.addEventListener("click", () => {
     if (confirm("Hapus seluruh data pendaftar?")) {
       leadsList = [];
       saveStorage(STORAGE_KEYS.LEADS, leadsList);
@@ -2227,7 +2737,7 @@ function setupAdminCMS() {
     }
   });
 
-  document.getElementById("export-btn").addEventListener("click", () => {
+  document.getElementById("export-btn")?.addEventListener("click", () => {
     if (!leadsList.length) return alert("Belum ada data pendaftar.");
     let csv = "ID,Waktu,Nama,WhatsApp,Jenjang,Format,Pesan\n";
     leadsList.forEach(d => {
@@ -2286,6 +2796,72 @@ window.deletePackage = function(id) {
     renderPrograms();
     renderAdminPackages();
     showToast("Paket dihapus.");
+  }
+};
+
+function renderAdminTutors() {
+  const tbody = document.getElementById("admin-tutors-tbody");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  tutorsList.forEach(t => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-slate-50";
+
+    const thumbMarkup = t.photo 
+      ? `<img src="${t.photo}" alt="${t.name}" class="w-10 h-10 object-cover rounded-xl border border-gray-300" />`
+      : `<span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-lg">${t.avatarEmoji || "👩‍🏫"}</span>`;
+
+    tr.innerHTML = `
+      <td class="p-3">${thumbMarkup}</td>
+      <td class="p-3 font-bold text-navy-950">${t.name}</td>
+      <td class="p-3 text-slate-600">${t.univ}</td>
+      <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">${t.specialty}</span></td>
+      <td class="p-3 text-slate-500 max-w-[180px] truncate italic">"${t.quote}"</td>
+      <td class="p-3 text-center space-x-2">
+        <button class="text-blue-600 hover:underline font-bold" onclick="editTutor('${t.id}')">Edit</button>
+        <button class="text-red-500 hover:underline" onclick="deleteTutor('${t.id}')">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+window.editTutor = function(id) {
+  const t = tutorsList.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById("tutor-form-container").classList.remove("hidden");
+  document.getElementById("tutor-form-title").textContent = "✏️ Edit Tutor: " + t.name;
+  document.getElementById("tutor-form-id").value = t.id;
+  document.getElementById("tutor-form-name").value = t.name;
+  document.getElementById("tutor-form-univ").value = t.univ;
+  document.getElementById("tutor-form-specialty").value = t.specialty;
+  document.getElementById("tutor-form-quote").value = t.quote || "";
+  document.getElementById("tutor-form-emoji").value = t.avatarEmoji || "👩‍🏫";
+  document.getElementById("tutor-photo-file-input").value = "";
+  document.getElementById("tutor-photo-url-input").value = t.photo && t.photo.startsWith("http") ? t.photo : "";
+  
+  currentTutorPhotoBase64 = t.photo || "";
+  const previewImg = document.getElementById("tutor-photo-preview-img");
+  const placeholder = document.getElementById("tutor-photo-placeholder");
+  if (t.photo) {
+    previewImg.src = t.photo;
+    previewImg.classList.remove("hidden");
+    placeholder.classList.add("hidden");
+  } else {
+    previewImg.src = "";
+    previewImg.classList.add("hidden");
+    placeholder.classList.remove("hidden");
+  }
+};
+
+window.deleteTutor = function(id) {
+  if (confirm("Hapus data pengajar ini?")) {
+    tutorsList = tutorsList.filter(x => x.id !== id);
+    saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+    renderTutors();
+    renderAdminTutors();
+    showToast("Data tutor dihapus.");
   }
 };
 
@@ -2384,7 +2960,7 @@ window.deleteLeadEntry = function(id) {
   showToast("Data pendaftar telah dihapus");
 };
 
-/* ── 10. SCROLL REVEAL (INTERSECTION OBSERVER) ── */
+/* ── 11. SCROLL REVEAL (INTERSECTION OBSERVER) ── */
 function setupScrollReveal() {
   const revealEls = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
@@ -2398,7 +2974,7 @@ function setupScrollReveal() {
   revealEls.forEach(el => observer.observe(el));
 }
 
-/* ── 11. NAVBAR SCROLL EFFECT & MOBILE MENU ── */
+/* ── 12. NAVBAR SCROLL EFFECT & MOBILE MENU ── */
 function setupNavbar() {
   const navbar = document.getElementById("navbar");
   window.addEventListener("scroll", () => {
@@ -2408,17 +2984,18 @@ function setupNavbar() {
 
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileMenu = document.getElementById("mobile-menu");
-  hamburgerBtn.addEventListener("click", () => mobileMenu.classList.toggle("open"));
+  hamburgerBtn?.addEventListener("click", () => mobileMenu.classList.toggle("open"));
   document.querySelectorAll("#mobile-menu a").forEach(a => {
     a.addEventListener("click", () => mobileMenu.classList.remove("open"));
   });
 }
 
-/* ── 12. INITIALIZATION ON DOM READY ── */
+/* ── 13. INITIALIZATION ON DOM READY ── */
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
   renderPrograms();
   setupProgramFilterTabs();
+  renderTutors();
   renderReviews();
   setupCalculator();
   setupQuiz();
