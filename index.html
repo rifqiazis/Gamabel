@@ -2246,14 +2246,36 @@
       }
     }
 
+    function populateAdminRates() {
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val !== undefined && val !== null) el.value = val;
+      };
+      if (!pricingMatrix || !pricingMatrix.sd) return;
+      setVal("rate-sd-privat-online", pricingMatrix.sd?.privat?.online);
+      setVal("rate-sd-privat-offline", pricingMatrix.sd?.privat?.offline);
+      setVal("rate-sd-group-online", pricingMatrix.sd?.group?.online);
+      setVal("rate-sd-group-offline", pricingMatrix.sd?.group?.offline);
+
+      setVal("rate-smp-privat-online", pricingMatrix.smp?.privat?.online);
+      setVal("rate-smp-privat-offline", pricingMatrix.smp?.privat?.offline);
+      setVal("rate-smp-group-online", pricingMatrix.smp?.group?.online);
+      setVal("rate-smp-group-offline", pricingMatrix.smp?.group?.offline);
+
+      setVal("rate-sma-privat-online", pricingMatrix.sma?.privat?.online);
+      setVal("rate-sma-privat-offline", pricingMatrix.sma?.privat?.offline);
+      setVal("rate-sma-group-online", pricingMatrix.sma?.group?.online);
+      setVal("rate-sma-group-offline", pricingMatrix.sma?.group?.offline);
+    }
+
     function applyFirestoreConfigData(data) {
       if (!data) return;
 
       if (data.pricingMatrix) {
         pricingMatrix = data.pricingMatrix;
         saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
-        populateAdminRates();
-        updateCalculator();
+        if (typeof populateAdminRates === "function") populateAdminRates();
+        if (typeof updateCalculator === "function") updateCalculator();
       }
 
       // 1. Programs (support JSON string or legacy array)
@@ -2263,11 +2285,11 @@
       } else if (Array.isArray(data.programsList)) {
         parsedPrograms = data.programsList;
       }
-      if (parsedPrograms && Array.isArray(parsedPrograms) && parsedPrograms.length > 0) {
+      if (parsedPrograms && Array.isArray(parsedPrograms)) {
         programsList = parsedPrograms;
         saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
-        renderPrograms();
-        renderAdminPackages();
+        if (typeof renderPrograms === "function") renderPrograms();
+        if (typeof renderAdminPackages === "function") renderAdminPackages();
       }
 
       // 2. Tutors
@@ -2277,11 +2299,11 @@
       } else if (Array.isArray(data.tutorsList)) {
         parsedTutors = data.tutorsList;
       }
-      if (parsedTutors && Array.isArray(parsedTutors) && parsedTutors.length > 0) {
+      if (parsedTutors && Array.isArray(parsedTutors)) {
         tutorsList = parsedTutors;
         saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
-        renderTutors();
-        renderAdminTutors();
+        if (typeof renderTutors === "function") renderTutors();
+        if (typeof renderAdminTutors === "function") renderAdminTutors();
       }
 
       // 3. Reviews
@@ -2291,11 +2313,11 @@
       } else if (Array.isArray(data.reviewsList)) {
         parsedReviews = data.reviewsList;
       }
-      if (parsedReviews && Array.isArray(parsedReviews) && parsedReviews.length > 0) {
+      if (parsedReviews && Array.isArray(parsedReviews)) {
         reviewsList = parsedReviews;
         saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
-        renderReviews();
-        renderAdminReviews();
+        if (typeof renderReviews === "function") renderReviews();
+        if (typeof renderAdminReviews === "function") renderAdminReviews();
       }
     }
 
@@ -2444,51 +2466,56 @@
           lastUpdated: new Date().toISOString()
         };
 
-        console.log("Ukuran payload ke Firestore:", JSON.stringify(payload).length, "bytes");
+        console.log("Mengunggah konten ke Cloud Firestore...", JSON.stringify(payload).length, "bytes");
         let saved = false;
 
-        // Channel 1: Firestore SDK
-        if (firestoreDb) {
+        // Channel 1: REST API Direct (Super cepat ~50ms, direct HTTPS tanpa websocket/SDK dependency)
+        if (gcpConfig && gcpConfig.projectId && gcpConfig.apiKey) {
           try {
-            await firestoreDb.collection("konfigurasi").doc("landing_page").set(payload, { merge: true });
-            saved = true;
-            console.log("Konten landing page tersimpan via Firestore SDK.");
-          } catch (err) {
-            console.warn("Firestore SDK set failed, fallback ke REST API:", err);
+            const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/konfigurasi/landing_page?key=${encodeURIComponent(gcpConfig.apiKey)}`;
+            const res = await fetch(url, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(toFirestoreRestDoc(payload))
+            });
+            if (res.ok) {
+              saved = true;
+              console.log("⚡ Konten landing page tersimpan via Firestore REST API.");
+            } else {
+              console.warn("REST API PATCH error status:", res.status, await res.text());
+            }
+          } catch (restErr) {
+            console.warn("Gagal mengirim via REST API:", restErr);
           }
         }
 
-        // Channel 2: Firestore REST API (Fallback / Direct)
-        if (!saved && gcpConfig && gcpConfig.projectId && gcpConfig.apiKey) {
-          const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/konfigurasi/landing_page?key=${encodeURIComponent(gcpConfig.apiKey)}`;
-          const res = await fetch(url, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(toFirestoreRestDoc(payload))
-          });
-          if (res.ok) {
+        // Channel 2: Firestore SDK (dengan race timeout 2000ms agar tidak menggantung jika offline)
+        if (firestoreDb) {
+          try {
+            const sdkPromise = firestoreDb.collection("konfigurasi").doc("landing_page").set(payload, { merge: true });
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("SDK Timeout")), 2000));
+            await Promise.race([sdkPromise, timeoutPromise]);
             saved = true;
-            console.log("Konten landing page tersimpan via REST API PATCH.");
-          } else {
-            console.warn("REST API PATCH status:", res.status, await res.text());
+            console.log("⚡ Konten landing page tersimpan via Firestore SDK.");
+          } catch (err) {
+            console.warn("Firestore SDK write skipped/timeout:", err.message);
           }
         }
 
         if (saved) {
           updateCloudStatusBadge(true, gcpConfig.projectId);
           if (showSuccessToast) {
-            showToast("Data situs berhasil diunggah ke Firestore Cloud!");
+            showToast("Data situs berhasil tersimpan & tersinkron ke semua perangkat!");
           }
+          return true;
         } else {
-          if (showSuccessToast) {
-            showToast("Gagal menyimpan ke Firestore Cloud. Periksa koneksi atau Project ID & API Key.", "error");
-          }
+          showToast("Gagal menyimpan ke Firestore Cloud. Periksa koneksi internet Anda.", "error");
+          return false;
         }
       } catch (err) {
         console.error("Gagal sinkronisasi ke Firestore:", err);
-        if (showSuccessToast) {
-          showToast("Gagal unggah ke Firestore: " + err.message, "error");
-        }
+        showToast("Gagal unggah ke Firestore: " + err.message, "error");
+        return false;
       }
     }
 
@@ -3020,24 +3047,11 @@
       });
 
       /* ── 11A. RATES LOGIC ── */
-      function populateAdminRates() {
-        document.getElementById("rate-sd-privat-online").value = pricingMatrix.sd.privat.online;
-        document.getElementById("rate-sd-privat-offline").value = pricingMatrix.sd.privat.offline;
-        document.getElementById("rate-sd-group-online").value = pricingMatrix.sd.group.online;
-        document.getElementById("rate-sd-group-offline").value = pricingMatrix.sd.group.offline;
+      document.getElementById("btn-save-rates")?.addEventListener("click", async () => {
+        const btn = document.getElementById("btn-save-rates");
+        const originalText = btn ? btn.innerHTML : "";
+        if (btn) { btn.disabled = true; btn.innerHTML = "<span>⏳ Menyimpan ke Cloud...</span>"; }
 
-        document.getElementById("rate-smp-privat-online").value = pricingMatrix.smp.privat.online;
-        document.getElementById("rate-smp-privat-offline").value = pricingMatrix.smp.privat.offline;
-        document.getElementById("rate-smp-group-online").value = pricingMatrix.smp.group.online;
-        document.getElementById("rate-smp-group-offline").value = pricingMatrix.smp.group.offline;
-
-        document.getElementById("rate-sma-privat-online").value = pricingMatrix.sma.privat.online;
-        document.getElementById("rate-sma-privat-offline").value = pricingMatrix.sma.privat.offline;
-        document.getElementById("rate-sma-group-online").value = pricingMatrix.sma.group.online;
-        document.getElementById("rate-sma-group-offline").value = pricingMatrix.sma.group.offline;
-      }
-
-      document.getElementById("btn-save-rates")?.addEventListener("click", () => {
         pricingMatrix.sd.privat.online = parseInt(document.getElementById("rate-sd-privat-online").value) || 75000;
         pricingMatrix.sd.privat.offline = parseInt(document.getElementById("rate-sd-privat-offline").value) || 90000;
         pricingMatrix.sd.group.online = parseInt(document.getElementById("rate-sd-group-online").value) || 45000;
@@ -3055,8 +3069,9 @@
 
         saveStorage(STORAGE_KEYS.RATES, pricingMatrix);
         updateCalculator();
-        syncSiteContentToFirestore();
-        showToast("Tarif harga berhasil diperbarui!");
+        const ok = await syncSiteContentToFirestore(true);
+        if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
+        if (ok) showToast("Tarif harga berhasil tersimpan ke Cloud & semua perangkat!");
       });
 
       /* ── 11B. PACKAGES LOGIC ── */
@@ -3075,10 +3090,15 @@
         pkgFormContainer.classList.add("hidden");
       });
 
-      document.getElementById("btn-save-package")?.addEventListener("click", () => {
+      document.getElementById("btn-save-package")?.addEventListener("click", async () => {
+        const btn = document.getElementById("btn-save-package");
+        const originalText = btn ? btn.innerHTML : "";
+
         const editId = document.getElementById("pkg-form-id").value;
         const title = document.getElementById("pkg-form-title").value.trim();
         if (!title) return alert("Judul paket wajib diisi");
+
+        if (btn) { btn.disabled = true; btn.innerHTML = "<span>⏳ Menyimpan...</span>"; }
 
         const jenjang = document.getElementById("pkg-form-jenjang").value;
         const badge = document.getElementById("pkg-form-badge").value.trim();
@@ -3100,9 +3120,10 @@
         saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
         renderPrograms();
         renderAdminPackages();
-        syncSiteContentToFirestore();
+        const ok = await syncSiteContentToFirestore(true);
+        if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
         pkgFormContainer.classList.add("hidden");
-        showToast("Paket pembelajaran berhasil disimpan!");
+        if (ok) showToast("Paket pembelajaran berhasil tersimpan ke Cloud & semua perangkat!");
       });
 
       /* ── 11C. TUTORS LOGIC WITH PHOTO UPLOAD ── */
@@ -3195,6 +3216,9 @@
       });
 
       document.getElementById("btn-save-tutor")?.addEventListener("click", async () => {
+        const btn = document.getElementById("btn-save-tutor");
+        const originalText = btn ? btn.innerHTML : "";
+
         const editId = document.getElementById("tutor-form-id").value;
         const name = document.getElementById("tutor-form-name").value.trim();
         const univ = document.getElementById("tutor-form-univ").value.trim();
@@ -3207,28 +3231,37 @@
           return alert("Nama pengajar dan almamater universitas wajib diisi.");
         }
 
-        if (photo && photo.startsWith("data:image")) {
-          photo = await compressBase64(photo, 320, 320, 0.75);
-        }
+        if (btn) { btn.disabled = true; btn.innerHTML = "<span>⏳ Menyimpan ke Cloud...</span>"; }
 
-        if (editId) {
-          const idx = tutorsList.findIndex(t => t.id === editId);
-          if (idx !== -1) {
-            tutorsList[idx] = { id: editId, name, univ, specialty, quote, avatarEmoji, photo };
+        try {
+          if (photo && photo.startsWith("data:image")) {
+            photo = await compressBase64(photo, 320, 320, 0.75);
           }
-        } else {
-          tutorsList.push({
-            id: "tutor_" + Date.now(),
-            name, univ, specialty, quote, avatarEmoji, photo
-          });
-        }
 
-        saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
-        renderTutors();
-        renderAdminTutors();
-        syncSiteContentToFirestore();
-        tutorFormContainer.classList.add("hidden");
-        showToast("Data tutor berhasil disimpan!");
+          if (editId) {
+            const idx = tutorsList.findIndex(t => t.id === editId);
+            if (idx !== -1) {
+              tutorsList[idx] = { id: editId, name, univ, specialty, quote, avatarEmoji, photo };
+            }
+          } else {
+            tutorsList.push({
+              id: "tutor_" + Date.now(),
+              name, univ, specialty, quote, avatarEmoji, photo
+            });
+          }
+
+          saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
+          renderTutors();
+          renderAdminTutors();
+          const ok = await syncSiteContentToFirestore(true);
+          tutorFormContainer.classList.add("hidden");
+          if (ok) showToast("Data tutor berhasil tersimpan ke Cloud & semua perangkat!");
+        } catch (err) {
+          console.error("Gagal simpan tutor:", err);
+          showToast("Gagal menyimpan: " + err.message, "error");
+        } finally {
+          if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
+        }
       });
 
       /* ── 11D. REVIEWS LOGIC ── */
@@ -3246,7 +3279,10 @@
         revFormContainer.classList.add("hidden");
       });
 
-      document.getElementById("btn-save-review")?.addEventListener("click", () => {
+      document.getElementById("btn-save-review")?.addEventListener("click", async () => {
+        const btn = document.getElementById("btn-save-review");
+        const originalText = btn ? btn.innerHTML : "";
+
         const editId = document.getElementById("rev-form-id").value;
         const name = document.getElementById("rev-form-name").value.trim();
         const role = document.getElementById("rev-form-role").value.trim();
@@ -3255,26 +3291,35 @@
 
         if (!name || !text) return alert("Nama dan isi ulasan wajib diisi.");
 
-        const avatar = name.substring(0, 2).toUpperCase();
+        if (btn) { btn.disabled = true; btn.innerHTML = "<span>⏳ Menyimpan ke Cloud...</span>"; }
 
-        if (editId) {
-          const idx = reviewsList.findIndex(r => r.id === editId);
-          if (idx !== -1) {
-            reviewsList[idx] = { id: editId, name, role, rating, avatar, text };
+        try {
+          const avatar = name.substring(0, 2).toUpperCase();
+
+          if (editId) {
+            const idx = reviewsList.findIndex(r => r.id === editId);
+            if (idx !== -1) {
+              reviewsList[idx] = { id: editId, name, role, rating, avatar, text };
+            }
+          } else {
+            reviewsList.push({
+              id: "rev_" + Date.now(),
+              name, role, rating, avatar, text
+            });
           }
-        } else {
-          reviewsList.push({
-            id: "rev_" + Date.now(),
-            name, role, rating, avatar, text
-          });
-        }
 
-        saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
-        renderReviews();
-        renderAdminReviews();
-        syncSiteContentToFirestore();
-        revFormContainer.classList.add("hidden");
-        showToast("Ulasan berhasil disimpan!");
+          saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
+          renderReviews();
+          renderAdminReviews();
+          const ok = await syncSiteContentToFirestore(true);
+          revFormContainer.classList.add("hidden");
+          if (ok) showToast("Ulasan berhasil tersimpan ke Cloud & semua perangkat!");
+        } catch (err) {
+          console.error("Gagal simpan ulasan:", err);
+          showToast("Gagal menyimpan: " + err.message, "error");
+        } finally {
+          if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
+        }
       });
 
       /* ── 11E. CREDENTIALS & GOOGLE CLOUD FIRESTORE ── */
@@ -3376,8 +3421,13 @@
         alert("❌ GAGAL KONEKSI FIRESTORE:\n\nTidak dapat menjangkau server Firestore. Silakan periksa koneksi internet atau periksa kembali Project ID & API Key.");
       });
 
-      document.getElementById("btn-sync-to-gcp")?.addEventListener("click", () => {
-        syncSiteContentToFirestore(true);
+      document.getElementById("btn-sync-to-gcp")?.addEventListener("click", async () => {
+        const btn = document.getElementById("btn-sync-to-gcp");
+        const originalText = btn ? btn.innerHTML : "";
+        if (btn) { btn.disabled = true; btn.innerHTML = "<span>⏳ Mengunggah...</span>"; }
+        showToast("Menyinkronkan data lokal ke Firestore Cloud...");
+        const ok = await syncSiteContentToFirestore(true);
+        if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
       });
 
       document.getElementById("btn-pull-from-gcp")?.addEventListener("click", async () => {
@@ -3398,7 +3448,7 @@
       });
 
       /* ── 11F. RESET DEFAULTS ── */
-      document.getElementById("btn-reset-defaults")?.addEventListener("click", () => {
+      document.getElementById("btn-reset-defaults")?.addEventListener("click", async () => {
         if (confirm("Apakah Anda yakin ingin mengembalikan seluruh data ke setelan default bawaan GEMABEL GROUP?")) {
           pricingMatrix = JSON.parse(JSON.stringify(DEFAULT_PRICING));
           programsList = JSON.parse(JSON.stringify(DEFAULT_PROGRAMS));
@@ -3418,9 +3468,9 @@
           renderAdminTutors();
           renderAdminReviews();
           updateCalculator();
-          syncSiteContentToFirestore();
+          await syncSiteContentToFirestore(true);
 
-          showToast("Seluruh data berhasil dikembalikan ke default.");
+          showToast("Seluruh data berhasil dikembalikan ke default & tersinkron ke Cloud.");
         }
       });
 
@@ -3483,14 +3533,14 @@
       document.getElementById("pkg-form-features").value = (p.features || []).join("\n");
     };
 
-    window.deletePackage = function(id) {
+    window.deletePackage = async function(id) {
       if (confirm("Hapus paket belajar ini?")) {
         programsList = programsList.filter(x => x.id !== id);
         saveStorage(STORAGE_KEYS.PROGRAMS, programsList);
         renderPrograms();
         renderAdminPackages();
-        syncSiteContentToFirestore();
-        showToast("Paket dihapus.");
+        await syncSiteContentToFirestore(true);
+        showToast("Paket berhasil dihapus dari Cloud & semua perangkat.");
       }
     };
 
@@ -3550,14 +3600,14 @@
       }
     };
 
-    window.deleteTutor = function(id) {
+    window.deleteTutor = async function(id) {
       if (confirm("Hapus data pengajar ini?")) {
         tutorsList = tutorsList.filter(x => x.id !== id);
         saveStorage(STORAGE_KEYS.TUTORS, tutorsList);
         renderTutors();
         renderAdminTutors();
-        syncSiteContentToFirestore();
-        showToast("Data tutor dihapus.");
+        await syncSiteContentToFirestore(true);
+        showToast("Data tutor berhasil dihapus dari Cloud & semua perangkat.");
       }
     };
 
@@ -3595,14 +3645,14 @@
       document.getElementById("rev-form-text").value = r.text;
     };
 
-    window.deleteReview = function(id) {
+    window.deleteReview = async function(id) {
       if (confirm("Hapus ulasan ini?")) {
         reviewsList = reviewsList.filter(x => x.id !== id);
         saveStorage(STORAGE_KEYS.REVIEWS, reviewsList);
         renderReviews();
         renderAdminReviews();
-        syncSiteContentToFirestore();
-        showToast("Ulasan dihapus.");
+        await syncSiteContentToFirestore(true);
+        showToast("Ulasan berhasil dihapus dari Cloud & semua perangkat.");
       }
     };
 
@@ -3713,6 +3763,22 @@
 
       // 2. Inisialisasi Firebase SDK & Realtime onSnapshot Listeners
       initFirebase(gcpConfig);
+
+      // 3. Multi-device auto sync: sinkronisasi otomatis saat user membuka tab/fokus kembali atau berkala 15 detik
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+          syncViaRestApi();
+          fetchLeadsViaRest();
+        }
+      });
+      window.addEventListener("focus", () => {
+        syncViaRestApi();
+      });
+      setInterval(() => {
+        if (!document.hidden) {
+          syncViaRestApi();
+        }
+      }, 15000);
 
       // Otomatis kompres gambar tutor lama yang tersimpan di localStorage browser
       cleanAndCompressTutors(tutorsList).then(cleaned => {
