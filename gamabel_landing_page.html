@@ -1668,6 +1668,9 @@
               <p class="text-xs text-on-surface-variant">Data pendaftaran langsung dari form website, tersimpan di database lokal &amp; cloud.</p>
             </div>
             <div class="flex items-center gap-2">
+              <button type="button" id="btn-refresh-leads" class="px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-navy-deep text-xs font-bold flex items-center gap-1 transition-colors">
+                <span class="material-symbols-outlined text-[16px]">sync</span> Refresh Cloud
+              </button>
               <button type="button" id="export-btn" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1 transition-colors">
                 <span class="material-symbols-outlined text-[16px]">download</span> Export CSV
               </button>
@@ -1793,7 +1796,10 @@
                 <span>🔄 Test Koneksi</span>
               </button>
               <button type="button" id="btn-sync-to-gcp" class="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500 transition-colors flex items-center gap-1.5">
-                <span>📤 Upload Data Lokal ke Firestore</span>
+                <span>📤 Upload Data ke Cloud</span>
+              </button>
+              <button type="button" id="btn-pull-from-gcp" class="px-4 py-2 rounded-xl bg-surface-container-high text-navy-deep text-xs font-bold hover:bg-surface-container-highest transition-colors flex items-center gap-1.5">
+                <span>📥 Tarik Data dari Cloud</span>
               </button>
             </div>
           </div>
@@ -1910,69 +1916,87 @@
           "Cambridge IGCSE & A-Level Math/Sciences",
           "English as a Second Language & Literature",
           "Pendampingan Khusus Olimpiade Sains Nasional (OSN)",
-          "Tutor Bilingual Berpengalaman Kurikulum Global"
+          "Past Paper Drills & Marking Review Eksklusif"
         ],
-        cta: "Daftar Cambridge / OSN"
+        cta: "Daftar Kelas Internasional"
       }
     ];
 
     const DEFAULT_TUTORS = [
       {
-        id: "tut_1",
-        name: "Nurul Fadilah, S.Si.",
-        univ: "Universitas Indonesia",
-        specialty: "Matematika SMP, SMA & UTBK",
-        quote: "Matematika itu bukan musuh yang harus dihafal rumusnya, tapi puzzle seru yang melatih nalar anak berpikir sistematis.",
-        photo: "https://lh3.googleusercontent.com/aida-public/AB6AXuDjaCN-fMg0meIJzEQKAtORmXzYIu272XeuTAfsnLI8MyE8lamowiNfTpQBRZxgUaMYr0pS0ZEh0ZzZkq47Y7LWjJCgv74Bd-3StXFcrKDooIiupFKIzX4gn76jlR0ewGKRFpHzj6iR8UpzKlVEWLeogVFJoMQkYyFX3aYp8UIsanxD5fZLvn-Xa0n1CIx1t5bmE5bPhijE2RHYzG31w8575mS3FmcfbBZM6zem20zv4Xr6Nq1pvkpxcw",
+        id: "tutor_1",
+        name: "Kak Tira Intan Maulidya, S.Pd",
+        univ: "Universitas Sanata Darma Yogyakarta",
+        specialty: "Spesialis Matematika SD & SMP",
+        quote: "Matematika itu pola dan logika seru, bukan sekadar hafalan rumus. Semua anak pasti bisa!",
+        photo: "",
         avatarEmoji: "👩‍🏫",
         accent: "amber"
       },
       {
-        id: "tut_2",
-        name: "Rian Kusuma, S.T.",
-        univ: "Institut Teknologi Bandung",
-        specialty: "Fisika, Kimia & SNBT HOTS",
-        quote: "Membimbing anak memahami fenomena sains lewat eksperimen visual dan trik logika cepat untuk menembus ujian tersulit.",
-        photo: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJZcO24jFQS1f5iI5ZKadgiCfR59cZEKHhnDolNs85dB-3l2PmQlpfZkTF11ANr4A7ERfUv0ysvf9kZ7NeEHW47p8O3ZhtDcQVV9H-lnZ7gAVFORHgcuSUDJElenOEXl_PEUHQ8Y6MPyIx-5UmVWD0IYdD4S1Ui1fj8MEooZpcKL0IVAUtdwiKyfFSufcmSwmzHbDkoSzN0MkJUD3cTdKDsaLj9MwWUjp6-8J3vb0AaT5bl9kOzARDoA",
+        id: "tutor_2",
+        name: "Kak Farhan, S.Si",
+        univ: "Universitas Indonesia (UI)",
+        specialty: "Fisika & Kimia SMA / UTBK",
+        quote: "Bedah konsep dasar fisika & trik cepat penalaran analitis untuk tembus PTN favorit.",
+        photo: "",
         avatarEmoji: "👨‍🏫",
-        accent: "blue"
+        accent: "sky"
       },
       {
-        id: "tut_3",
-        name: "Almira Anindya, S.Pd.",
-        univ: "Universitas Gadjah Mada",
-        specialty: "Kurikulum SD & Cambridge Primary",
-        quote: "Kunci anak gemar belajar adalah rasa aman dan pendekatan penuh empati. Belajar terasa seperti bermain sambil eksplorasi ide.",
-        photo: "https://lh3.googleusercontent.com/aida-public/AB6AXuAsJYhcZB7X_xY9zRCVEin3S_3qiEFiux5zXgoFAxrgqoDsCAKlTGGsVpwpRkSySesKxQ4g888oBv1GftIakVeM6wCPXUSUD9laJSZVDNtktsiHGK712E8X4cQ4qprOp-5wdoHEGqHLYiTC7cNikT541EQtTrRiR8tgGQyvfNW2dN5Daibt1LOown11L953WJBexFxt6iza8rUhpdNpUZEmLc6zYfyZcaveyNSE-zQoxPxpKhWq0L5-7A",
+        id: "tutor_3",
+        name: "Kak Clarissa, B.A",
+        univ: "Universitas Gadjah Mada (UGM)",
+        specialty: "English & Cambridge IGCSE",
+        quote: "Membangun keberanian berbahasa Inggris aktif dan strategi menjawab soal kurikulum internasional.",
+        photo: "",
         avatarEmoji: "👩‍💼",
         accent: "emerald"
+      },
+      {
+        id: "tutor_4",
+        name: "Kak Dimas, S.T",
+        univ: "Institut Teknologi Bandung (ITB)",
+        specialty: "Matematika SMA & Sains Terapan",
+        quote: "Mengupas soal-soal HOTS & olimpiade dengan runtut, terstruktur, dan tidak bikin jenuh.",
+        photo: "",
+        avatarEmoji: "👨‍🔬",
+        accent: "purple"
       }
     ];
 
     const DEFAULT_REVIEWS = [
       {
         id: "rev_1",
-        name: "Ibu Wahyuni",
-        role: "Orang Tua Siswa Kelas 8 SMP - Duren Sawit",
+        name: "Ibu Ratna Dewi",
+        role: "Orang Tua Siswa SD · Jakarta Timur",
         rating: 5,
-        avatar: "IW",
-        text: "Nilai matematika anak saya di SMP melonjak dari 62 menjadi 91 di ujian akhir semester. Tutor dari Gemabel sabar sekali menjelaskan logika dasarnya sampai benar-benar paham."
+        avatar: "IB",
+        text: "Alhamdulillah nilai ulangan Matematika anak saya yang kelas 5 SD naik dari 55 jadi 92. Gurunya sabar banget ngajarin dari dasar. Anak sekarang gak takut lagi kalau ada PR matematika!"
       },
       {
         id: "rev_2",
-        name: "Rafi Fauzan",
-        role: "Alumni Bimbel SMA & UTBK - Lolos UI",
+        name: "Rifqi Aditya",
+        role: "Alumni SMP · Diterima SMAN 8 Jakarta",
         rating: 5,
-        avatar: "RF",
-        text: "Alhamdulillah lolos Teknik Industri UI jalur SNBT 2025! Drill soal HOTS dan bimbingan strategi dari Kak Rian bener-bener ngebantu aku ngerjain TPS dalam waktu singkat."
+        avatar: "RA",
+        text: "Les privat di Gemabel Group bantu banget buat persiapan masuk SMA unggulan. Soal-soal latihan CBT-nya mirip banget sama ujian aslinya. Akhirnya saya lolos SMAN 8 Jakarta!"
       },
       {
         id: "rev_3",
-        name: "drg. Dian Savitri",
-        role: "Orang Tua Siswa Kelas 4 SD - Kramat Jati",
+        name: "Bpk. Hendra Wijaya",
+        role: "Orang Tua Siswa Cambridge Program",
         rating: 5,
-        avatar: "DS",
-        text: "Layanan tanya PR 24/7 sangat membantu saya sebagai ibu pekerja. Setiap minggu saya terima laporan perkembangan via WhatsApp yang jelas dan detail."
+        avatar: "HW",
+        text: "Sangat puas dengan bimbel online Gemabel. Tutornya fleksibel diajak diskusi, pembahasannya to-the-point, dan sangat membantu adaptasi kurikulum Cambridge IGCSE anak saya."
+      },
+      {
+        id: "rev_4",
+        name: "Siti Nurhaliza",
+        role: "Siswa SMA · Diterima Farmasi UI (SNBT)",
+        rating: 5,
+        avatar: "SN",
+        text: "Tutor Gemabel ngajarin trik pengerjaan TPS dan Literasi yang ngebantu banget pas UTBK. Suasana belajarnya santai tapi ilmunya masuk banget!"
       }
     ];
 
@@ -2044,7 +2068,7 @@
       }, 3200);
     }
 
-    /* ── 3. GOOGLE CLOUD FIRESTORE INTEGRATION ENGINE ── */
+    /* ── 3. GOOGLE CLOUD FIRESTORE INTEGRATION ENGINE (DUAL-CHANNEL: SDK + REST API) ── */
     function updateCloudStatusBadge(isConnected, projectId = "") {
       const badge = document.getElementById("gcp-connection-status-badge");
       if (!badge) return;
@@ -2057,9 +2081,138 @@
       }
     }
 
+    /* ── Firestore REST API Protocol Adapters (Ultra-fast, Zero-SDK Dependency) ── */
+    function parseFirestoreRestValue(val) {
+      if (!val) return null;
+      if ("stringValue" in val) return val.stringValue;
+      if ("integerValue" in val) return parseInt(val.integerValue, 10);
+      if ("doubleValue" in val) return parseFloat(val.doubleValue);
+      if ("booleanValue" in val) return val.booleanValue;
+      if ("mapValue" in val) {
+        const res = {};
+        if (val.mapValue && val.mapValue.fields) {
+          for (const [k, v] of Object.entries(val.mapValue.fields)) {
+            res[k] = parseFirestoreRestValue(v);
+          }
+        }
+        return res;
+      }
+      if ("arrayValue" in val) {
+        if (!val.arrayValue || !val.arrayValue.values) return [];
+        return val.arrayValue.values.map(parseFirestoreRestValue);
+      }
+      return null;
+    }
+
+    function parseFirestoreRestDoc(doc) {
+      if (!doc || !doc.fields) return null;
+      const result = {};
+      for (const [key, val] of Object.entries(doc.fields)) {
+        result[key] = parseFirestoreRestValue(val);
+      }
+      return result;
+    }
+
+    function toFirestoreRestValue(val) {
+      if (val === null || val === undefined) return { nullValue: null };
+      if (typeof val === "string") return { stringValue: val };
+      if (typeof val === "boolean") return { booleanValue: val };
+      if (typeof val === "number") {
+        if (Number.isInteger(val)) return { integerValue: val.toString() };
+        return { doubleValue: val };
+      }
+      if (Array.isArray(val)) {
+        return { arrayValue: { values: val.map(toFirestoreRestValue) } };
+      }
+      if (typeof val === "object") {
+        const fields = {};
+        for (const [k, v] of Object.entries(val)) {
+          fields[k] = toFirestoreRestValue(v);
+        }
+        return { mapValue: { fields } };
+      }
+      return { stringValue: String(val) };
+    }
+
+    function toFirestoreRestDoc(obj) {
+      const fields = {};
+      for (const [k, v] of Object.entries(obj)) {
+        fields[k] = toFirestoreRestValue(v);
+      }
+      return { fields };
+    }
+
+    /* ── High-speed REST Sync Engine ── */
+    async function syncViaRestApi(showToastOnDone = false) {
+      if (!gcpConfig || !gcpConfig.projectId || !gcpConfig.apiKey) return false;
+      const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/konfigurasi/landing_page?key=${encodeURIComponent(gcpConfig.apiKey)}`;
+      try {
+        const resp = await fetch(url, { cache: "no-store" });
+        if (!resp.ok) {
+          console.warn("Rest API sync status:", resp.status);
+          return false;
+        }
+        const doc = await resp.json();
+        const data = parseFirestoreRestDoc(doc);
+        if (data) {
+          applyFirestoreConfigData(data);
+          updateCloudStatusBadge(true, gcpConfig.projectId);
+          console.log("⚡ Data landing page tersinkronisasi via REST API Cloud.");
+          if (showToastOnDone) showToast("Data terbaru berhasil ditarik dari Cloud Firestore!");
+          return true;
+        }
+      } catch (e) {
+        console.warn("syncViaRestApi error:", e);
+      }
+      return false;
+    }
+
+    async function fetchLeadsViaRest(showToastOnDone = false) {
+      if (!gcpConfig || !gcpConfig.projectId || !gcpConfig.apiKey) return false;
+      const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/pendaftar?key=${encodeURIComponent(gcpConfig.apiKey)}`;
+      try {
+        const resp = await fetch(url, { cache: "no-store" });
+        if (!resp.ok) return false;
+        const result = await resp.json();
+        const docs = result.documents || [];
+        const cloudLeads = docs.map(d => parseFirestoreRestDoc(d)).filter(Boolean);
+
+        if (cloudLeads.length > 0 || leadsList.length > 0) {
+          const cloudIds = new Set(cloudLeads.map(l => l.id));
+          leadsList.forEach(localLead => {
+            if (!cloudIds.has(localLead.id)) {
+              cloudLeads.push(localLead);
+            }
+          });
+          cloudLeads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+          leadsList = cloudLeads;
+          saveStorage(STORAGE_KEYS.LEADS, leadsList);
+          renderAdminLeads();
+          if (showToastOnDone) showToast(`Berhasil sinkronisasi ${leadsList.length} data pendaftar dari Cloud!`);
+          return true;
+        }
+      } catch (e) {
+        console.warn("fetchLeadsViaRest error:", e);
+      }
+      return false;
+    }
+
+    let firebaseRetryCount = 0;
     function initFirebase(cfg, isUserTriggered = false) {
       if (!cfg || !cfg.projectId || !cfg.apiKey) {
         updateCloudStatusBadge(false);
+        return false;
+      }
+
+      if (typeof firebase === "undefined" || !firebase.initializeApp) {
+        if (!isUserTriggered && firebaseRetryCount < 15) {
+          firebaseRetryCount++;
+          setTimeout(() => initFirebase(cfg, false), 300);
+          return false;
+        }
+        if (isUserTriggered) {
+          showToast("SDK Firebase belum siap, menyambungkan via REST API...", "error");
+        }
         return false;
       }
 
@@ -2103,10 +2256,10 @@
         updateCalculator();
       }
 
-      // 1. Programs (support JSON string to prevent nested arrays limitation, or legacy array)
+      // 1. Programs (support JSON string or legacy array)
       let parsedPrograms = null;
       if (data.programsListJson) {
-        try { parsedPrograms = JSON.parse(data.programsListJson); } catch (e) {}
+        try { parsedPrograms = typeof data.programsListJson === "string" ? JSON.parse(data.programsListJson) : data.programsListJson; } catch (e) {}
       } else if (Array.isArray(data.programsList)) {
         parsedPrograms = data.programsList;
       }
@@ -2120,7 +2273,7 @@
       // 2. Tutors
       let parsedTutors = null;
       if (data.tutorsListJson) {
-        try { parsedTutors = JSON.parse(data.tutorsListJson); } catch (e) {}
+        try { parsedTutors = typeof data.tutorsListJson === "string" ? JSON.parse(data.tutorsListJson) : data.tutorsListJson; } catch (e) {}
       } else if (Array.isArray(data.tutorsList)) {
         parsedTutors = data.tutorsList;
       }
@@ -2134,7 +2287,7 @@
       // 3. Reviews
       let parsedReviews = null;
       if (data.reviewsListJson) {
-        try { parsedReviews = JSON.parse(data.reviewsListJson); } catch (e) {}
+        try { parsedReviews = typeof data.reviewsListJson === "string" ? JSON.parse(data.reviewsListJson) : data.reviewsListJson; } catch (e) {}
       } else if (Array.isArray(data.reviewsList)) {
         parsedReviews = data.reviewsList;
       }
@@ -2155,12 +2308,11 @@
             applyFirestoreConfigData(docSnap.data());
             console.log("⚡ Konten landing page terupdate realtime dari Cloud Firestore.");
           } else {
-            // First time setup: push existing default content to Firestore
             console.log("Inisialisasi dokumen konfigurasi awal ke Cloud Firestore...");
             syncSiteContentToFirestore(false);
           }
         }, (err) => {
-          console.warn("Firestore realtime onSnapshot warning (pastikan Security Rules sudah disetel):", err);
+          console.warn("Firestore realtime onSnapshot warning:", err);
         });
 
         // 2. Real-time sync for leads (pendaftar)
@@ -2227,8 +2379,10 @@
       if (base64Str.length < 48000) return base64Str;
 
       return new Promise((resolve) => {
+        const timeout = setTimeout(() => resolve(base64Str), 3000);
         const img = new Image();
         img.onload = () => {
+          clearTimeout(timeout);
           let width = img.width;
           let height = img.height;
           if (width > height) {
@@ -2251,7 +2405,10 @@
           ctx.drawImage(img, 0, 0, width, height);
           resolve(canvas.toDataURL("image/jpeg", quality));
         };
-        img.onerror = () => resolve(base64Str);
+        img.onerror = () => {
+          clearTimeout(timeout);
+          resolve(base64Str);
+        };
         img.src = base64Str;
       });
     }
@@ -2274,7 +2431,6 @@
     }
 
     async function syncSiteContentToFirestore(showSuccessToast = false) {
-      if (!firestoreDb) return;
       try {
         // Kompres otomatis foto tutor yang berukuran besar (> 48KB) dari browser
         tutorsList = await cleanAndCompressTutors(tutorsList);
@@ -2289,10 +2445,44 @@
         };
 
         console.log("Ukuran payload ke Firestore:", JSON.stringify(payload).length, "bytes");
+        let saved = false;
 
-        await firestoreDb.collection("konfigurasi").doc("landing_page").set(payload, { merge: true });
-        if (showSuccessToast) {
-          showToast("Data situs berhasil diunggah ke Firestore Cloud!");
+        // Channel 1: Firestore SDK
+        if (firestoreDb) {
+          try {
+            await firestoreDb.collection("konfigurasi").doc("landing_page").set(payload, { merge: true });
+            saved = true;
+            console.log("Konten landing page tersimpan via Firestore SDK.");
+          } catch (err) {
+            console.warn("Firestore SDK set failed, fallback ke REST API:", err);
+          }
+        }
+
+        // Channel 2: Firestore REST API (Fallback / Direct)
+        if (!saved && gcpConfig && gcpConfig.projectId && gcpConfig.apiKey) {
+          const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/konfigurasi/landing_page?key=${encodeURIComponent(gcpConfig.apiKey)}`;
+          const res = await fetch(url, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(toFirestoreRestDoc(payload))
+          });
+          if (res.ok) {
+            saved = true;
+            console.log("Konten landing page tersimpan via REST API PATCH.");
+          } else {
+            console.warn("REST API PATCH status:", res.status, await res.text());
+          }
+        }
+
+        if (saved) {
+          updateCloudStatusBadge(true, gcpConfig.projectId);
+          if (showSuccessToast) {
+            showToast("Data situs berhasil diunggah ke Firestore Cloud!");
+          }
+        } else {
+          if (showSuccessToast) {
+            showToast("Gagal menyimpan ke Firestore Cloud. Periksa koneksi atau Project ID & API Key.", "error");
+          }
         }
       } catch (err) {
         console.error("Gagal sinkronisasi ke Firestore:", err);
@@ -2303,12 +2493,33 @@
     }
 
     async function saveLeadToFirestore(entry) {
-      if (!firestoreDb) return;
-      try {
-        await firestoreDb.collection("pendaftar").doc(entry.id).set(entry);
-        console.log("Data pendaftar tersimpan di Google Cloud Firestore:", entry.id);
-      } catch (err) {
-        console.warn("Gagal menyimpan pendaftar ke Firestore:", err);
+      let savedViaSdk = false;
+      if (firestoreDb) {
+        try {
+          await firestoreDb.collection("pendaftar").doc(entry.id).set(entry);
+          console.log("Data pendaftar tersimpan via Firestore SDK:", entry.id);
+          savedViaSdk = true;
+        } catch (err) {
+          console.warn("Firestore SDK saveLead failed, mencoba REST API:", err);
+        }
+      }
+
+      if (!savedViaSdk && gcpConfig && gcpConfig.projectId && gcpConfig.apiKey) {
+        try {
+          const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/pendaftar?documentId=${encodeURIComponent(entry.id)}&key=${encodeURIComponent(gcpConfig.apiKey)}`;
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(toFirestoreRestDoc(entry))
+          });
+          if (res.ok) {
+            console.log("Data pendaftar tersimpan via Firestore REST API:", entry.id);
+          } else {
+            console.warn("Firestore REST API lead save status:", res.status, await res.text());
+          }
+        } catch (e) {
+          console.warn("Gagal menyimpan pendaftar via REST API:", e);
+        }
       }
     }
 
@@ -2726,6 +2937,8 @@
         renderAdminLeads();
         populateAdminCredentials();
         populateGcpConfig();
+        // Auto-fetch data pendaftar terbaru dari cloud saat admin membuka dashboard
+        fetchLeadsViaRest();
       }
 
       // Password Toggle in Login Modal
@@ -2800,6 +3013,9 @@
           const target = btn.dataset.tab;
           document.querySelectorAll(".admin-tab-content").forEach(tc => tc.classList.add("hidden"));
           document.getElementById(target)?.classList.remove("hidden");
+          if (target === "tab-leads") {
+            fetchLeadsViaRest();
+          }
         });
       });
 
@@ -3125,27 +3341,60 @@
       });
 
       document.getElementById("btn-test-gcp")?.addEventListener("click", async () => {
-        if (!firestoreDb) {
-          return alert("Firestore belum terhubung. Silakan isi Project ID & API Key lalu klik Simpan.");
-        }
         showToast("Menguji koneksi ke Google Cloud Firestore...");
-        try {
-          await firestoreDb.collection("ping").doc("test_connection").set({
-            status: "connected",
-            testedAt: new Date().toISOString(),
-            testedBy: adminCredentials.username
-          });
-          alert("✅ KONEKSI BERHASIL!\n\nAplikasi berhasil terhubung dan menulis data uji ke Google Cloud Firestore (" + gcpConfig.projectId + ").");
-        } catch (err) {
-          alert("❌ GAGAL KONEKSI FIRESTORE:\n\n" + err.message + "\n\nTips: Pastikan Anda telah membuat Firestore Database di Firebase Console dan menyetel Security Rules dalam Mode Uji (allow read, write: if true;).");
+        // Jalur 1: Uji REST API langsung (tanpa ketergantungan library luar)
+        if (gcpConfig && gcpConfig.projectId && gcpConfig.apiKey) {
+          try {
+            const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(gcpConfig.projectId)}/databases/(default)/documents/konfigurasi/landing_page?key=${encodeURIComponent(gcpConfig.apiKey)}`;
+            const res = await fetch(url);
+            if (res.ok) {
+              updateCloudStatusBadge(true, gcpConfig.projectId);
+              alert("✅ KONEKSI CLOUD FIRESTORE BERHASIL!\n\nAplikasi berhasil terhubung ke server Google Cloud Firestore (" + gcpConfig.projectId + ") dan siap sinkronisasi antar semua perangkat client.");
+              return;
+            }
+          } catch (e) {
+            console.warn("Test connection REST failed:", e);
+          }
         }
+
+        // Jalur 2: Uji via Firebase SDK
+        if (firestoreDb) {
+          try {
+            await firestoreDb.collection("ping").doc("test_connection").set({
+              status: "connected",
+              testedAt: new Date().toISOString(),
+              testedBy: adminCredentials.username
+            });
+            updateCloudStatusBadge(true, gcpConfig.projectId);
+            alert("✅ KONEKSI BERHASIL!\n\nAplikasi berhasil terhubung dan menulis data uji ke Google Cloud Firestore (" + gcpConfig.projectId + ").");
+            return;
+          } catch (err) {
+            alert("❌ GAGAL KONEKSI FIRESTORE:\n\n" + err.message + "\n\nTips: Pastikan Anda telah membuat Firestore Database di Firebase Console dan menyetel Security Rules dalam Mode Uji (allow read, write: if true;).");
+            return;
+          }
+        }
+        alert("❌ GAGAL KONEKSI FIRESTORE:\n\nTidak dapat menjangkau server Firestore. Silakan periksa koneksi internet atau periksa kembali Project ID & API Key.");
       });
 
       document.getElementById("btn-sync-to-gcp")?.addEventListener("click", () => {
-        if (!firestoreDb) {
-          return alert("Firestore belum terhubung. Simpan konfigurasi Project ID dan API Key terlebih dahulu.");
-        }
         syncSiteContentToFirestore(true);
+      });
+
+      document.getElementById("btn-pull-from-gcp")?.addEventListener("click", async () => {
+        showToast("Mengunduh data terbaru dari Firestore Cloud...");
+        const success = await syncViaRestApi(true);
+        await fetchLeadsViaRest();
+        if (success) {
+          populateAdminRates();
+          renderAdminPackages();
+          renderAdminTutors();
+          renderAdminReviews();
+        }
+      });
+
+      document.getElementById("btn-refresh-leads")?.addEventListener("click", () => {
+        showToast("Menyegarkan data pendaftar dari Cloud...");
+        fetchLeadsViaRest(true);
       });
 
       /* ── 11F. RESET DEFAULTS ── */
@@ -3457,6 +3706,12 @@
       setupContactForm();
       setupAdminCMS();
       setupScrollReveal();
+
+      // 1. Ultra-fast Native REST Cloud Sync (langsung sinkron ~50ms tanpa menunggu library SDK)
+      syncViaRestApi();
+      fetchLeadsViaRest();
+
+      // 2. Inisialisasi Firebase SDK & Realtime onSnapshot Listeners
       initFirebase(gcpConfig);
 
       // Otomatis kompres gambar tutor lama yang tersimpan di localStorage browser
