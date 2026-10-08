@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {
@@ -14,6 +14,29 @@
     }
   ],
   "routes": [
+    {
+      "src": "^/zohoverify/(.*)",
+      "dest": "/zohoverify/$1"
+    },
+    {
+      "src": "^/verifyforzoho\\.html$",
+      "dest": "/verifyforzoho.html"
+    },
+    {
+      "src": "^/verifyzoho\\.html$",
+      "dest": "/verifyzoho.html"
+    },
+    {
+      "src": "^/verifyforzoho$",
+      "dest": "/verifyforzoho.html"
+    },
+    {
+      "src": "^/verifyzoho$",
+      "dest": "/verifyzoho.html"
+    },
+    {
+      "handle": "filesystem"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
